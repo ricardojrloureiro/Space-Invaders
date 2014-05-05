@@ -7,34 +7,34 @@ public class Position {
 	private int y;
 	
 	/**
-	 * @param x x position
-	 * @param y y position
+	 * @param x x coordinate
+	 * @param y y coordinate
 	 */
 	public Position(int x, int y){ this.setX(x); this.setY(y);}
 
 	/**
-	 * @return x x position
+	 * @return x x coordinate
 	 */
 	public int getX() {
 		return x;
 	}
 
 	/**
-	 * @param x the x to set
+	 * @param x The x coordinate to set
 	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
 	/**
-	 * @return y position
+	 * @return y coordinate
 	 */
 	public int getY() {
 		return y;
 	}
 
 	/**
-	 * @param y the y to set
+	 * @param y the y coordinate to set
 	 */
 	public void setY(int y) {
 		this.y = y;

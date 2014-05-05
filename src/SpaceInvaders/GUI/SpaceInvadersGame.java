@@ -10,29 +10,52 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+/**
+ * Space Invaders game thread. Implements Runnable interface.
+ * @author josemiguelmelo
+ */
 public class SpaceInvadersGame extends Thread implements Runnable{
 
+	/** Preferred Window Width */
 	private static int WIDTH = 1020;
+	/** Preferred Window Height */
 	private static int HEIGHT = 600;
-
-	private boolean running;
-
-	private Window window;
-	private MainMenu mainMenu;
-	private OptionMenu optionMenu;
-
-	private String mainBackgroundLocation = "/Sprites/menuBackground.jpg";
-
+	/** Option menu integer representation */
 	public static final int OPTION_MENU = 1;
+	/** Exit menu integer representation */
 	public static final int EXIT_MENU = 2;
 
-	
+	/** Represents running state */
+	private boolean running;
+
+	/** Window JFrame */
+	private Window window;
+	/** Main Menu JPanel*/
+	private MainMenu mainMenu;
+	/** Option Menu JPanel */
+	private OptionMenu optionMenu;
+
+	/** Menu background location */
+	private String mainBackgroundLocation = "/Sprites/menuBackground.jpg";
+
+	/**
+	 * @return Window Frame
+	 */
 	public Window getWindow(){ return window;}
+	/**
+	 * @return Main Menu Panel
+	 */
 	public MainMenu getMainMenu(){ return mainMenu;}
+	/**
+	 * @return Option Menu Panel
+	 */
 	public OptionMenu getOptionMenu(){ return optionMenu;}
 	
+	
+	/**
+	 * Run thread
+	 */
 	public void run(){
-
 		while(running){
 			if(this.mainMenu.isVisible()){
 				this.mainMenu.repaint();
@@ -43,10 +66,17 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		window.dispose();
 	}
 
+	/**
+	 * Stop thread
+	 */
 	public void stopThread(){
 		this.running = false;
 	}
 
+	/**
+	 * Thread constructor.
+	 * Creates window, main menu panel and option menu
+	 */
 	public SpaceInvadersGame(){
 		this.running = true;
 

@@ -4,16 +4,29 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ * Sprite class. Represents a sprite sheet image.
+ * @author josemiguelmelo
+ */
 public class Sprite {
+	/** Sprite image. */
 	private BufferedImage image;
+	/** Sprite dimension. */
 	private Dimension dimension;
 	
-	
+	/**
+	 * Sprite class constructor.
+	 * @param image Sprite image.
+	 * @param dimension Sprite dimension.
+	 */
 	public Sprite(BufferedImage image, Dimension dimension){
 		this.setImage(image);
 		this.dimension = dimension;
 	}
-	
+	/**
+	 * Sprite class default constructor. Sprite image has no image.
+	 * @param dimension Sprite dimension.
+	 */
 	public Sprite(Dimension dimension){
 		this.dimension = dimension;
 		this.setImage(new BufferedImage((int) dimension.getWidth(), (int) dimension.getHeight(), BufferedImage.TYPE_INT_ARGB ));
