@@ -1,4 +1,4 @@
-package Game.Engine;
+package SpaceInvaders.Objects;
 
 public class ShotType {
 

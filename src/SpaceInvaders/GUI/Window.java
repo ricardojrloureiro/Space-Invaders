@@ -1,4 +1,4 @@
-package Game.GUI;
+package SpaceInvaders.GUI;
 
 import javax.swing.JFrame;
 

@@ -1,4 +1,4 @@
-package Game.GUI;
+package SpaceInvaders.GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;

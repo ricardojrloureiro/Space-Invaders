@@ -1,4 +1,4 @@
-package Game.Engine;
+package SpaceInvaders.Objects;
 
 import Sprite.Position;
 import Sprite.Sprite;

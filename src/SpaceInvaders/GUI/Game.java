@@ -1,4 +1,4 @@
-package Game.GUI;
+package SpaceInvaders.GUI;
 
 public class Game {
 	public static SpaceInvadersGame spaceInvaders;
