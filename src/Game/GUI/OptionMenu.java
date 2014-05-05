@@ -103,7 +103,7 @@ public class OptionMenu extends JPanel implements KeyListener{
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_UP){
 			if(optionSelected==0)
-				optionSelected=2;
+				optionSelected=options.size()-1;
 			else
 				optionSelected = (optionSelected-1) % options.size();
 		}
