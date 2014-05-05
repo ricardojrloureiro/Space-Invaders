@@ -116,5 +116,4 @@ public class OptionMenu extends JPanel implements KeyListener{
 		}
 	}
 	
-	
 }
