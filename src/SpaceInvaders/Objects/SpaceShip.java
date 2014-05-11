@@ -41,6 +41,7 @@ public class SpaceShip extends Object{
 		this.life=INITIAL_LIFE;
 		this.dead = false;
 		this.points=INITIAL_POINTS;
+		this.spritePosition = new Position(1,0);
 		this.shots = new ArrayList<Shot>();
 	}
 	

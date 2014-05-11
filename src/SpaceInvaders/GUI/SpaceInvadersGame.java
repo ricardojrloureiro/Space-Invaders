@@ -55,11 +55,20 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 	public OptionMenu getOptionMenu(){ return optionMenu;}
 	
 	
+	private int lastTime;
+	
+	
 	/**
 	 * Run thread
 	 */
 	public void run(){
+		lastTime = (int) System.currentTimeMillis();
 		while(running){
+			if((int) System.currentTimeMillis() - lastTime >=1000 ){
+				lastTime = (int) System.currentTimeMillis();
+				spaceInvadersPanel.addRock();
+			}
+			
 			if(this.mainMenu.isVisible()){
 				this.mainMenu.repaint();
 			}else if(this.optionMenu.isVisible()){

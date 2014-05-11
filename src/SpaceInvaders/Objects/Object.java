@@ -15,6 +15,8 @@ public class Object implements Drawable {
 	protected Position position;
 	/** Object sprite representation */
 	protected SpriteSheet sprite;
+	/** Position in sprite to draw */
+	protected Position spritePosition;
 	
 	/**
 	 * Object constructor.
@@ -25,6 +27,7 @@ public class Object implements Drawable {
 		this.position = position;
 		this.sprite = sprite;
 		this.sprite.loadSprite();
+		this.spritePosition= new Position(0, 0);
 	}
 	/**
 	 * @return Object position on screen.
@@ -48,7 +51,7 @@ public class Object implements Drawable {
 	 */
 	@Override
 	public void draw(Graphics g) {
-		sprite.getSpriteAt(0, 0).paint(g, position);
+		sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
 	}
 	
 	

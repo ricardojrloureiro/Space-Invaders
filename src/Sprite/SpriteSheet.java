@@ -94,11 +94,13 @@ public class SpriteSheet {
 			
 			for(int i = 0; i < numRows; i++){
 				for(int j = 0 ; j < numCols; j++){
+					
 					subImage = image.getSubimage(j * (int)dimension.getWidth(), i * (int)dimension.getHeight(),
 							(int) dimension.getWidth(), (int) dimension.getHeight());
 					sprites[i][j] = new Sprite(subImage, null);
 				}
 			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}

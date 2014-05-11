@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import SpaceInvaders.Objects.Boss;
 import SpaceInvaders.Objects.Destroyer;
 import SpaceInvaders.Objects.NormalEnemy;
-import SpaceInvaders.Objects.Shot;
+import SpaceInvaders.Objects.Rock;
 import SpaceInvaders.Objects.SpaceShip;
 import SpaceInvaders.Objects.Suicidal;
 import Sprite.Position;
@@ -30,10 +30,12 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private ArrayList<NormalEnemy> normalEnemies;
 	private ArrayList<Suicidal> suicidals;
 	private Boss boss;
-
+	private ArrayList<Rock> rocks;
+	
 	private int level;
 
-	private static final int SPACESHIP_DIMENSION = 60;
+	private static final int SPACESHIP_WIDTH = 96/3;
+	private static final int SPACESHIP_HEIGHT = 40;
 
 	private int lastTime;
 	private int current;
@@ -51,9 +53,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		this.destroyers = new ArrayList<Destroyer>();
 		this.normalEnemies = new ArrayList<NormalEnemy>();
 		this.suicidals = new ArrayList<Suicidal>();
+		this.rocks = new ArrayList<Rock>();
+		
 		spaceShip=new SpaceShip(new Position(100,100),
-				new SpriteSheet("/Sprites/spaceShip.png", new Dimension(SPACESHIP_DIMENSION, SPACESHIP_DIMENSION),
-						1,1));	
+				new SpriteSheet(SpaceShip.LOCATION, new Dimension(SPACESHIP_WIDTH, SPACESHIP_HEIGHT),
+						1,3));	
 		lastTime=(int) System.currentTimeMillis();
 		current=(int) System.currentTimeMillis();
 		
@@ -118,6 +122,12 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
 		drawStar(g);
+		for(int i  = 0 ; i< rocks.size(); i++){
+			rocks.get(i).draw(g);
+			if(current - lastTime >= 90){
+				rocks.get(i).getPosition().setY(rocks.get(i).getPosition().getY() + 1);
+			}
+		}
 		spaceShip.draw(g);
 	}
 
@@ -151,6 +161,13 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 
+	}
+
+	public void addRock() {
+		Random rand = new Random();
+		
+		rocks.add(new Rock(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0), 
+				new SpriteSheet(Rock.LOCATION, new Dimension(Rock.SPRITE_DIMENSION, Rock.SPRITE_DIMENSION), 1, 1)));
 	}
 
 }
