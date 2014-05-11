@@ -76,6 +76,10 @@ public class SpriteSheet {
 	 * @param image Spritesheet image.
 	 */
 	public void setImage(BufferedImage image){ this.image = image;}
+	
+	
+	public Sprite getSpriteAt(int x, int y){ return sprites[y][x];}
+	
 
 	/**
 	 * Loads all sprites from spritesheet file. 

@@ -1,7 +1,7 @@
 package SpaceInvaders.Objects;
 
 import Sprite.Position;
-import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 /**
  * Bonus extends Object class.
@@ -29,7 +29,7 @@ public class Bonus extends Object {
 	 * @param duration Bonus duration
 	 * @param type Bonus type
 	 */
-	public Bonus(Position position, Sprite sprite, int duration, int type){
+	public Bonus(Position position, SpriteSheet sprite, int duration, int type){
 		super(position, sprite);
 		this.duration=duration;
 		this.type=type;
@@ -40,7 +40,7 @@ public class Bonus extends Object {
 	 * @param position Position on screen.
 	 * @param sprite Bonus sprite.
 	 */
-	public Bonus(Position position, Sprite sprite){
+	public Bonus(Position position, SpriteSheet sprite){
 		super(position, sprite);
 		this.duration = LIFE_DURATION;
 		this.type = LIFE_BONUS;

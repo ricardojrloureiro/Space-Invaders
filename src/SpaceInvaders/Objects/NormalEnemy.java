@@ -1,7 +1,7 @@
 package SpaceInvaders.Objects;
 
 import Sprite.Position;
-import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 /**
  * NormalEnemy extends Enemy class.
@@ -13,7 +13,7 @@ public class NormalEnemy extends Enemy{
 	 * @param position Position on screen.
 	 * @param sprite NormalEnemy sprite representation.
 	 */
-	public NormalEnemy(Position position, Sprite sprite) {
+	public NormalEnemy(Position position, SpriteSheet sprite) {
 		super(position, sprite, Enemy.NORMAL);
 	}
 	

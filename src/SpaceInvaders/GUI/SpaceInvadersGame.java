@@ -17,9 +17,9 @@ import javax.swing.JFrame;
 public class SpaceInvadersGame extends Thread implements Runnable{
 
 	/** Preferred Window Width */
-	private static int WIDTH = 1020;
+	public static final int WIDTH = 1020;
 	/** Preferred Window Height */
-	private static int HEIGHT = 600;
+	public static final int HEIGHT = 600;
 	/** Option menu integer representation */
 	public static final int OPTION_MENU = 1;
 	/** Exit menu integer representation */
@@ -34,6 +34,9 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 	private MainMenu mainMenu;
 	/** Option Menu JPanel */
 	private OptionMenu optionMenu;
+	
+	/** Game JPanel */
+	private SpaceInvaders spaceInvadersPanel;
 
 	/** Menu background location */
 	private String mainBackgroundLocation = "/Sprites/menuBackground.jpg";
@@ -61,6 +64,8 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 				this.mainMenu.repaint();
 			}else if(this.optionMenu.isVisible()){
 				this.optionMenu.repaint();
+			}else{
+				this.spaceInvadersPanel.repaint();
 			}
 		}
 		window.dispose();
@@ -111,16 +116,23 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		}
 		this.mainMenu = new MainMenu(menuOptions, mainBackground, this);
 		this.optionMenu = new OptionMenu(optionOptions, mainBackground, this);
-		mainMenu.setVisible();
+		this.spaceInvadersPanel = new SpaceInvaders(this);
+		
+		//mainMenu.setVisible();
 
 		window.getContentPane().add(mainMenu);
 		window.getContentPane().add(optionMenu);
+		window.getContentPane().add(spaceInvadersPanel);
 
-
+		spaceInvadersPanel.setVisible();
+		
 		window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
 		window.setResizable(false);
 		window.setVisible(true);
 	}
+	
+	
+	
 
 }

@@ -1,7 +1,7 @@
 package SpaceInvaders.Objects;
 
 import Sprite.Position;
-import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 /**
  * Enemy extends Object class.
@@ -32,7 +32,7 @@ public class Enemy extends Object {
 	 * @param position Enemy position on screen.
 	 * @param sprite Enemy sprite representation.
 	 */
-	public Enemy(Position position, Sprite sprite) {
+	public Enemy(Position position, SpriteSheet sprite) {
 		super(position, sprite);
 		this.life = INITIAL_LIFE;
 		this.dead = false;
@@ -44,7 +44,7 @@ public class Enemy extends Object {
 	 * @param sprite Enemy sprite representation.
 	 * @param type Enemy type.
 	 */
-	public Enemy(Position position, Sprite sprite, int type) {
+	public Enemy(Position position, SpriteSheet sprite, int type) {
 		super(position, sprite);
 		this.life = INITIAL_LIFE;
 		this.dead = false;

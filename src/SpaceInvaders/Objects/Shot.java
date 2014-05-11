@@ -1,7 +1,9 @@
 package SpaceInvaders.Objects;
 
+import java.awt.Graphics;
+
 import Sprite.Position;
-import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 /**
  * Shot extends Object class.
@@ -12,6 +14,9 @@ public class Shot extends Object{
 	public static final int TYPE_NORMAL = 1;
 	/** Shot laser type */
 	public static final int TYPE_LASER = 2;
+	
+	public static final String LOCATION = "/Sprites/shot.png";
+	public static final int SPRITE_DIMENSION = 18;
 	
 	/** Life it takes from the object that collides with it */
 	private int lifeTake;
@@ -24,7 +29,7 @@ public class Shot extends Object{
 	 * @param sprite Shot sprite representation.
 	 * @param lifeTake Life it takes from the object that collides with it.
 	 */
-	public Shot(Position position, Sprite sprite, int lifeTake){
+	public Shot(Position position, SpriteSheet sprite, int lifeTake){
 		super(position, sprite);
 		this.lifeTake = lifeTake;
 		this.type = TYPE_NORMAL;
@@ -36,7 +41,7 @@ public class Shot extends Object{
 	 * @param lifeTake Life it takes from the object that collides with it.
 	 * @param type Shot type.
 	 */
-	public Shot(Position position, Sprite sprite, int lifeTake, int type) {
+	public Shot(Position position, SpriteSheet sprite, int lifeTake, int type) {
 		super(position, sprite);
 		this.lifeTake = lifeTake;
 		this.type = type;
@@ -58,6 +63,15 @@ public class Shot extends Object{
 	 * @return Shot type.
 	 */
 	public int getType(){ return this.type;}
+	
+	/**
+	 * @param g Graphics to draw image
+	 */
+	@Override
+	public void draw(Graphics g) {
+		this.position.setY(this.position.getY()-1);
+		super.draw(g);
+	}
 	
 
 }

@@ -1,7 +1,7 @@
 package SpaceInvaders.Objects;
 
 import Sprite.Position;
-import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 /**
  * Boss extends Enemy class.
@@ -14,7 +14,7 @@ public class Boss extends Enemy{
 	 * @param position Position on screen.
 	 * @param sprite Boss sprite representation.
 	 */
-	public Boss(Position position, Sprite sprite) {
+	public Boss(Position position, SpriteSheet sprite) {
 		super(position, sprite, Enemy.BOSS);
 	}
 

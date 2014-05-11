@@ -1,7 +1,7 @@
 package SpaceInvaders.Objects;
 
 import Sprite.Position;
-import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 /**
  * Destroyer extends Enemy class
@@ -13,7 +13,7 @@ public class Destroyer extends Enemy {
 	 * @param position Position on screen.
 	 * @param sprite Destroyer sprite representation.
 	 */
-	public Destroyer(Position position, Sprite sprite) {
+	public Destroyer(Position position, SpriteSheet sprite) {
 		super(position, sprite, Enemy.DESTROYER);
 	}
 
