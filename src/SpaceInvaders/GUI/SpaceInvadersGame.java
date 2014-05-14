@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import SpaceInvaders.Objects.Enemy;
+
 /**
  * Space Invaders game thread. Implements Runnable interface.
  * @author josemiguelmelo
@@ -56,18 +58,25 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 
 
 	private int lastTime;
-
+	private int lastTimeEnemy;
 
 	/**
 	 * Run thread
 	 */
 	public void run(){
+		lastTimeEnemy = (int) System.currentTimeMillis();
 		lastTime = (int) System.currentTimeMillis();
 		while(running){
 			if((int) System.currentTimeMillis() - lastTime >=1000 ){
 				lastTime = (int) System.currentTimeMillis();
 				spaceInvadersPanel.addRock();
 			}
+			
+			if((int) System.currentTimeMillis() - lastTimeEnemy >= 5000) {
+				lastTimeEnemy = (int) System.currentTimeMillis();
+				spaceInvadersPanel.addDestroyer(Enemy.DESTROYER);
+			}
+			
 			if((int) System.currentTimeMillis() - lastTime >= 1000/60) {
 				if(this.mainMenu.isVisible()){
 					this.mainMenu.repaint();

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import SpaceInvaders.Engine.Collision;
 import SpaceInvaders.Objects.Boss;
 import SpaceInvaders.Objects.Destroyer;
+import SpaceInvaders.Objects.Enemy;
 import SpaceInvaders.Objects.NormalEnemy;
 import SpaceInvaders.Objects.Rock;
 import SpaceInvaders.Objects.SpaceShip;
@@ -28,9 +29,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public static final int SPACESHIP_MOVE_SPEED = 1;
 
 	private SpaceShip spaceShip;
-	private ArrayList<Destroyer> destroyers;
-	private ArrayList<NormalEnemy> normalEnemies;
-	private ArrayList<Suicidal> suicidals;
+	private ArrayList<Enemy> enemies;
 	private Boss boss;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Boolean> keysPressed;
@@ -54,10 +53,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 	public SpaceInvaders(Thread aboveThread){
 		this.aboveThread = aboveThread;
-		this.destroyers = new ArrayList<Destroyer>();
-		this.normalEnemies = new ArrayList<NormalEnemy>();
-		this.suicidals = new ArrayList<Suicidal>();
+		this.enemies = new ArrayList<Enemy>();
 		this.rocks = new ArrayList<Rock>();
+		
 
 		spaceShip=new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(SPACESHIP_WIDTH, SPACESHIP_HEIGHT),
@@ -99,7 +97,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private void drawStar(Graphics g){
 		Random rand = new Random();
 		g.setColor(Color.WHITE);
-		if(current - lastTime >= 100){
+		if(current - lastTime >= 150){
 			starPosition.clear();
 			for(int i =0; i< (SpaceInvadersGame.WIDTH* SpaceInvadersGame.HEIGHT)/5000 ; i++){
 				int randomPositionX = rand.nextInt(SpaceInvadersGame.WIDTH*2);
@@ -126,9 +124,17 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
 		drawStar(g);
+		for(int i=0;i<enemies.size();i++) {
+			enemies.get(i).draw(g);
+			if(current-lastTime>=10) {
+				enemies.get(i).getPosition().setY(enemies.get(i).getPosition().getY()+1);
+			}
+		}
+		
+		
 		for(int i  = 0 ; i< rocks.size(); i++){
 			rocks.get(i).draw(g);
-			if(current - lastTime >= 30){
+			if(current - lastTime >= 50){
 				rocks.get(i).getPosition().setY(rocks.get(i).getPosition().getY() + 1);
 			}
 		}
@@ -142,6 +148,42 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			}
 			if(rocks.get(i).getPosition().getY()>Toolkit.getDefaultToolkit().getScreenSize().height) {
 				rocks.remove(i);
+			}
+		}
+		for(int i=0;i<enemies.size();i++){
+			collision = new Collision(spaceShip,enemies.get(i),Collision.RECTANGLE_DETECTION);
+			if(collision.detect()){
+				((SpaceInvadersGame)aboveThread).stopThread();
+			}
+			if(enemies.get(i).getPosition().getY()>Toolkit.getDefaultToolkit().getScreenSize().height) {
+				enemies.remove(i);
+			}
+		}
+		
+		//checking collisions between shots and rocks.
+		for(int i=0;i<rocks.size();i++) {
+			for(int j=0;j<spaceShip.getShots().size();j++) {
+				collision = new Collision(spaceShip.getShots().get(j),rocks.get(i),Collision.RECTANGLE_DETECTION);
+				if(collision.detect()){
+					rocks.remove(i);
+					spaceShip.getShots().remove(j);
+					/*
+					 * To do: Add image of the explosion
+					 */
+				}
+ 			}
+		}
+		//checking collisions between shots and enemies;
+		for(int i=0;i<enemies.size();i++) {
+			for(int j=0;j<spaceShip.getShots().size();j++) {
+				collision = new Collision(spaceShip.getShots().get(j),enemies.get(i),Collision.RECTANGLE_DETECTION);
+				if(collision.detect()){
+					enemies.remove(i);
+					spaceShip.getShots().remove(j);
+					/*
+					 * To do: Add image of the explosion
+					 */
+				}
 			}
 		}
 		updatePositions();
@@ -212,17 +254,40 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	 * Allows the user to use one more key at a time.
 	 */
 	private void updatePositions() {
-		if(keysPressed.get(0) == true) {
-			spaceShip.getPosition().setX(spaceShip.getPosition().getX() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		if(keysPressed.get(0) == true) { // left 
+			if(spaceShip.getPosition().getX() > 1)
+				spaceShip.getPosition().setX(spaceShip.getPosition().getX() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
 		}
-		if(keysPressed.get(1) == true) {
-			spaceShip.getPosition().setX(spaceShip.getPosition().getX() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		if(keysPressed.get(1) == true) { // right
+			if(spaceShip.getPosition().getX() < Toolkit.getDefaultToolkit().getScreenSize().width -
+					spaceShip.getSprite().getDimension().getWidth())
+				spaceShip.getPosition().setX(spaceShip.getPosition().getX() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
 		}
-		if(keysPressed.get(2) == true) {
-			spaceShip.getPosition().setY(spaceShip.getPosition().getY() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		if(keysPressed.get(2) == true) { // down
+			if(spaceShip.getPosition().getY() < Toolkit.getDefaultToolkit().getScreenSize().height -
+					spaceShip.getSprite().getDimension().getHeight())
+				spaceShip.getPosition().setY(spaceShip.getPosition().getY() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
 		}
-		if(keysPressed.get(3) == true) {
-			spaceShip.getPosition().setY(spaceShip.getPosition().getY() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		if(keysPressed.get(3) == true) { // up
+			if(spaceShip.getPosition().getY() > 1)
+				spaceShip.getPosition().setY(spaceShip.getPosition().getY() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		}
+	}
+
+	/**
+	 * Adds to the enemies array list a enemy, depending of the type
+	 */
+	public void addDestroyer(int type) {
+		Random rand = new Random();
+		switch (type) {
+		case Enemy.DESTROYER:
+			enemies.add(new Destroyer(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0), 
+					new SpriteSheet(Destroyer.LOCATION, 
+							new Dimension(Destroyer.SPRITE_DIMENSION, Destroyer.SPRITE_DIMENSION), 1, 1)));
+			break;
+
+		default:
+			break;
 		}
 	}
 }

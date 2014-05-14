@@ -8,6 +8,9 @@ import Sprite.SpriteSheet;
  * @author josemiguelmelo
  */
 public class Destroyer extends Enemy {
+	
+	public static final String LOCATION = "/SpaceShips/battleShip3.png";
+	public static final int SPRITE_DIMENSION = 71;
 	/**
 	 * Destroyer constructor.
 	 * @param position Position on screen.
@@ -16,5 +19,4 @@ public class Destroyer extends Enemy {
 	public Destroyer(Position position, SpriteSheet sprite) {
 		super(position, sprite, Enemy.DESTROYER);
 	}
-
 }
