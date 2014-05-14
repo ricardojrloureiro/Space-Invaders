@@ -11,14 +11,12 @@ import Sprite.SpriteSheet;
  * SpaceShip extends Object class. Represents the space ship, controlled by the user.
  * @author josemiguelmelo
  */
-public class SpaceShip extends Object{
+public class SpaceShip extends SpaceObject{
 	/** Initial default life */
 	public static final int INITIAL_LIFE = 100;
 	/** Initial default points */
 	public static final int INITIAL_POINTS = 0;
 	
-	
-
 	public static final String LOCATION = "/Sprites/spaceShip.png";
 	public static final int SPRITE_DIMENSION = 18;
 	

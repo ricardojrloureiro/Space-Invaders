@@ -7,7 +7,7 @@ import Sprite.SpriteSheet;
  * Bonus extends Object class.
  * @author josemiguelmelo
  */
-public class Bonus extends Object {
+public class Bonus extends SpaceObject {
 	/** Life bonus standard duration in seconds */
 	public static final int LIFE_DURATION = 5;
 	/** Protection bonus standard duration in seconds */

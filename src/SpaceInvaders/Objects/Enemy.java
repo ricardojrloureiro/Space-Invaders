@@ -7,7 +7,7 @@ import Sprite.SpriteSheet;
  * Enemy extends Object class.
  * @author josemiguelmelo
  */
-public class Enemy extends Object {
+public class Enemy extends SpaceObject {
 
 	/** Initial enemy life default value */
 	public static final int INITIAL_LIFE = 100;

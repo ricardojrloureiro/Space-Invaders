@@ -10,6 +10,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import SpaceInvaders.Engine.Collision;
 import SpaceInvaders.Objects.Boss;
 import SpaceInvaders.Objects.Destroyer;
 import SpaceInvaders.Objects.NormalEnemy;
@@ -19,11 +20,11 @@ import SpaceInvaders.Objects.Suicidal;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
-public class SpaceInvaders extends JPanel implements KeyListener{
+public class SpaceInvaders extends JPanel{
 
 	private static final long serialVersionUID = -5625571319865323101L;
 	
-	private static final int SPACESHIP_MOVE_SPEED = 10;
+	public static final int SPACESHIP_MOVE_SPEED = 20;
 
 	private SpaceShip spaceShip;
 	private ArrayList<Destroyer> destroyers;
@@ -60,9 +61,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 						1,3));	
 		lastTime=(int) System.currentTimeMillis();
 		current=(int) System.currentTimeMillis();
-		
-		this.addKeyListener(this);
-
+		//keysPressed = new ArrayList<Boolean>();
+		//this.addKeyListener(this);
 	}
 
 	/** 
@@ -89,10 +89,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		return this.visible;
 	}
 
-
-
 	private void drawStar(Graphics g){
-
 		Random rand = new Random();
 		g.setColor(Color.WHITE);
 		if(current - lastTime >= 100){
@@ -124,44 +121,21 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		drawStar(g);
 		for(int i  = 0 ; i< rocks.size(); i++){
 			rocks.get(i).draw(g);
-			if(current - lastTime >= 90){
+			if(current - lastTime >= 30){
 				rocks.get(i).getPosition().setY(rocks.get(i).getPosition().getY() + 1);
 			}
 		}
 		spaceShip.draw(g);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode()){
-		case KeyEvent.VK_LEFT:
-			spaceShip.getPosition().setX(spaceShip.getPosition().getX() - SPACESHIP_MOVE_SPEED);
-			break;
-		case KeyEvent.VK_RIGHT:
-			spaceShip.getPosition().setX(spaceShip.getPosition().getX() + SPACESHIP_MOVE_SPEED);
-			break;
-		case KeyEvent.VK_DOWN:
-			spaceShip.getPosition().setY(spaceShip.getPosition().getY() + SPACESHIP_MOVE_SPEED);
-			break;
-		case KeyEvent.VK_UP:
-			spaceShip.getPosition().setY(spaceShip.getPosition().getY() - SPACESHIP_MOVE_SPEED);
-			break;
-		case KeyEvent.VK_SPACE:
-			spaceShip.addShot();
-		default:
-			break;
+		Collision collision;
+		//checking collisions between rocks and the spaceShip.
+		for(int i=0;i<rocks.size();i++) {
+			collision = new Collision(spaceShip,rocks.get(i),Collision.RECTANGLE_DETECTION);
+			if(collision.detect()){
+				((SpaceInvadersGame)aboveThread).stopThread();
+			}
 		}
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-	}
 
 	public void addRock() {
 		Random rand = new Random();

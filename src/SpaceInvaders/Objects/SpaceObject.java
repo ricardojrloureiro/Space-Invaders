@@ -10,7 +10,7 @@ import Sprite.SpriteSheet;
  * Object class represents all objects in game.
  * @author josemiguelmelo
  */
-public class Object implements Drawable {
+public class SpaceObject implements Drawable {
 	/** Object position on screen. */
 	protected Position position;
 	/** Object sprite representation */
@@ -23,7 +23,7 @@ public class Object implements Drawable {
 	 * @param position Position on screen.
 	 * @param sprite Object sprite representation.
 	 */
-	public Object(Position position, SpriteSheet sprite){
+	public SpaceObject(Position position, SpriteSheet sprite){
 		this.position = position;
 		this.sprite = sprite;
 		this.sprite.loadSprite();

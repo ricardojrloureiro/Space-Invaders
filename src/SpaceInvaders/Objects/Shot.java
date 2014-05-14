@@ -9,7 +9,7 @@ import Sprite.SpriteSheet;
  * Shot extends Object class.
  * @author josemiguelmelo
  */
-public class Shot extends Object{
+public class Shot extends SpaceObject{
 	/** Shot normal type */
 	public static final int TYPE_NORMAL = 1;
 	/** Shot laser type */
