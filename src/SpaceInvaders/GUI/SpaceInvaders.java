@@ -3,6 +3,7 @@ package SpaceInvaders.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -20,11 +21,11 @@ import SpaceInvaders.Objects.Suicidal;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
-public class SpaceInvaders extends JPanel{
+public class SpaceInvaders extends JPanel implements KeyListener{
 
 	private static final long serialVersionUID = -5625571319865323101L;
-	
-	public static final int SPACESHIP_MOVE_SPEED = 20;
+
+	public static final int SPACESHIP_MOVE_SPEED = 1;
 
 	private SpaceShip spaceShip;
 	private ArrayList<Destroyer> destroyers;
@@ -32,13 +33,15 @@ public class SpaceInvaders extends JPanel{
 	private ArrayList<Suicidal> suicidals;
 	private Boss boss;
 	private ArrayList<Rock> rocks;
-	
+	private ArrayList<Boolean> keysPressed;
+
 	private int level;
 
 	private static final int SPACESHIP_WIDTH = 96/3;
 	private static final int SPACESHIP_HEIGHT = 40;
 
 	private int lastTime;
+	private int lastShotTime;
 	private int current;
 
 	private ArrayList<Position> starPosition = new ArrayList<Position>();
@@ -55,14 +58,18 @@ public class SpaceInvaders extends JPanel{
 		this.normalEnemies = new ArrayList<NormalEnemy>();
 		this.suicidals = new ArrayList<Suicidal>();
 		this.rocks = new ArrayList<Rock>();
-		
+
 		spaceShip=new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(SPACESHIP_WIDTH, SPACESHIP_HEIGHT),
 						1,3));	
+		lastShotTime=(int) System.currentTimeMillis();
 		lastTime=(int) System.currentTimeMillis();
 		current=(int) System.currentTimeMillis();
-		//keysPressed = new ArrayList<Boolean>();
-		//this.addKeyListener(this);
+		keysPressed = new ArrayList<Boolean>();
+		for(int i=0;i<4;i++){
+			keysPressed.add(false);
+		}
+		this.addKeyListener(this);
 	}
 
 	/** 
@@ -133,15 +140,89 @@ public class SpaceInvaders extends JPanel{
 			if(collision.detect()){
 				((SpaceInvadersGame)aboveThread).stopThread();
 			}
+			if(rocks.get(i).getPosition().getY()>Toolkit.getDefaultToolkit().getScreenSize().height) {
+				rocks.remove(i);
+			}
 		}
+		updatePositions();
 	}
 
-
+	/**
+	 * Generates a random position to add a new rock to the current map.
+	 * It adds on the ArrayList of rocks.
+	 */
 	public void addRock() {
 		Random rand = new Random();
-		
+
 		rocks.add(new Rock(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0), 
 				new SpriteSheet(Rock.LOCATION, new Dimension(Rock.SPRITE_DIMENSION, Rock.SPRITE_DIMENSION), 1, 1)));
 	}
 
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_LEFT:
+			keysPressed.set(0, true);
+			break;
+		case KeyEvent.VK_RIGHT:
+			keysPressed.set(1, true);
+			break;
+		case KeyEvent.VK_DOWN:
+			keysPressed.set(2, true);
+			break;
+		case KeyEvent.VK_UP:
+			keysPressed.set(3, true);
+			break;
+		case KeyEvent.VK_SPACE:
+			if(((int) System.currentTimeMillis() - lastShotTime) > 500) {
+				lastShotTime = (int) System.currentTimeMillis();
+				spaceShip.addShot();
+			}
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_LEFT:
+			keysPressed.set(0, false);
+			break;
+		case KeyEvent.VK_RIGHT:
+			keysPressed.set(1, false);
+			break;
+		case KeyEvent.VK_DOWN:
+			keysPressed.set(2, false);
+			break;
+		case KeyEvent.VK_UP:
+			keysPressed.set(3, false);
+			break;
+		default:
+			break;
+		}
+	}
+	/**
+	 * As the name says updates the Position according to the key events.
+	 * Allows the user to use one more key at a time.
+	 */
+	private void updatePositions() {
+		if(keysPressed.get(0) == true) {
+			spaceShip.getPosition().setX(spaceShip.getPosition().getX() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		}
+		if(keysPressed.get(1) == true) {
+			spaceShip.getPosition().setX(spaceShip.getPosition().getX() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		}
+		if(keysPressed.get(2) == true) {
+			spaceShip.getPosition().setY(spaceShip.getPosition().getY() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		}
+		if(keysPressed.get(3) == true) {
+			spaceShip.getPosition().setY(spaceShip.getPosition().getY() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+		}
+	}
 }

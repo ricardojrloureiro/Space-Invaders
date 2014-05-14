@@ -34,7 +34,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 	private MainMenu mainMenu;
 	/** Option Menu JPanel */
 	private OptionMenu optionMenu;
-	
+
 	/** Game JPanel */
 	private SpaceInvaders spaceInvadersPanel;
 
@@ -53,11 +53,11 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 	 * @return Option Menu Panel
 	 */
 	public OptionMenu getOptionMenu(){ return optionMenu;}
-	
-	
+
+
 	private int lastTime;
-	
-	
+
+
 	/**
 	 * Run thread
 	 */
@@ -68,13 +68,14 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 				lastTime = (int) System.currentTimeMillis();
 				spaceInvadersPanel.addRock();
 			}
-			
-			if(this.mainMenu.isVisible()){
-				this.mainMenu.repaint();
-			}else if(this.optionMenu.isVisible()){
-				this.optionMenu.repaint();
-			}else{
-				this.spaceInvadersPanel.repaint();
+			if((int) System.currentTimeMillis() - lastTime >= 1000/60) {
+				if(this.mainMenu.isVisible()){
+					this.mainMenu.repaint();
+				}else if(this.optionMenu.isVisible()){
+					this.optionMenu.repaint();
+				}else{
+					this.spaceInvadersPanel.repaint();
+				}
 			}
 		}
 		window.dispose();
@@ -126,7 +127,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		this.mainMenu = new MainMenu(menuOptions, mainBackground, this);
 		this.optionMenu = new OptionMenu(optionOptions, mainBackground, this);
 		this.spaceInvadersPanel = new SpaceInvaders(this);
-		
+
 		//mainMenu.setVisible();
 
 		window.getContentPane().add(mainMenu);
@@ -134,14 +135,14 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		window.getContentPane().add(spaceInvadersPanel);
 
 		spaceInvadersPanel.setVisible();
-		
+
 		window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
 		window.setResizable(false);
 		window.setVisible(true);
 	}
-	
-	
-	
+
+
+
 
 }

@@ -16,10 +16,10 @@ public class SpaceShip extends SpaceObject{
 	public static final int INITIAL_LIFE = 100;
 	/** Initial default points */
 	public static final int INITIAL_POINTS = 0;
-	
+
 	public static final String LOCATION = "/Sprites/spaceShip.png";
 	public static final int SPRITE_DIMENSION = 18;
-	
+
 	/** Space ship current life */
 	private int life;
 	/** Space ship current status (dead or alive) */
@@ -28,7 +28,7 @@ public class SpaceShip extends SpaceObject{
 	private int points;
 	/** Array list with all shots fired */
 	private ArrayList<Shot> shots;
-	
+
 	/**
 	 * SpaceShip class constructor. Space ship life and points set to its default values (INITIAL_LIFE and INITIAL_POINTS).
 	 * @param position Position on screen.
@@ -42,7 +42,7 @@ public class SpaceShip extends SpaceObject{
 		this.spritePosition = new Position(1,0);
 		this.shots = new ArrayList<Shot>();
 	}
-	
+
 	/**
 	 * @param life Space ship life.
 	 */
@@ -75,13 +75,13 @@ public class SpaceShip extends SpaceObject{
 	 * @return Array list with all shots fired
 	 */
 	public ArrayList<Shot> getShots(){ return this.shots; }
-	
+
 	public void addShot(){
 		shots.add(new Shot(new Position(position.getX(), position.getY()), 
 				new SpriteSheet(Shot.LOCATION, new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1), 
 				10));	
 	}
-	
+
 	/**
 	 * @param g Graphics to draw image
 	 */
@@ -89,9 +89,10 @@ public class SpaceShip extends SpaceObject{
 	public void draw(Graphics g) {
 		super.draw(g);
 		for(int i = 0; i< shots.size(); i++){
-			shots.get(i).draw(g);
+			if(shots.get(i).getPosition().getY() < 0) {
+				shots.remove(i);
+			} else 
+				shots.get(i).draw(g);
 		}
 	}
-	
-
 }
