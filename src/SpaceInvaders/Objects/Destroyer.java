@@ -10,7 +10,7 @@ import Sprite.SpriteSheet;
 public class Destroyer extends Enemy {
 	
 	public static final String LOCATION = "/SpaceShips/battleShip3.png";
-	public static final int SPRITE_DIMENSION = 71;
+	public static final int SPRITE_DIMENSION = 64;
 	/**
 	 * Destroyer constructor.
 	 * @param position Position on screen.

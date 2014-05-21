@@ -13,4 +13,10 @@ public class Rock extends SpaceObject{
 		super(position, sprite);
 	}
 
+
+	public void move() {
+		// TODO Auto-generated method stub
+		getPosition().setY(getPosition().getY() + 1);
+	}
+
 }

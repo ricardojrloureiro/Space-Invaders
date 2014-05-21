@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import SpaceInvaders.GUI.SpaceInvaders;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
@@ -42,11 +43,25 @@ public class SpaceShip extends SpaceObject{
 		this.spritePosition = new Position(1,0);
 		this.shots = new ArrayList<Shot>();
 	}
-
+	
 	/**
 	 * @param life Space ship life.
 	 */
-	public void setLife(int life){this.life=life;}
+	public void setLife(int life){
+		this.life=life;
+		if(this.life <= 0) {
+			this.dead = true;
+		}
+	}	
+	/**
+	 * @param life of the attack.
+	 */
+	public void damageShip(int damage){
+		this.life -= damage;
+		if(this.life<=0) {
+			this.dead = true;
+		}
+	}
 	/**
 	 * @return Space ship life.
 	 */
@@ -94,5 +109,34 @@ public class SpaceShip extends SpaceObject{
 			} else 
 				shots.get(i).draw(g);
 		}
+	}
+
+	/**
+	 * @parameter integer DIRECTION that is the direction to take.
+	 * Spaceship's move function that allows the user to navigate throughout the map.
+	 */
+	public void move(int DIRECTION) {
+		switch (DIRECTION) {
+		case SpaceInvaders.LEFT:
+			getPosition().setX(getPosition().getX() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			break;
+		case SpaceInvaders.RIGHT:
+			getPosition().setX(getPosition().getX() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			break;
+		case SpaceInvaders.DOWN:
+			getPosition().setY(getPosition().getY() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			break;
+		case SpaceInvaders.UP:
+			getPosition().setY(getPosition().getY() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			break;
+		}
+	}
+	
+	/**
+	 * @parameter INTEGER type of enemy destroyed
+	 * increases the points of the current space ship.
+	 */
+	public void increasePoints(int points){
+		this.points += points;
 	}
 }

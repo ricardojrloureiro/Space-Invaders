@@ -27,6 +27,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private static final long serialVersionUID = -5625571319865323101L;
 
 	public static final int SPACESHIP_MOVE_SPEED = 1;
+	
+	public static final int UP = 0;
+	public static final int DOWN = 1;
+	public static final int LEFT = 2;
+	public static final int RIGHT = 3;
 
 	private SpaceShip spaceShip;
 	private ArrayList<Enemy> enemies;
@@ -55,7 +60,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		this.aboveThread = aboveThread;
 		this.enemies = new ArrayList<Enemy>();
 		this.rocks = new ArrayList<Rock>();
-		
+
 
 		spaceShip=new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(SPACESHIP_WIDTH, SPACESHIP_HEIGHT),
@@ -127,67 +132,74 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		for(int i=0;i<enemies.size();i++) {
 			enemies.get(i).draw(g);
 			if(current-lastTime>=10) {
-				enemies.get(i).getPosition().setY(enemies.get(i).getPosition().getY()+1);
+				enemies.get(i).move();
 			}
 		}
-		
-		
+
 		for(int i  = 0 ; i< rocks.size(); i++){
 			rocks.get(i).draw(g);
 			if(current - lastTime >= 50){
-				rocks.get(i).getPosition().setY(rocks.get(i).getPosition().getY() + 1);
+				rocks.get(i).move();
 			}
 		}
+		
 		spaceShip.draw(g);
-		Collision collision;
+		Collision collision = null;
 		//checking collisions between rocks and the spaceShip.
 		for(int i=0;i<rocks.size();i++) {
 			collision = new Collision(spaceShip,rocks.get(i),Collision.RECTANGLE_DETECTION);
 			if(collision.detect()){
+				// meter a perder vida em vez de morrer logo
+				spaceShip.setDead(true);
 				((SpaceInvadersGame)aboveThread).stopThread();
 			}
-			if(rocks.get(i).getPosition().getY()>Toolkit.getDefaultToolkit().getScreenSize().height) {
+			if(rocks.get(i).getPosition().getY()>SpaceInvadersGame.HEIGHT) {
 				rocks.remove(i);
 			}
 		}
 		for(int i=0;i<enemies.size();i++){
 			collision = new Collision(spaceShip,enemies.get(i),Collision.RECTANGLE_DETECTION);
 			if(collision.detect()){
+				// meter a perder vida em vez de morrer logo
+				spaceShip.setDead(true);
 				((SpaceInvadersGame)aboveThread).stopThread();
 			}
-			if(enemies.get(i).getPosition().getY()>Toolkit.getDefaultToolkit().getScreenSize().height) {
+			if(enemies.get(i).getPosition().getY()>SpaceInvadersGame.HEIGHT) {
 				enemies.remove(i);
 			}
 		}
-		
+
 		//checking collisions between shots and rocks.
 		for(int i=0;i<rocks.size();i++) {
 			for(int j=0;j<spaceShip.getShots().size();j++) {
-				collision = new Collision(spaceShip.getShots().get(j),rocks.get(i),Collision.RECTANGLE_DETECTION);
-				if(collision.detect()){
-					rocks.remove(i);
-					spaceShip.getShots().remove(j);
-					/*
-					 * To do: Add image of the explosion
-					 */
+				if(i<rocks.size()){
+					collision = new Collision(spaceShip.getShots().get(j),rocks.get(i),Collision.RECTANGLE_DETECTION);
+					if(collision.detect()){
+						spaceShip.increasePoints(10);
+						rocks.remove(i);
+						spaceShip.getShots().remove(j);
+						/*
+						 * TODO Add image of the explosion
+						 */
+					}
 				}
- 			}
-		}
-		//checking collisions between shots and enemies;
-		for(int i=0;i<enemies.size();i++) {
+			}
 			for(int j=0;j<spaceShip.getShots().size();j++) {
-				collision = new Collision(spaceShip.getShots().get(j),enemies.get(i),Collision.RECTANGLE_DETECTION);
-				if(collision.detect()){
-					enemies.remove(i);
-					spaceShip.getShots().remove(j);
-					/*
-					 * To do: Add image of the explosion
-					 */
+				if(i<enemies.size()) {
+					collision = new Collision(spaceShip.getShots().get(j),enemies.get(i),Collision.RECTANGLE_DETECTION);
+					if(collision.detect()){
+						spaceShip.increasePoints(50);
+						enemies.remove(i);
+				 		spaceShip.getShots().remove(j);
+						/*
+						 * TODO Add image of the explosion
+						 */
+					}
 				}
 			}
 		}
 		updatePositions();
-	}
+	} 
 
 	/**
 	 * Generates a random position to add a new rock to the current map.
@@ -256,28 +268,28 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private void updatePositions() {
 		if(keysPressed.get(0) == true) { // left 
 			if(spaceShip.getPosition().getX() > 1)
-				spaceShip.getPosition().setX(spaceShip.getPosition().getX() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+				spaceShip.move(LEFT);
 		}
 		if(keysPressed.get(1) == true) { // right
-			if(spaceShip.getPosition().getX() < Toolkit.getDefaultToolkit().getScreenSize().width -
+			if(spaceShip.getPosition().getX() < SpaceInvadersGame.WIDTH - 
 					spaceShip.getSprite().getDimension().getWidth())
-				spaceShip.getPosition().setX(spaceShip.getPosition().getX() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+				spaceShip.move(RIGHT);
 		}
 		if(keysPressed.get(2) == true) { // down
-			if(spaceShip.getPosition().getY() < Toolkit.getDefaultToolkit().getScreenSize().height -
+			if(spaceShip.getPosition().getY() < SpaceInvadersGame.HEIGHT -
 					spaceShip.getSprite().getDimension().getHeight())
-				spaceShip.getPosition().setY(spaceShip.getPosition().getY() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+				spaceShip.move(DOWN);
 		}
 		if(keysPressed.get(3) == true) { // up
 			if(spaceShip.getPosition().getY() > 1)
-				spaceShip.getPosition().setY(spaceShip.getPosition().getY() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+				spaceShip.move(UP);	
 		}
 	}
 
 	/**
 	 * Adds to the enemies array list a enemy, depending of the type
 	 */
-	public void addDestroyer(int type) {
+	public void addEnemy(int type) {
 		Random rand = new Random();
 		switch (type) {
 		case Enemy.DESTROYER:
@@ -285,8 +297,10 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 					new SpriteSheet(Destroyer.LOCATION, 
 							new Dimension(Destroyer.SPRITE_DIMENSION, Destroyer.SPRITE_DIMENSION), 1, 1)));
 			break;
-
-		default:
+		case Enemy.SUICIDAL:
+			enemies.add(new Suicidal(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0), 
+					new SpriteSheet(Suicidal.LOCATION, 
+							new Dimension(Suicidal.SPRITE_DIMENSION, Destroyer.SPRITE_DIMENSION), 1, 1)));
 			break;
 		}
 	}

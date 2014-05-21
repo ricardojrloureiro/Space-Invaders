@@ -19,9 +19,9 @@ import SpaceInvaders.Objects.Enemy;
 public class SpaceInvadersGame extends Thread implements Runnable{
 
 	/** Preferred Window Width */
-	public static final int WIDTH = 1020;
+	public static final int WIDTH = 600;
 	/** Preferred Window Height */
-	public static final int HEIGHT = 600;
+	public static final int HEIGHT = 1200;
 	/** Option menu integer representation */
 	public static final int OPTION_MENU = 1;
 	/** Exit menu integer representation */
@@ -74,7 +74,8 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 			
 			if((int) System.currentTimeMillis() - lastTimeEnemy >= 5000) {
 				lastTimeEnemy = (int) System.currentTimeMillis();
-				spaceInvadersPanel.addDestroyer(Enemy.DESTROYER);
+				spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
+			//	spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
 			}
 			
 			if((int) System.currentTimeMillis() - lastTime >= 1000/60) {
@@ -145,8 +146,9 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 
 		spaceInvadersPanel.setVisible();
 
-		window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-
+		//window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		window.setSize(WIDTH, HEIGHT);
+		
 		window.setResizable(false);
 		window.setVisible(true);
 	}

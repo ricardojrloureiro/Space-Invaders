@@ -19,7 +19,6 @@ public class Enemy extends SpaceObject {
 	public static final int BOSS = 3;
 	/** Destroyer enemy type */
 	public static final int DESTROYER = 4;
-	
 	/** Enemy current life */
 	protected int life;
 	/** Represent enemy status (dead or alive) */
@@ -54,7 +53,12 @@ public class Enemy extends SpaceObject {
 	/**
 	 * @param life Enemy life.
 	 */
-	public void setLife(int life){this.life = life;}
+	public void setLife(int life){
+		this.life = life;
+		if(this.life<=0){
+			this.dead = true;
+		}
+	}
 	/**
 	 * @return Enemy life.
 	 */
@@ -75,6 +79,24 @@ public class Enemy extends SpaceObject {
 	 * @return Enemy type.
 	 */
 	public int getType(){ return this.type;}
+	/**
+	 * @param damage done to the enemy by the ship
+	 */
+	public void damageEnemy(int damage) {
+		this.life -= damage;
+		if(this.life<=0){
+			this.dead=true;
+		}
+	}
+	/**
+	 * Move the enemy depending of their type
+	 */
+	public void move() {
+		// TODO Auto-generated method stub
+		// TODO generate a switch that moves depending of the values.
+
+		getPosition().setY(getPosition().getY()+1);
+	}
 	
 	
 	
