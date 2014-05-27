@@ -23,7 +23,6 @@ public class CollisionTest {
 	public void checkSquareCollision(){
 		
 		//IN INTERSECTION RANGE
-		
 		SpaceShip spaceShip = new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(96/3, 40),1,3));
 

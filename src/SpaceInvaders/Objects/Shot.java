@@ -17,7 +17,7 @@ public class Shot extends SpaceObject{
 	
 	public static final String LOCATION = "/Sprites/shot.png";
 	public static final int SPRITE_DIMENSION = 18;
-	
+	public boolean enemyFire;
 	/** Life it takes from the object that collides with it */
 	private int lifeTake;
 	/** Shot type */
@@ -33,6 +33,7 @@ public class Shot extends SpaceObject{
 		super(position, sprite);
 		this.lifeTake = lifeTake;
 		this.type = TYPE_NORMAL;
+        this.enemyFire = false;
 	}
 	/**
 	 * Shot class constructor.
@@ -45,7 +46,23 @@ public class Shot extends SpaceObject{
 		super(position, sprite);
 		this.lifeTake = lifeTake;
 		this.type = type;
+        this.enemyFire=false;
 	}
+
+    /**
+     * Shot class constructor.
+     * @param position Position on screen
+     * @param sprite Shot sprite representation.
+     * @param lifeTake Life it takes from the object that collides with it.
+     * @param type Shot type.
+     * @param enemyFire Enemy fire.
+     */
+    public Shot(Position position, SpriteSheet sprite, int lifeTake, int type,boolean enemyFire) {
+        super(position, sprite);
+        this.lifeTake = lifeTake;
+        this.type = type;
+        this.enemyFire=enemyFire;
+    }
 	
 	/**
 	 * @param lifeTake Life it takes from the object that collides with it.
@@ -69,9 +86,10 @@ public class Shot extends SpaceObject{
 	 */
 	@Override
 	public void draw(Graphics g) {
-		this.position.setY(this.position.getY()-1);
-		super.draw(g);
+        if(enemyFire==true)
+            this.position.setY(this.position.getY()+1);
+        else
+         this.position.setY(this.position.getY()-1);
+       	super.draw(g);
 	}
-	
-
 }

@@ -2,11 +2,10 @@ package SpaceInvaders.GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
@@ -56,7 +55,6 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 	 */
 	public OptionMenu getOptionMenu(){ return optionMenu;}
 
-
 	private int lastTime;
 	private int lastTimeEnemy;
 
@@ -67,15 +65,21 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		lastTimeEnemy = (int) System.currentTimeMillis();
 		lastTime = (int) System.currentTimeMillis();
 		while(running){
-			if((int) System.currentTimeMillis() - lastTime >=1000 ){
+            //Add rocks - working
+		/*	if((int) System.currentTimeMillis() - lastTime >=1000 ){
 				lastTime = (int) System.currentTimeMillis();
 				spaceInvadersPanel.addRock();
-			}
+			}*/
 			
 			if((int) System.currentTimeMillis() - lastTimeEnemy >= 5000) {
-				lastTimeEnemy = (int) System.currentTimeMillis();
-				spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
-			//	spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
+                Random rand = new Random();
+                lastTimeEnemy = (int) System.currentTimeMillis();
+                if(rand.nextInt(10) > 4)
+				   spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
+				if(rand.nextInt(10) > 7)
+                    spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
+                if(rand.nextInt(10) > 5)
+                    spaceInvadersPanel.addEnemy(Enemy.FIRESHOOTER);
 			}
 			
 			if((int) System.currentTimeMillis() - lastTime >= 1000/60) {

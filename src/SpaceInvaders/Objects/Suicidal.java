@@ -8,8 +8,9 @@ import Sprite.SpriteSheet;
  * @author josemiguelmelo
  */
 public class Suicidal extends Enemy {
+
 	public static final String LOCATION = "/SpaceShips/suicidalShip.png";
-	public static final int SPRITE_DIMENSION = 0;
+	public static final int SPRITE_DIMENSION = 64;
 
 	/**
 	 * Suicidal class constructor.

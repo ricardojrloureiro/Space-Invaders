@@ -3,7 +3,6 @@ package SpaceInvaders.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -12,13 +11,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import SpaceInvaders.Engine.Collision;
-import SpaceInvaders.Objects.Boss;
-import SpaceInvaders.Objects.Destroyer;
-import SpaceInvaders.Objects.Enemy;
-import SpaceInvaders.Objects.NormalEnemy;
-import SpaceInvaders.Objects.Rock;
-import SpaceInvaders.Objects.SpaceShip;
-import SpaceInvaders.Objects.Suicidal;
+import SpaceInvaders.Objects.*;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
@@ -26,7 +19,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 	private static final long serialVersionUID = -5625571319865323101L;
 
-	public static final int SPACESHIP_MOVE_SPEED = 1;
+	public static final int SPACESHIP_MOVE_SPEED = 2;
 	
 	public static final int UP = 0;
 	public static final int DOWN = 1;
@@ -47,6 +40,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private int lastTime;
 	private int lastShotTime;
 	private int current;
+    private int lastCheckFire;
 
 	private ArrayList<Position> starPosition = new ArrayList<Position>();
 
@@ -55,23 +49,26 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private boolean visible;
 	/** Thread which created this object */
 	private Thread aboveThread;
+    /** Timers */
+    private ArrayList<Integer> times;
 
 	public SpaceInvaders(Thread aboveThread){
 		this.aboveThread = aboveThread;
 		this.enemies = new ArrayList<Enemy>();
 		this.rocks = new ArrayList<Rock>();
-
-
 		spaceShip=new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(SPACESHIP_WIDTH, SPACESHIP_HEIGHT),
-						1,3));	
-		lastShotTime=(int) System.currentTimeMillis();
-		lastTime=(int) System.currentTimeMillis();
-		current=(int) System.currentTimeMillis();
+						1,3));
+        int time = (int) System.currentTimeMillis();
+		lastShotTime=time;
+		lastTime=time;
+		current=time;
+        lastCheckFire=time;
 		keysPressed = new ArrayList<Boolean>();
 		for(int i=0;i<4;i++){
 			keysPressed.add(false);
 		}
+        times = new ArrayList<Integer> ();
 		this.addKeyListener(this);
 	}
 
@@ -129,10 +126,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
 		drawStar(g);
+
 		for(int i=0;i<enemies.size();i++) {
 			enemies.get(i).draw(g);
-			if(current-lastTime>=10) {
-				enemies.get(i).move();
+			if(current-lastTime>=20) {
+				enemies.get(i).move(spaceShip);
 			}
 		}
 
@@ -142,8 +140,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				rocks.get(i).move();
 			}
 		}
-		
 		spaceShip.draw(g);
+
 		Collision collision = null;
 		//checking collisions between rocks and the spaceShip.
 		for(int i=0;i<rocks.size();i++) {
@@ -158,46 +156,57 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			}
 		}
 		for(int i=0;i<enemies.size();i++){
+            for(int x=0;x<enemies.get(i).getShots().size();x++) {
+                collision = new Collision(spaceShip,enemies.get(i).getShots().get(x),Collision.RECTANGLE_DETECTION);
+                if(collision.detect() && ((int) System.currentTimeMillis()-lastCheckFire > 500)) {
+                    enemies.get(i).damageDone(spaceShip);
+                    enemies.get(i).getShots().remove(x);
+                    lastCheckFire=(int) System.currentTimeMillis();
+
+                }
+                if(spaceShip.getDead())
+                    ((SpaceInvadersGame)aboveThread).stopThread();
+            }
 			collision = new Collision(spaceShip,enemies.get(i),Collision.RECTANGLE_DETECTION);
 			if(collision.detect()){
-				// meter a perder vida em vez de morrer logo
-				spaceShip.setDead(true);
-				((SpaceInvadersGame)aboveThread).stopThread();
+				enemies.get(i).damageDone(spaceShip);
+                if(spaceShip.getDead())
+				    ((SpaceInvadersGame)aboveThread).stopThread();
 			}
 			if(enemies.get(i).getPosition().getY()>SpaceInvadersGame.HEIGHT) {
 				enemies.remove(i);
 			}
 		}
-
-		//checking collisions between shots and rocks.
-		for(int i=0;i<rocks.size();i++) {
-			for(int j=0;j<spaceShip.getShots().size();j++) {
-				if(i<rocks.size()){
-					collision = new Collision(spaceShip.getShots().get(j),rocks.get(i),Collision.RECTANGLE_DETECTION);
-					if(collision.detect()){
-						spaceShip.increasePoints(10);
-						rocks.remove(i);
-						spaceShip.getShots().remove(j);
+        //checking shots & rocks
+        for(int i=0;i<spaceShip.getShots().size();i++){
+            for(int j=0;j<rocks.size();j++) {
+                collision = new Collision(spaceShip.getShots().get(i),rocks.get(j),Collision.RECTANGLE_DETECTION);
+                if(collision.detect()){
+                    spaceShip.increasePoints(10);
+                    rocks.remove(i);
+                    spaceShip.getShots().remove(j);
 						/*
 						 * TODO Add image of the explosion
 						 */
-					}
-				}
-			}
-			for(int j=0;j<spaceShip.getShots().size();j++) {
-				if(i<enemies.size()) {
-					collision = new Collision(spaceShip.getShots().get(j),enemies.get(i),Collision.RECTANGLE_DETECTION);
-					if(collision.detect()){
-						spaceShip.increasePoints(50);
-						enemies.remove(i);
-				 		spaceShip.getShots().remove(j);
+                }
+                break;
+            }
+        }
+        //checking shots & enemies
+        for(int i=0;i<spaceShip.getShots().size();i++){
+            for(int j=0;j<enemies.size();j++) {
+                collision = new Collision(spaceShip.getShots().get(i),enemies.get(j),Collision.RECTANGLE_DETECTION);
+                if(collision.detect()){
+                    spaceShip.increasePoints(10);
+                    enemies.remove(i);
+                    spaceShip.getShots().remove(j);
 						/*
 						 * TODO Add image of the explosion
 						 */
-					}
-				}
-			}
-		}
+                }
+                break;
+            }
+        }
 		updatePositions();
 	} 
 
@@ -294,14 +303,20 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		switch (type) {
 		case Enemy.DESTROYER:
 			enemies.add(new Destroyer(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0), 
-					new SpriteSheet(Destroyer.LOCATION, 
+					new SpriteSheet(Destroyer.LOCATION,
 							new Dimension(Destroyer.SPRITE_DIMENSION, Destroyer.SPRITE_DIMENSION), 1, 1)));
 			break;
 		case Enemy.SUICIDAL:
 			enemies.add(new Suicidal(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0), 
 					new SpriteSheet(Suicidal.LOCATION, 
-							new Dimension(Suicidal.SPRITE_DIMENSION, Destroyer.SPRITE_DIMENSION), 1, 1)));
+							new Dimension(Suicidal.SPRITE_DIMENSION,Suicidal.SPRITE_DIMENSION), 1, 1)));
 			break;
+            case Enemy.FIRESHOOTER:
+                enemies.add(new FireShooter(new Position(rand.nextInt(SpaceInvadersGame.WIDTH), 0),
+                        new SpriteSheet(FireShooter.LOCATION,
+                                new Dimension(FireShooter.SPRITE_DIMENSION,FireShooter.SPRITE_DIMENSION), 1, 1)));
+            break;
+
 		}
 	}
 }

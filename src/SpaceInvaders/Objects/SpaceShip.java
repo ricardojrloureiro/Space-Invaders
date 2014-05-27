@@ -54,10 +54,10 @@ public class SpaceShip extends SpaceObject{
 		}
 	}	
 	/**
-	 * @param life of the attack.
+	 * @param damage of the attack.
 	 */
 	public void damageShip(int damage){
-		this.life -= damage;
+		this.life = life - damage;
 		if(this.life<=0) {
 			this.dead = true;
 		}
@@ -106,8 +106,8 @@ public class SpaceShip extends SpaceObject{
 		for(int i = 0; i< shots.size(); i++){
 			if(shots.get(i).getPosition().getY() < 0) {
 				shots.remove(i);
-			} else 
-				shots.get(i).draw(g);
+			} else
+                shots.get(i).draw(g);
 		}
 	}
 
