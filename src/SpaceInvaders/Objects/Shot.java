@@ -22,6 +22,7 @@ public class Shot extends SpaceObject{
 	private int lifeTake;
 	/** Shot type */
 	private int type;
+    private boolean enabled;
 	
 	/**
 	 * Shot class default constructor. Type set to its default value -> TYPE_NORMAL.
@@ -34,6 +35,7 @@ public class Shot extends SpaceObject{
 		this.lifeTake = lifeTake;
 		this.type = TYPE_NORMAL;
         this.enemyFire = false;
+        this.enabled=true;
 	}
 	/**
 	 * Shot class constructor.
@@ -47,6 +49,7 @@ public class Shot extends SpaceObject{
 		this.lifeTake = lifeTake;
 		this.type = type;
         this.enemyFire=false;
+        this.enabled=true;
 	}
 
     /**
@@ -62,6 +65,7 @@ public class Shot extends SpaceObject{
         this.lifeTake = lifeTake;
         this.type = type;
         this.enemyFire=enemyFire;
+        this.enabled=true;
     }
 	
 	/**
@@ -72,6 +76,14 @@ public class Shot extends SpaceObject{
 	 * @return Life it takes from the object that collides with it.
 	 */
 	public int getLifeTake(){ return this.lifeTake;	}
+    /**
+     * @param enable set enables the shot
+     */
+    public void setEnable(boolean enable){this.enabled = enable;}
+    /**
+     * @return true if the shot is enabled false otherways.
+     */
+    public boolean getEnabled(){ return this.enabled;	}
 	/**
 	 * @param type Shot type.
 	 */
@@ -90,6 +102,7 @@ public class Shot extends SpaceObject{
             this.position.setY(this.position.getY()+1);
         else
          this.position.setY(this.position.getY()-1);
-       	super.draw(g);
+        if(enabled==true)
+       	    super.draw(g);
 	}
 }

@@ -128,7 +128,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		drawStar(g);
 
 		for(int i=0;i<enemies.size();i++) {
-			enemies.get(i).draw(g);
+			    enemies.get(i).draw(g);
 			if(current-lastTime>=20) {
 				enemies.get(i).move(spaceShip);
 			}
@@ -155,6 +155,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				rocks.remove(i);
 			}
 		}
+        // collision beetween enemy fire shots and the space ship
 		for(int i=0;i<enemies.size();i++){
             for(int x=0;x<enemies.get(i).getShots().size();x++) {
                 collision = new Collision(spaceShip,enemies.get(i).getShots().get(x),Collision.RECTANGLE_DETECTION);
@@ -162,21 +163,24 @@ public class SpaceInvaders extends JPanel implements KeyListener{
                     enemies.get(i).damageDone(spaceShip);
                     enemies.get(i).getShots().remove(x);
                     lastCheckFire=(int) System.currentTimeMillis();
-
+                    if(spaceShip.getDead() == true){
+                        ((SpaceInvadersGame)aboveThread).stopThread();
+                    }
                 }
-                if(spaceShip.getDead())
-                    ((SpaceInvadersGame)aboveThread).stopThread();
             }
-			collision = new Collision(spaceShip,enemies.get(i),Collision.RECTANGLE_DETECTION);
-			if(collision.detect()){
-				enemies.get(i).damageDone(spaceShip);
-                if(spaceShip.getDead())
-				    ((SpaceInvadersGame)aboveThread).stopThread();
-			}
-			if(enemies.get(i).getPosition().getY()>SpaceInvadersGame.HEIGHT) {
-				enemies.remove(i);
-			}
+            if(!enemies.get(i).isDead()) {
+                collision = new Collision(spaceShip,enemies.get(i),Collision.RECTANGLE_DETECTION);
+                if(collision.detect()){
+                    spaceShip.setDead(true);
+                    if(spaceShip.getDead())
+                        ((SpaceInvadersGame)aboveThread).stopThread();
+                }
+                if(enemies.get(i).getPosition().getY()>SpaceInvadersGame.HEIGHT) {
+                    enemies.remove(i);
+                }
+            }
 		}
+
         //checking shots & rocks
         for(int i=0;i<spaceShip.getShots().size();i++){
             for(int j=0;j<rocks.size();j++) {
@@ -192,21 +196,26 @@ public class SpaceInvaders extends JPanel implements KeyListener{
                 break;
             }
         }
-        //checking shots & enemies
-        for(int i=0;i<spaceShip.getShots().size();i++){
-            for(int j=0;j<enemies.size();j++) {
-                collision = new Collision(spaceShip.getShots().get(i),enemies.get(j),Collision.RECTANGLE_DETECTION);
-                if(collision.detect()){
-                    spaceShip.increasePoints(10);
-                    enemies.remove(i);
-                    spaceShip.getShots().remove(j);
-						/*
-						 * TODO Add image of the explosion
-						 */
-                }
-                break;
-            }
-        }
+        //checking shots from spaceship and enemies
+
+       for(int i=0;i<spaceShip.getShots().size();i++){
+           if(spaceShip.getShots().get(i).getEnabled()) {
+               for(int j=0;j<enemies.size();j++) {
+                   if(!enemies.get(j).isDead()){
+                       collision = new Collision(spaceShip.getShots().get(i),enemies.get(j),Collision.RECTANGLE_DETECTION);
+                       if(collision.detect()){
+                           spaceShip.increasePoints(10);
+                           enemies.get(j).setDead(true);
+                           spaceShip.getShots().get(i).setEnable(false);
+                           //    spaceShip.getShots().remove(i);
+                            /*
+                             * TODO Add image of the explosion
+                            */
+                       }
+                   }
+               }
+           }
+       }
 		updatePositions();
 	} 
 

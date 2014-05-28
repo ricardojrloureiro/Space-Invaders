@@ -66,7 +66,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		lastTime = (int) System.currentTimeMillis();
 		while(running){
             //Add rocks - working
-		/*	if((int) System.currentTimeMillis() - lastTime >=1000 ){
+		    /*	if((int) System.currentTimeMillis() - lastTime >=1000 ){
 				lastTime = (int) System.currentTimeMillis();
 				spaceInvadersPanel.addRock();
 			}*/
@@ -76,9 +76,9 @@ public class SpaceInvadersGame extends Thread implements Runnable{
                 lastTimeEnemy = (int) System.currentTimeMillis();
                 if(rand.nextInt(10) > 4)
 				   spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
-				if(rand.nextInt(10) > 7)
+				if(rand.nextInt(10) > 4)
                     spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
-                if(rand.nextInt(10) > 5)
+                if(rand.nextInt(10) > 1)
                     spaceInvadersPanel.addEnemy(Enemy.FIRESHOOTER);
 			}
 			

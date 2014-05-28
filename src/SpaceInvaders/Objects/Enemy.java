@@ -1,5 +1,6 @@
 package SpaceInvaders.Objects;
 
+import SpaceInvaders.GUI.SpaceInvadersGame;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
@@ -139,7 +140,6 @@ public class Enemy extends SpaceObject {
                 break;
             case SUICIDAL:{
                 getPosition().setY(getPosition().getY()+1);
-
                 if(getPosition().getY()<spaceShip.getPosition().getY()) {
                     int newTime = (int) System.currentTimeMillis();
                     if(newTime-times.get(0) > 5){
@@ -157,8 +157,10 @@ public class Enemy extends SpaceObject {
                 break;
             case FIRESHOOTER:{
                 if((int)System.currentTimeMillis() - times.get(1) > 800){
-                    addShot();
-                    times.set(1,(int)System.currentTimeMillis());
+                    if(!isDead()){
+                        addShot();
+                        times.set(1,(int)System.currentTimeMillis());
+                    }
                 }
                 if((int) System.currentTimeMillis() - times.get(2) > 50) {
                     getPosition().setY(getPosition().getY()+1);
@@ -188,9 +190,10 @@ public class Enemy extends SpaceObject {
 
     @Override
     public void draw(Graphics g) {
-        super.draw(g);
+        if(!isDead())
+            super.draw(g);
         for(int i = 0; i< shots.size(); i++){
-            if(shots.get(i).getPosition().getY() < 0) {
+            if(shots.get(i).getPosition().getY() > SpaceInvadersGame.HEIGHT) {
                 shots.remove(i);
             } else
                 shots.get(i).draw(g);
