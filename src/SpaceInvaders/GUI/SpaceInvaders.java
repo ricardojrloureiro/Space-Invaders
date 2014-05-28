@@ -187,8 +187,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
                 collision = new Collision(spaceShip.getShots().get(i),rocks.get(j),Collision.RECTANGLE_DETECTION);
                 if(collision.detect()){
                     spaceShip.increasePoints(10);
-                    rocks.remove(i);
-                    spaceShip.getShots().remove(j);
+                    rocks.remove(i); //TODO em vez de remover por disabled e remover so quando sair do ecra
+                    spaceShip.getShots().get(j).setEnable(false);
 						/*
 						 * TODO Add image of the explosion
 						 */
@@ -211,6 +211,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
                             /*
                              * TODO Add image of the explosion
                             */
+                           break; // para eliminar so um inimigo com cada tiro
                        }
                    }
                }
