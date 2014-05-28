@@ -4,3 +4,4 @@ bin/
 .DS_Store
 Resources/Sprites/.DS_Store
 Resources/.DS_Store
+.idea/
