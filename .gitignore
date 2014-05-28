@@ -5,3 +5,4 @@ bin/
 Resources/Sprites/.DS_Store
 Resources/.DS_Store
 .idea/
+out/
