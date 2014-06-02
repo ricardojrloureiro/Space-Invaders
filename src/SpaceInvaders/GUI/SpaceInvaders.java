@@ -3,6 +3,7 @@ package SpaceInvaders.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import SpaceInvaders.Engine.Collision;
+import SpaceInvaders.Map.BackgroundMap;
 import SpaceInvaders.Objects.*;
 import Sprite.Position;
 import Sprite.SpriteSheet;
@@ -123,9 +125,14 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public void paintComponent(Graphics g){
 		/* BACKGROUND DRAW */
 		current = (int) System.currentTimeMillis();
+		/*
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
 		drawStar(g);
+		
+		*/
+		BackgroundMap bgMap = new BackgroundMap(0, 0, new Dimension(10*18, 10*18), "/Sprites/inverted_shot.png", new Dimension(18,18));
+		bgMap.draw(g);
 
 		for(int i=0;i<enemies.size();i++) {
 			    enemies.get(i).draw(g);
