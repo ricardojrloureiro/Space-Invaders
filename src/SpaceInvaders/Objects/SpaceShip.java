@@ -114,7 +114,7 @@ public class SpaceShip extends SpaceObject{
 		super.draw(g);
 		for(int i = 0; i< shots.size(); i++){
 			if(shots.get(i).getPosition().getY() < 0) {
-				shots.remove(i);
+				shots.get(i).setEnable(false);
 			} else
                 shots.get(i).draw(g);
 		}

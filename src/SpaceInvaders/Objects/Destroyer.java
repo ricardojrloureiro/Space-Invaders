@@ -18,8 +18,8 @@ public class Destroyer extends Enemy {
 	 */
 	public Destroyer(Position position, SpriteSheet sprite) {
 		super(position, sprite, Enemy.DESTROYER);
-		this.velocityX=1;
-		this.velocityY=1;
+		this.velocityX=2;
+		this.velocityY=2;
 	}
 	
 	@Override

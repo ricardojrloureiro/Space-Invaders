@@ -70,7 +70,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		int i=1;
 		while(running){
             //Add rocks - working
-		   if((int) System.currentTimeMillis() - lastTimeRock >=1000 ){
+		   if((int) System.currentTimeMillis() - lastTimeRock >=1500 ){
 				lastTimeRock = (int) System.currentTimeMillis();
 				spaceInvadersPanel.addRock();	
 			}

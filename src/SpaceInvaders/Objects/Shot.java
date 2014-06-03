@@ -2,6 +2,7 @@ package SpaceInvaders.Objects;
 
 import java.awt.Graphics;
 
+import SpaceInvaders.GUI.SpaceInvadersGame;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
@@ -14,6 +15,7 @@ public class Shot extends SpaceObject{
 	public static final int TYPE_NORMAL = 1;
 	/** Shot laser type */
 	public static final int TYPE_LASER = 2;
+
 	
 	public static String LOCATION = "/Sprites/shot.png";
 
@@ -23,9 +25,11 @@ public class Shot extends SpaceObject{
 	private int lifeTake;
 	/** Shot type */
 	private int type;
-    private boolean enabled;
-    private int shotFired;
+	private boolean enabled;
+	private int shotFired;
 	
+	private final int velocity = 5;
+
 	/**
 	 * Shot class default constructor. Type set to its default value -> TYPE_NORMAL.
 	 * @param position Position on screen
@@ -36,8 +40,10 @@ public class Shot extends SpaceObject{
 		super(position, sprite);
 		this.lifeTake = lifeTake;
 		this.type = TYPE_NORMAL;
-        this.enemyFire = false;
-        this.enabled=true;
+		this.enemyFire = false;
+		this.enabled=true;
+		this.velocityX = velocity;
+		this.velocityY = velocity;
 	}
 	/**
 	 * Shot class constructor.
@@ -50,31 +56,35 @@ public class Shot extends SpaceObject{
 		super(position, sprite);
 		this.lifeTake = lifeTake;
 		this.type = type;
-        this.enemyFire=false;
-        this.enabled=true;
+		this.enemyFire=false;
+		this.enabled=true;
+		this.velocityX = velocity;
+		this.velocityY = velocity;
 	}
 
-    /**
-     * Shot class constructor.
-     * @param position Position on screen
-     * @param sprite Shot sprite representation.
-     * @param lifeTake Life it takes from the object that collides with it.
-     * @param type Shot type.
-     * @param enemyFire Enemy fire.
-     * @param location sprite enemy fire location
-     * @param size size of the enemy sprite
-     */
-    public Shot(Position position, SpriteSheet sprite, int lifeTake, int type,boolean enemyFire,String location, int size) {
-        super(position, sprite);
-        this.lifeTake = lifeTake;
-        this.type = type;
-        this.enemyFire=enemyFire;
-        this.enabled=true;
-        this.LOCATION = location;
-        this.SPRITE_DIMENSION = size;
-        this.shotFired = (int) System.currentTimeMillis();
-    }
-	
+	/**
+	 * Shot class constructor.
+	 * @param position Position on screen
+	 * @param sprite Shot sprite representation.
+	 * @param lifeTake Life it takes from the object that collides with it.
+	 * @param type Shot type.
+	 * @param enemyFire Enemy fire.
+	 * @param location sprite enemy fire location
+	 * @param size size of the enemy sprite
+	 */
+	public Shot(Position position, SpriteSheet sprite, int lifeTake, int type,boolean enemyFire,String location, int size) {
+		super(position, sprite);
+		this.lifeTake = lifeTake;
+		this.type = type;
+		this.enemyFire=enemyFire;
+		this.enabled=true;
+		this.LOCATION = location;
+		this.SPRITE_DIMENSION = size;
+		this.shotFired = (int) System.currentTimeMillis();
+		this.velocityX = velocity;
+		this.velocityY = velocity;
+	}
+
 	/**
 	 * @param lifeTake Life it takes from the object that collides with it.
 	 */
@@ -83,14 +93,14 @@ public class Shot extends SpaceObject{
 	 * @return Life it takes from the object that collides with it.
 	 */
 	public int getLifeTake(){ return this.lifeTake;	}
-    /**
-     * @param enable set enables the shot
-     */
-    public void setEnable(boolean enable){this.enabled = enable;}
-    /**
-     * @return true if the shot is enabled false otherways.
-     */
-    public boolean getEnabled(){ return this.enabled;	}
+	/**
+	 * @param enable set enables the shot
+	 */
+	public void setEnable(boolean enable){this.enabled = enable;}
+	/**
+	 * @return true if the shot is enabled false otherways.
+	 */
+	public boolean getEnabled(){ return this.enabled;	}
 	/**
 	 * @param type Shot type.
 	 */
@@ -100,23 +110,23 @@ public class Shot extends SpaceObject{
 	 */
 	public int getType(){ return this.type;}
 
+	
+	public void move(){
+		if(enemyFire==true){
+			moveDown();
+			if(getPosition().getY() <= 0 || getPosition().getY() >= SpaceInvadersGame.HEIGHT)
+				this.enabled = false;
+		}
+		else{
+			moveUp();
+		}
+	}
 	/**
 	 * @param g Graphics to draw image
 	 */
 	@Override
 	public void draw(Graphics g) {
-        if(enemyFire==true)
-            this.position.setY(this.position.getY()+2);
-        else{
-            if(this.type == TYPE_LASER) {
-                if((int) System.currentTimeMillis() - this.shotFired > 400 ) {
-                        this.enabled = false;
-                }
-            } else {
-                this.position.setY(this.position.getY()-2);
-            }
-        }
-        if(enabled==true)
-       	    super.draw(g);
+		if(enabled==true)
+			super.draw(g);
 	}
 }

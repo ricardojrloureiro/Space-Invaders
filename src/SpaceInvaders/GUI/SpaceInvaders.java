@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import SpaceInvaders.Objects.Destroyer;
 import SpaceInvaders.Objects.Enemy;
 import SpaceInvaders.Objects.FireShooter;
 import SpaceInvaders.Objects.Rock;
+import SpaceInvaders.Objects.Shot;
 import SpaceInvaders.Objects.SpaceShip;
 import SpaceInvaders.Objects.Suicidal;
 import Sprite.Position;
@@ -33,7 +35,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public static final int RIGHT = 3;
 
 	public static final int lifeTextSize = 32;
-	
+
 	private SpaceShip spaceShip;
 	private ArrayList<Enemy> enemies;
 	private Boss boss;
@@ -126,8 +128,56 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 	}
 
+
+	public void removeDeadObjects(){
+
+		Iterator<Rock> iterRock = rocks.iterator();
+
+		/* remove rocks */
+		while(iterRock.hasNext()){
+			if(!iterRock.next().isEnabled())
+				iterRock.remove();
+			if(iterRock.hasNext())
+				iterRock.next();
+		}
+
+		/* remove enemy shots */
+		for(int i = 0 ; i< enemies.size(); i++){
+			Iterator<Shot> iterEnemyShot = enemies.get(i).getShots().iterator();
+			while(iterEnemyShot.hasNext()){
+				if(!iterEnemyShot.next().getEnabled())
+					iterEnemyShot.remove();
+				if(iterEnemyShot.hasNext())
+					iterEnemyShot.next();
+			}
+		}
+
+		/* remove player shots */
+		Iterator<Shot> iterPlayerShot = spaceShip.getShots().iterator();
+		while(iterPlayerShot.hasNext()){
+			if(!iterPlayerShot.next().getEnabled())
+				iterPlayerShot.remove();
+			if(iterPlayerShot.hasNext())
+				iterPlayerShot.next();
+		}
+
+		/* remove enemies */
+		Iterator<Enemy> iterEnemy = enemies.iterator();
+		while(iterEnemy.hasNext()){
+			Enemy en = iterEnemy.next();
+			if(en.isDead() && en.getShots().size() == 0)
+				iterEnemy.remove();
+			if(iterEnemy.hasNext())
+				iterEnemy.next();
+		}
+
+
+		System.out.println(enemies.size());
+
+	}
+
 	public void moveObjects(){
-		
+
 
 		current = (int) System.currentTimeMillis();
 
@@ -143,6 +193,18 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				rocks.get(i).move();
 			}
 		}
+
+		for(int i = 0; i< enemies.size(); i++){
+			for(int j = 0; j< enemies.get(i).getShots().size(); j++){
+				enemies.get(i).getShots().get(j).move();
+			}
+		}
+		for(int i = 0; i< spaceShip.getShots().size(); i++){
+			if(current-lastTime>=20) {
+				spaceShip.getShots().get(i).move();
+			}
+		}
+
 
 
 
@@ -189,19 +251,20 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 		//checking shots & rocks
 		for(int i=0;i<spaceShip.getShots().size();i++){
-			for(int j=0;j<rocks.size();j++) {
-				if(spaceShip.getShots().get(i).getEnabled()==true) {
-					collision = new Collision(spaceShip.getShots().get(i),rocks.get(j),Collision.RECTANGLE_DETECTION);
-					if(collision.detect()){
-						spaceShip.increasePoints(10);
-						rocks.get(j).setEnabled(false);
-						spaceShip.getShots().get(i).setEnable(false);
-						/*
-						 * TODO Add image of the explosion
-						 */
+			if(spaceShip.getShots().get(i).getEnabled()==true)
+				for(int j=0;j<rocks.size();j++) {
+					if(rocks.get(j).isEnabled()==true){
+						collision = new Collision(spaceShip.getShots().get(i),rocks.get(j),Collision.RECTANGLE_DETECTION);
+						if(collision.detect()){
+							spaceShip.increasePoints(10);
+							rocks.get(j).setEnabled(false);
+							spaceShip.getShots().get(i).setEnable(false);
+							/*
+							 * TODO Add image of the explosion
+							 */
+						}
 					}
 				}
-			}
 		}
 
 		//checking shots from spaceship and enemies
@@ -225,7 +288,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			}
 		}
 		updatePositions();
-
+		removeDeadObjects();
 	}
 
 
@@ -255,6 +318,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("lifeFont", Font.BOLD, lifeTextSize));
 		g.drawString("Life: " + spaceShip.getLife(), getWidth()-150, 40);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("pointsFont", Font.BOLD, lifeTextSize));
+		g.drawString("Points: " + spaceShip.getPoints(), getWidth()-150, 80);
 
 	} 
 
