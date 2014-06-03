@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 import SpaceInvaders.Objects.Drawable;
 import Sprite.Position;
-import Sprite.Sprite;
 import Sprite.SpriteSheet;
+
 
 public class Explosion implements Drawable{
 	public static final double DEFAULT_DURATION = 0.5;
@@ -23,6 +23,8 @@ public class Explosion implements Drawable{
 	private int spritesheetPosition;
 	private boolean enabled;
 	
+	
+	
 	private int lastTime = (int)System.currentTimeMillis();
 	
 	/**
@@ -38,6 +40,11 @@ public class Explosion implements Drawable{
 		this.spritesheetPosition=0;
 		this.enabled = true;
 		sprite.loadSprite();
+		Player player = new Player("/Sounds/explosion.wav");
+		player.run();
+		
+		
+		
 	}
 	/**
 	 * @param position Explosion position in screen
