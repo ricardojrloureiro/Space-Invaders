@@ -21,12 +21,13 @@ public class Rock extends SpaceObject{
 	public Rock(Position position, SpriteSheet sprite) {
 		super(position, sprite);
         enabled=true;
+        this.velocityX = 0;
+        this.velocityY = 2;
 	}
 
 
 	public void move() {
-		// TODO Auto-generated method stub
-		getPosition().setY(getPosition().getY() + 1);
+		moveDown();
 	}
 
 }

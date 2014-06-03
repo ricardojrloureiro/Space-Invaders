@@ -5,60 +5,79 @@ import java.awt.Graphics;
 import SpaceInvaders.Objects.Drawable;
 import Sprite.Position;
 import Sprite.Sprite;
+import Sprite.SpriteSheet;
 
 public class Explosion implements Drawable{
-	public static final int DEFAULT_DURATION = 2;
+	public static final double DEFAULT_DURATION = 0.5;
+	public static final String LOCATION = "/Sprites/explosion.png";
+	public static final int SPRITE_WIDTH = 557;
+	public static final int SPRITE_HEIGTH = 69;
+	public static final int SPRITE_COLS = 6;
 	
-	private Sprite sprite;
-	private int duration;
+	
+	
+	
+	private SpriteSheet sprite;
+	private double duration;
 	private Position position;
+	private int spritesheetPosition;
+	private boolean enabled;
+	
+	private int lastTime = (int)System.currentTimeMillis();
+	
 	/**
 	 * This constructor sets the explosion duration with its default value. 
 	 * The duration default value is define by the constant DEFAUL_DURATION.
 	 * @param position Explosion position in screen
 	 * @param sprite Explosion sprite
 	 */
-	public Explosion(Position position, Sprite sprite){
+	public Explosion(Position position, SpriteSheet sprite){
 		this.setSprite(sprite);
 		this.position=position;
-		this.setDuration(DEFAULT_DURATION);
+		this.setDuration(DEFAULT_DURATION * 1000);
+		this.spritesheetPosition=0;
+		this.enabled = true;
+		sprite.loadSprite();
 	}
 	/**
 	 * @param position Explosion position in screen
 	 * @param sprite Explosion sprite
 	 * @param duration Explosion duration in seconds
 	 */
-	public Explosion(Position position, Sprite sprite, int duration){
+	public Explosion(Position position, SpriteSheet sprite, int duration){
 		this.setSprite(sprite);
 		this.position=position;
-		this.setDuration(duration);
+		this.setDuration(duration*1000);
+		this.spritesheetPosition = 0;
+		this.enabled = true;
+		sprite.loadSprite();
 	}
 
 	/**
 	 * @return Explosion sprite
 	 */
-	public Sprite getSprite() {
+	public SpriteSheet getSprite() {
 		return sprite;
 	}
 
 	/**
 	 * @param sprite Explosion sprite
 	 */
-	public void setSprite(Sprite sprite) {
+	public void setSprite(SpriteSheet sprite) {
 		this.sprite = sprite;
 	}
 
 	/**
 	 * @return Explosion duration in seconds
 	 */
-	public int getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 
 	/**
 	 * @param duration Explosion duration in seconds
 	 */
-	public void setDuration(int duration) {
+	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 	/**
@@ -74,9 +93,28 @@ public class Explosion implements Drawable{
 		this.position = position;
 	}
 	
+	public boolean isEnabled(){
+		return this.enabled;
+	}
+	
+	public void enable(){
+		this.enabled = true;
+	}
+	public void disable(){
+		this.enabled = false;
+	}
+	
 	@Override
 	public void draw(Graphics g) {
-		sprite.paint(g, position);
+		if(spritesheetPosition < sprite.getSprite()[0].length){
+			sprite.getSpriteAt(spritesheetPosition, 0).paint(g, position);
+			if((int) System.currentTimeMillis() - lastTime >= ((int)(duration/SPRITE_COLS))){
+				spritesheetPosition++;
+				lastTime = (int) System.currentTimeMillis();
+			}
+		}else{
+			disable();
+		}
 	}
 
 	
