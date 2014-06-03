@@ -67,7 +67,6 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		lastTimeRock = (int) System.currentTimeMillis();
 		lastTime = (int) System.currentTimeMillis();
 		
-		int i=1;
 		while(running){
             //Add rocks - working
 		   if((int) System.currentTimeMillis() - lastTimeRock >=1500 ){

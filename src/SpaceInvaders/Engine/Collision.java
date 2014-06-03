@@ -2,8 +2,6 @@ package SpaceInvaders.Engine;
 
 import java.awt.Rectangle;
 
-import javax.swing.text.Position;
-
 import SpaceInvaders.Objects.SpaceObject;
 
 public class Collision {

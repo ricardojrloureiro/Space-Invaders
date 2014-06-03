@@ -1,9 +1,7 @@
 package SpaceInvaders.Test;
 
 
-import static org.junit.Assert.*;
-
-import java.awt.Dimension;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 

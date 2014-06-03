@@ -1,7 +1,6 @@
 package SpaceInvaders.Objects;
 
 import Sprite.Position;
-import Sprite.Sprite;
 import Sprite.SpriteSheet;
 
 /**
