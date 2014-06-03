@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import SpaceInvaders.Engine.Collision;
@@ -59,6 +63,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 	private ArrayList<Position> starPosition = new ArrayList<Position>();
 
+	private Image mapImage;
+	private String mapImageLocation = "/Sprites/background.jpg";
 
 	/** represents JPanel visibility */
 	private boolean visible;
@@ -88,6 +94,14 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 		times = new ArrayList<Integer> ();
 		this.addKeyListener(this);
+		
+		try {
+			mapImage = ImageIO.read(
+					getClass().getResourceAsStream(mapImageLocation)
+					);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -345,9 +359,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		/* BACKGROUND DRAW */
 		current = (int) System.currentTimeMillis();
 
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
+		//g.setColor(Color.BLACK);
+		//g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
 		//drawStar(g);
+		
+		g.drawImage(mapImage,0,0,SpaceInvadersGame.WIDTH, SpaceInvadersGame.HEIGHT, null);
 
 		for(int i=0;i<enemies.size();i++) {
 			enemies.get(i).draw(g);
