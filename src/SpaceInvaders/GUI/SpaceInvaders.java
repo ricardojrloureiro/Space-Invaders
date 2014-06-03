@@ -125,15 +125,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public void paintComponent(Graphics g){
 		/* BACKGROUND DRAW */
 		current = (int) System.currentTimeMillis();
-	
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
-		drawStar(g);
-		
-		/*
-		BackgroundMap bgMap = new BackgroundMap(0, 0, new Dimension(10*18, 10*18), "/Sprites/inverted_shot.png", new Dimension(18,18));
-		bgMap.draw(g);
-*/
+		//drawStar(g);
+
 		for(int i=0;i<enemies.size();i++) {
 			    enemies.get(i).draw(g);
 			if(current-lastTime>=20) {
@@ -142,22 +138,27 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 
 		for(int i  = 0 ; i< rocks.size(); i++){
-			rocks.get(i).draw(g);
-			if(current - lastTime >= 50){
-				rocks.get(i).move();
-			}
+            if(rocks.get(i).isEnabled()==true){
+                rocks.get(i).draw(g);
+            }
+            if(current - lastTime >= 50){
+                rocks.get(i).move();
+            }
 		}
 		spaceShip.draw(g);
 
 		Collision collision = null;
+
 		//checking collisions between rocks and the spaceShip.
 		for(int i=0;i<rocks.size();i++) {
-			collision = new Collision(spaceShip,rocks.get(i),Collision.RECTANGLE_DETECTION);
-			if(collision.detect()){
-				// meter a perder vida em vez de morrer logo
-				spaceShip.setDead(true);
-				((SpaceInvadersGame)aboveThread).stopThread();
-			}
+            if(rocks.get(i).isEnabled()){
+                collision = new Collision(spaceShip,rocks.get(i),Collision.RECTANGLE_DETECTION);
+                if(collision.detect()){
+                    // meter a perder vida em vez de morrer logo
+                    spaceShip.setDead(true);
+                    ((SpaceInvadersGame)aboveThread).stopThread();
+                }
+            }
 			if(rocks.get(i).getPosition().getY()>SpaceInvadersGame.HEIGHT) {
 				rocks.remove(i);
 			}
@@ -191,20 +192,21 @@ public class SpaceInvaders extends JPanel implements KeyListener{
         //checking shots & rocks
         for(int i=0;i<spaceShip.getShots().size();i++){
             for(int j=0;j<rocks.size();j++) {
-                collision = new Collision(spaceShip.getShots().get(i),rocks.get(j),Collision.RECTANGLE_DETECTION);
-                if(collision.detect()){
-                    spaceShip.increasePoints(10);
-                    rocks.remove(i); //TODO em vez de remover por disabled e remover so quando sair do ecra
-                    spaceShip.getShots().get(j).setEnable(false);
+                if(spaceShip.getShots().get(i).getEnabled()==true) {
+                    collision = new Collision(spaceShip.getShots().get(i),rocks.get(j),Collision.RECTANGLE_DETECTION);
+                    if(collision.detect()){
+                        spaceShip.increasePoints(10);
+                        rocks.get(j).setEnabled(false);
+                        spaceShip.getShots().get(i).setEnable(false);
 						/*
 						 * TODO Add image of the explosion
 						 */
+                    }
                 }
-                break;
             }
         }
-        //checking shots from spaceship and enemies
 
+        //checking shots from spaceship and enemies
        for(int i=0;i<spaceShip.getShots().size();i++){
            if(spaceShip.getShots().get(i).getEnabled()) {
                for(int j=0;j<enemies.size();j++) {
@@ -238,7 +240,6 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				new SpriteSheet(Rock.LOCATION, new Dimension(Rock.SPRITE_DIMENSION, Rock.SPRITE_DIMENSION), 1, 1)));
 	}
 
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
@@ -259,10 +260,15 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			keysPressed.set(3, true);
 			break;
 		case KeyEvent.VK_SPACE:
-			if(((int) System.currentTimeMillis() - lastShotTime) > 500) {
+			if(((int) System.currentTimeMillis() - lastShotTime) > 200) {
 				lastShotTime = (int) System.currentTimeMillis();
-				spaceShip.addShot();
+				spaceShip.addShot(1);
 			}
+        case KeyEvent.VK_Z:
+                if(((int) System.currentTimeMillis() - lastShotTime) > 2000) {
+                    lastShotTime = (int) System.currentTimeMillis();
+                    spaceShip.addShot(2);
+                }
 		default:
 			break;
 		}

@@ -53,6 +53,4 @@ public class SpaceObject implements Drawable {
 	public void draw(Graphics g) {
 		sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
 	}
-	
-	
 }

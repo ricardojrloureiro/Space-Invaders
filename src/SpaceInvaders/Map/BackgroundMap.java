@@ -79,7 +79,7 @@ public class BackgroundMap {
 	 */
 	public BufferedImage getMapImage() { return mapImage;	}
 	/**
-	 * @param tileImage Tile image
+	 * @param mapImage Tile image
 	 */
 	public void setMapImage(BufferedImage mapImage) { this.mapImage = mapImage; }
 	/**
@@ -103,7 +103,7 @@ public class BackgroundMap {
 	 */
 	public Tile[][] getTileArray() { return tileArray; }
 	/**
-	 * @param tile the tile to set
+	 * @param tileArray the tile to set
 	 */
 	public void setTileArray(Tile[][] tileArray) { this.tileArray = tileArray; }
 	/**
@@ -158,5 +158,4 @@ public class BackgroundMap {
 			counterx=0;
 		}
 	}
-
 }

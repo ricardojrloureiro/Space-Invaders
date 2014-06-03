@@ -121,10 +121,10 @@ public class Enemy extends SpaceObject {
         }
     }
 
-    public void addShot() {
+    public void addShot(int type) {
         shots.add(new Shot(new Position(position.getX(), position.getY()),
-                new SpriteSheet(Shot.LOCATION, new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1),
-                10,1,true));
+                new SpriteSheet("/Sprites/inverted_shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1),
+                10,type,true,"/Sprites/inverted_shot.png",18));
     }
 
     public ArrayList<Shot> getShots() {return this.shots;}
@@ -139,7 +139,7 @@ public class Enemy extends SpaceObject {
             }
                 break;
             case SUICIDAL:{
-                getPosition().setY(getPosition().getY()+1);
+                getPosition().setY(getPosition().getY()+2);
                 if(getPosition().getY()<spaceShip.getPosition().getY()) {
                     int newTime = (int) System.currentTimeMillis();
                     if(newTime-times.get(0) > 5){
@@ -158,7 +158,7 @@ public class Enemy extends SpaceObject {
             case FIRESHOOTER:{
                 if((int)System.currentTimeMillis() - times.get(1) > 800){
                     if(!isDead()){
-                        addShot();
+                        addShot(0);
                         times.set(1,(int)System.currentTimeMillis());
                     }
                 }

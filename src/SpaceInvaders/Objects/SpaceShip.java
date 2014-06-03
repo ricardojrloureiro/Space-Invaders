@@ -91,10 +91,17 @@ public class SpaceShip extends SpaceObject{
 	 */
 	public ArrayList<Shot> getShots(){ return this.shots; }
 
-	public void addShot(){
-		shots.add(new Shot(new Position(position.getX(), position.getY()), 
-				new SpriteSheet(Shot.LOCATION, new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1), 
-				10));	
+	public void addShot(int type){
+        if(type == 1){
+            shots.add(new Shot(new Position(position.getX(), position.getY()),
+                    new SpriteSheet( "/Sprites/shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1),
+                    10));
+        } else {
+            shots.add(new Shot(new Position(position.getX(), position.getY()),
+                    new SpriteSheet("/Sprites/leBigLazer.png", new Dimension(10,40),1,1),
+                    10,Shot.TYPE_LASER,false,"",1));
+        }
+
 	}
 
 	/**
@@ -137,6 +144,6 @@ public class SpaceShip extends SpaceObject{
 	 * increases the points of the current space ship.
 	 */
 	public void increasePoints(int points){
-		this.points += points;
-	}
+        this.points += points;
+    }
 }

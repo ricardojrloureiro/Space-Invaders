@@ -66,19 +66,19 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		lastTime = (int) System.currentTimeMillis();
 		while(running){
             //Add rocks - working
-		    /*	if((int) System.currentTimeMillis() - lastTime >=1000 ){
+		    if((int) System.currentTimeMillis() - lastTime >=1000 ){
 				lastTime = (int) System.currentTimeMillis();
 				spaceInvadersPanel.addRock();
-			}*/
+			}
 			
 			if((int) System.currentTimeMillis() - lastTimeEnemy >= 5000) {
                 Random rand = new Random();
                 lastTimeEnemy = (int) System.currentTimeMillis();
-                if(rand.nextInt(10) > 4)
+                if(rand.nextInt(10) > 2)
 				   spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
-				if(rand.nextInt(10) > 4)
+				if(rand.nextInt(10) > 2)
                     spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
-                if(rand.nextInt(10) > 1)
+                if(rand.nextInt(10) > 2)
                     spaceInvadersPanel.addEnemy(Enemy.FIRESHOOTER);
 			}
 			
@@ -134,7 +134,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		BufferedImage mainBackground = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
 		try{
-			mainBackground = ImageIO.read(getClass().getResourceAsStream(mainBackgroundLocation));
+		mainBackground = ImageIO.read(getClass().getResourceAsStream(mainBackgroundLocation));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -156,8 +156,4 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		window.setResizable(false);
 		window.setVisible(true);
 	}
-
-
-
-
 }

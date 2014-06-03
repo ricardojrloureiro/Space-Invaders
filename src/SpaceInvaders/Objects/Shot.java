@@ -15,14 +15,16 @@ public class Shot extends SpaceObject{
 	/** Shot laser type */
 	public static final int TYPE_LASER = 2;
 	
-	public static final String LOCATION = "/Sprites/shot.png";
-	public static final int SPRITE_DIMENSION = 18;
+	public static String LOCATION = "/Sprites/shot.png";
+
+	public static int SPRITE_DIMENSION = 18;
 	public boolean enemyFire;
 	/** Life it takes from the object that collides with it */
 	private int lifeTake;
 	/** Shot type */
 	private int type;
     private boolean enabled;
+    private int shotFired;
 	
 	/**
 	 * Shot class default constructor. Type set to its default value -> TYPE_NORMAL.
@@ -59,13 +61,18 @@ public class Shot extends SpaceObject{
      * @param lifeTake Life it takes from the object that collides with it.
      * @param type Shot type.
      * @param enemyFire Enemy fire.
+     * @param location sprite enemy fire location
+     * @param size size of the enemy sprite
      */
-    public Shot(Position position, SpriteSheet sprite, int lifeTake, int type,boolean enemyFire) {
+    public Shot(Position position, SpriteSheet sprite, int lifeTake, int type,boolean enemyFire,String location, int size) {
         super(position, sprite);
         this.lifeTake = lifeTake;
         this.type = type;
         this.enemyFire=enemyFire;
         this.enabled=true;
+        this.LOCATION = location;
+        this.SPRITE_DIMENSION = size;
+        this.shotFired = (int) System.currentTimeMillis();
     }
 	
 	/**
@@ -92,16 +99,23 @@ public class Shot extends SpaceObject{
 	 * @return Shot type.
 	 */
 	public int getType(){ return this.type;}
-	
+
 	/**
 	 * @param g Graphics to draw image
 	 */
 	@Override
 	public void draw(Graphics g) {
         if(enemyFire==true)
-            this.position.setY(this.position.getY()+1);
-        else
-         this.position.setY(this.position.getY()-1);
+            this.position.setY(this.position.getY()+2);
+        else{
+            if(this.type == TYPE_LASER) {
+                if((int) System.currentTimeMillis() - this.shotFired > 400 ) {
+                        this.enabled = false;
+                }
+            } else {
+                this.position.setY(this.position.getY()-2);
+            }
+        }
         if(enabled==true)
        	    super.draw(g);
 	}

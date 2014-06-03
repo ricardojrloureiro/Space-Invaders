@@ -15,5 +15,4 @@ public class Game {
 		spaceInvaders.start();
 		return;
 	}
-
 }
