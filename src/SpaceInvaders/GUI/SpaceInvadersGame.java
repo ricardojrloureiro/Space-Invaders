@@ -57,20 +57,24 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 
 	private int lastTime;
 	private int lastTimeEnemy;
+	private int lastTimeRock;
 
 	/**
 	 * Run thread
 	 */
 	public void run(){
 		lastTimeEnemy = (int) System.currentTimeMillis();
+		lastTimeRock = (int) System.currentTimeMillis();
 		lastTime = (int) System.currentTimeMillis();
+		
+		int i=1;
 		while(running){
             //Add rocks - working
-		    if((int) System.currentTimeMillis() - lastTime >=1000 ){
-				lastTime = (int) System.currentTimeMillis();
-				spaceInvadersPanel.addRock();
+		   if((int) System.currentTimeMillis() - lastTimeRock >=1000 ){
+				lastTimeRock = (int) System.currentTimeMillis();
+				spaceInvadersPanel.addRock();	
 			}
-			
+		   
 			if((int) System.currentTimeMillis() - lastTimeEnemy >= 5000) {
                 Random rand = new Random();
                 lastTimeEnemy = (int) System.currentTimeMillis();
@@ -82,14 +86,17 @@ public class SpaceInvadersGame extends Thread implements Runnable{
                     spaceInvadersPanel.addEnemy(Enemy.FIRESHOOTER);
 			}
 			
-			if((int) System.currentTimeMillis() - lastTime >= 1000/60) {
+			if( ((int) System.currentTimeMillis() - lastTime) >= 1000/60) {
+
 				if(this.mainMenu.isVisible()){
 					this.mainMenu.repaint();
 				}else if(this.optionMenu.isVisible()){
 					this.optionMenu.repaint();
 				}else{
 					this.spaceInvadersPanel.repaint();
+					spaceInvadersPanel.moveObjects();
 				}
+				lastTime=(int) System.currentTimeMillis();
 			}
 		}
 		window.dispose();

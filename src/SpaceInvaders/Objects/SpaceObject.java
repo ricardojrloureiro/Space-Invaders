@@ -3,7 +3,6 @@ package SpaceInvaders.Objects;
 import java.awt.Graphics;
 
 import Sprite.Position;
-import Sprite.Sprite;
 import Sprite.SpriteSheet;
 
 /**

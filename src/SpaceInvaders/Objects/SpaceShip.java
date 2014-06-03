@@ -42,6 +42,8 @@ public class SpaceShip extends SpaceObject{
 		this.points=INITIAL_POINTS;
 		this.spritePosition = new Position(1,0);
 		this.shots = new ArrayList<Shot>();
+		this.velocityX = 5;
+		this.velocityY = 5;
 	}
 	
 	/**
@@ -125,16 +127,16 @@ public class SpaceShip extends SpaceObject{
 	public void move(int DIRECTION) {
 		switch (DIRECTION) {
 		case SpaceInvaders.LEFT:
-			getPosition().setX(getPosition().getX() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			moveLeft();
 			break;
 		case SpaceInvaders.RIGHT:
-			getPosition().setX(getPosition().getX() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			moveRight();
 			break;
 		case SpaceInvaders.DOWN:
-			getPosition().setY(getPosition().getY() + SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			moveDown();
 			break;
 		case SpaceInvaders.UP:
-			getPosition().setY(getPosition().getY() - SpaceInvaders.SPACESHIP_MOVE_SPEED);
+			moveUp();
 			break;
 		}
 	}
