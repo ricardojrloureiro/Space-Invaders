@@ -18,9 +18,9 @@ import SpaceInvaders.Objects.Enemy;
 public class SpaceInvadersGame extends Thread implements Runnable{
 
 	/** Preferred Window Width */
-	public static final int WIDTH = 600;
+	public static final int WIDTH = 900;
 	/** Preferred Window Height */
-	public static final int HEIGHT = 1200;
+	public static final int HEIGHT = 750;
 	/** Option menu integer representation */
 	public static final int OPTION_MENU = 1;
 	/** Exit menu integer representation */
