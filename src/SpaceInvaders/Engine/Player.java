@@ -1,5 +1,6 @@
 package SpaceInvaders.Engine;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,9 +20,16 @@ public class Player extends Thread{
 		
 	}
 	public void run(){
-		InputStream in = getClass().getResourceAsStream(location);
+		
+		//read audio data from whatever source (file/classloader/etc.)
+		InputStream audioSrc = getClass().getResourceAsStream(location);
+		//add buffer for mark/reset support
+		InputStream bufferedIn = new BufferedInputStream(audioSrc);
+		
 		try {
-			this.audioStream = new AudioInputStream(in, AudioSystem.getAudioFileFormat(in).getFormat(), 100000);
+
+			audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+			//this.audioStream = new AudioInputStream(in, AudioSystem.getAudioFileFormat(in).getFormat(), 100000);
 		} catch (UnsupportedAudioFileException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
