@@ -39,7 +39,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public static final int LEFT = 2;
 	public static final int RIGHT = 3;
 
-	public static final int lifeTextSize = 32;
+	public static final int lifeTextSize = 24;
 
 	private SpaceShip spaceShip;
 	private ArrayList<Enemy> enemies;
