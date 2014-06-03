@@ -32,7 +32,7 @@ public class Enemy extends SpaceObject {
     /** Last Movement Date */
     protected ArrayList<Integer> times;
     /** Enemy Shots */
-    private ArrayList<Shot> shots;
+    protected ArrayList<Shot> shots;
 
     /**
      * Enemy default constructor. Enemy type set to its default value -> NORMAL
@@ -130,64 +130,13 @@ public class Enemy extends SpaceObject {
     public ArrayList<Shot> getShots() {return this.shots;}
 
     /**
-     * Move the enemy depending of their type
+     * Move enemy
+     * @param spaceShip player space ship
      */
-    public void move(SpaceShip spaceShip) {
-        switch (type) {
-            case DESTROYER:{
-                getPosition().setY(getPosition().getY()+1);
-            }
-                break;
-            case SUICIDAL:{
-                getPosition().setY(getPosition().getY()+2);
-                if(getPosition().getY()<spaceShip.getPosition().getY()) {
-                    int newTime = (int) System.currentTimeMillis();
-                    if(newTime-times.get(0) > 5){
-                        if(spaceShip.getPosition().getX() > getPosition().getX()){
-                            getPosition().setX(getPosition().getX()+1);
-                            times.set(0,(int) System.currentTimeMillis());
-                        }
-                        else if(spaceShip.getPosition().getX() < getPosition().getX()) {
-                            getPosition().setX(getPosition().getX()-1);
-                            times.set(0,(int) System.currentTimeMillis());
-                        }
-                    }
-                }
-            }
-                break;
-            case FIRESHOOTER:{
-                if((int)System.currentTimeMillis() - times.get(1) > 800){
-                    if(!isDead()){
-                        addShot(0);
-                        times.set(1,(int)System.currentTimeMillis());
-                    }
-                }
-                if((int) System.currentTimeMillis() - times.get(2) > 50) {
-                    getPosition().setY(getPosition().getY()+1);
-                    times.set(2,(int) System.currentTimeMillis());
-                }
-                if(getPosition().getY()<spaceShip.getPosition().getY()) {
-                    int newTime = (int) System.currentTimeMillis();
-                    if(newTime-times.get(0) > 10){
-                        if(spaceShip.getPosition().getX() > getPosition().getX()){
-                            getPosition().setX(getPosition().getX()+1);
-                            times.set(0,(int) System.currentTimeMillis());
-                        }
-                        else if(spaceShip.getPosition().getX() < getPosition().getX()) {
-                            getPosition().setX(getPosition().getX()-1);
-                            times.set(0,(int) System.currentTimeMillis());
-                        }
-                    }
-                }
-            }
-            break;
-            case BOSS:{
-
-            }
-                break;
-        }
-    }
-
+    public void move(SpaceShip spaceShip){}
+    
+    
+    
     @Override
     public void draw(Graphics g) {
         if(!isDead())

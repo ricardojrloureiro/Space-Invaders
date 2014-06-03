@@ -10,13 +10,15 @@ import Sprite.SpriteSheet;
  * Object class represents all objects in game.
  * @author josemiguelmelo
  */
-public class SpaceObject implements Drawable {
+public class SpaceObject implements Drawable, Movable {
 	/** Object position on screen. */
 	protected Position position;
 	/** Object sprite representation */
 	protected SpriteSheet sprite;
 	/** Position in sprite to draw */
 	protected Position spritePosition;
+	
+	protected int velocityX, velocityY;
 	
 	/**
 	 * Object constructor.
@@ -52,5 +54,23 @@ public class SpaceObject implements Drawable {
 	@Override
 	public void draw(Graphics g) {
 		sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
+	}
+	
+	
+	@Override
+	public void moveLeft(){
+		this.position.setX(this.position.getX() - velocityX);
+	}
+	@Override
+	public void moveRight() {
+		this.position.setX(this.position.getX() + velocityX);
+	}
+	@Override
+	public void moveUp() {
+		this.position.setY(this.position.getY() - velocityY);
+	}
+	@Override
+	public void moveDown() {
+		this.position.setY(this.position.getY() + velocityY);
 	}
 }

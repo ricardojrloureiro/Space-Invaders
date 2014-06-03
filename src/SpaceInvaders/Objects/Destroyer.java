@@ -18,5 +18,12 @@ public class Destroyer extends Enemy {
 	 */
 	public Destroyer(Position position, SpriteSheet sprite) {
 		super(position, sprite, Enemy.DESTROYER);
+		this.velocityX=1;
+		this.velocityY=1;
+	}
+	
+	@Override
+	public void move(SpaceShip spaceShip){
+		moveDown();
 	}
 }
