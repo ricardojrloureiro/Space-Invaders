@@ -16,10 +16,13 @@ import javax.swing.JPanel;
 
 import SpaceInvaders.Engine.Collision;
 import SpaceInvaders.Engine.Explosion;
+import SpaceInvaders.Objects.Bonus;
 import SpaceInvaders.Objects.Boss;
 import SpaceInvaders.Objects.Destroyer;
 import SpaceInvaders.Objects.Enemy;
 import SpaceInvaders.Objects.FireShooter;
+import SpaceInvaders.Objects.Life;
+import SpaceInvaders.Objects.Protection;
 import SpaceInvaders.Objects.Rock;
 import SpaceInvaders.Objects.Shot;
 import SpaceInvaders.Objects.SpaceShip;
@@ -44,6 +47,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private ArrayList<Enemy> enemies;
 	private Boss boss;
 	private ArrayList<Rock> rocks;
+	private ArrayList<Bonus> bonus;
+
 	private ArrayList<Boolean> keysPressed;
 
 	private ArrayList<Explosion> explosions;
@@ -72,17 +77,18 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	/** Thread which created this object */
 	private Thread aboveThread;
 
-	
+
 	private final String BOSS_MESSAGE = "BOSS FIGHT !";
 	private final String WIN_MESSAGE = "LEVEL UP !";
 	private boolean showBossMessage = false;
 	private boolean showingWinMessage = false;
-	
+
 
 	public SpaceInvaders(Thread aboveThread){
 		this.aboveThread = aboveThread;
 		this.enemies = new ArrayList<Enemy>();
 		this.rocks = new ArrayList<Rock>();
+		this.bonus = new ArrayList<Bonus>();
 		spaceShip=new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(SPACESHIP_WIDTH, SPACESHIP_HEIGHT),
 						1,3));
@@ -118,9 +124,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public void setShowingBossMessage(boolean showBossMessage){this.showBossMessage = showBossMessage;}
 	public boolean isShowingWinMessage(){ return this.showingWinMessage;}
 	public void setShowingWinMessage(boolean showingWinMessage){this.showingWinMessage = showingWinMessage;}
-	
+
 	public boolean isLevelEnded(){ return this.levelEnded;}
-	
+
 	public SpaceShip getSpaceShip(){ return this.spaceShip; }
 
 	/** 
@@ -171,9 +177,23 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	public void setAtBoss(boolean atBoss){ this.atBoss = atBoss;}
 
 	public void removeDeadObjects(){
+		//checks if protection is still available
+		spaceShip.checkProtection();
+		
+		
+		Iterator<Bonus> iterBonus = bonus.iterator();
+		/* remove bonus */
+		while(iterBonus.hasNext()){
+			Bonus bonus = iterBonus.next();
+			bonus.checkAvailable();
+			if(!bonus.isAvailable())
+				iterBonus.remove();
+			if(iterBonus.hasNext())
+				iterBonus.next();
+		}
 
+		
 		Iterator<Rock> iterRock = rocks.iterator();
-
 		/* remove rocks */
 		while(iterRock.hasNext()){
 			if(!iterRock.next().isEnabled())
@@ -228,9 +248,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		while(iterEnemy.hasNext()){
 			Explosion ex = iterExplosions.next();
 			if(!ex.isEnabled())
-				iterEnemy.remove();
-			if(iterEnemy.hasNext())
-				iterEnemy.next();
+				iterExplosions.remove();
+			if(iterExplosions.hasNext())
+				iterExplosions.next();
 		}
 
 
@@ -239,7 +259,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 	public void moveObjects(){
 		current = (int) System.currentTimeMillis();
-
+		
+		
 		/** MOVE COMPONENTS **/
 		for(int i=0;i<enemies.size();i++) {
 			if(current-lastTime>=20) {
@@ -279,7 +300,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				collision = new Collision(spaceShip,rocks.get(i),Collision.RECTANGLE_DETECTION);
 				if(collision.detect()){
 					// meter a perder vida em vez de morrer logo
-					spaceShip.damageShip(14);
+					if(!spaceShip.isProtected()){
+						spaceShip.damageShip(14);
+					}
 					rocks.get(i).setEnabled(false);
 
 					Explosion explosion = new Explosion(new Position(spaceShip.getPosition().getX(), spaceShip.getPosition().getY()), 
@@ -300,7 +323,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			for(int x=0;x<enemies.get(i).getShots().size();x++) {
 				collision = new Collision(spaceShip,enemies.get(i).getShots().get(x),Collision.RECTANGLE_DETECTION);
 				if(collision.detect() && ((int) System.currentTimeMillis()-lastCheckFire > 500)) {
-					enemies.get(i).damageDone(spaceShip);
+					if(!spaceShip.isProtected()){
+						enemies.get(i).damageDone(spaceShip);
+					}
 					enemies.get(i).getShots().remove(x);
 					lastCheckFire=(int) System.currentTimeMillis();
 
@@ -320,7 +345,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			if(!enemies.get(i).isDead()) {
 				collision = new Collision(spaceShip,enemies.get(i),Collision.RECTANGLE_DETECTION);
 				if(collision.detect()){
-					spaceShip.damageShip(20);
+					if(!spaceShip.isProtected()){	
+						spaceShip.damageShip(20);
+					}
 					enemies.get(i).setEnabled(false);
 					enemies.get(i).setDead(true);
 
@@ -389,6 +416,15 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 
 
+		for(int i = 0; i < bonus.size(); i++){
+			if(bonus.get(i).isAvailable()){
+				collision = new Collision(spaceShip,bonus.get(i),Collision.RECTANGLE_DETECTION);
+				if(collision.detect()){
+					bonus.get(i).performAction(spaceShip);
+				}
+			}
+		}
+
 
 		/* BOOOOSSSSSSS ***/
 		if(boss!=null){
@@ -396,7 +432,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				showingWinMessage = true;
 				levelEnded = true;
 			}
-			
+
 			// Check collision with boss
 			for(int i=0;i<spaceShip.getShots().size();i++){
 				if(spaceShip.getShots().get(i).getEnabled()==true)
@@ -428,9 +464,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			if(!spaceShip.getDead()){
 				collision = new Collision(spaceShip,boss,Collision.RECTANGLE_DETECTION);
 				if(collision.detect()){
-					spaceShip.setLife(0);
+					if(!spaceShip.isProtected()){
+						spaceShip.setLife(0);
+						spaceShip.setDead(true);
+					}
 					boss.damageTaken(30);
-					spaceShip.setDead(true);
 					Explosion explosion = new Explosion(new Position(spaceShip.getPosition().getX(), spaceShip.getPosition().getY()), 
 							new SpriteSheet(Explosion.LOCATION,
 									new Dimension(Explosion.SPRITE_WIDTH/Explosion.SPRITE_COLS, Explosion.SPRITE_HEIGTH),
@@ -443,7 +481,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			for(int x=0;x<boss.getShots().size();x++) {
 				collision = new Collision(spaceShip, boss.getShots().get(x),Collision.RECTANGLE_DETECTION);
 				if(collision.detect() && ((int) System.currentTimeMillis()-lastCheckFire > 500)) {
-					boss.damageDone(spaceShip);
+					if(!spaceShip.isProtected()){	
+						boss.damageDone(spaceShip);
+					}
 					boss.getShots().remove(x);
 					lastCheckFire=(int) System.currentTimeMillis();
 
@@ -515,6 +555,10 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		for(int i = 0; i < explosions.size(); i++){
 			if(explosions.get(i).isEnabled())
 				explosions.get(i).draw(g);
+		}
+
+		for(int i = 0; i < bonus.size();i++){
+			bonus.get(i).draw(g);
 		}
 
 		spaceShip.draw(g);
@@ -609,8 +653,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			break;
 		}
 	}
-	
-	
+
+
 	/**
 	 * As the name says updates the Position according to the key events.
 	 * Allows the user to use one more key at a time.
@@ -671,17 +715,32 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 	}
 
+	public void addBonus(){
+		Random rand = new Random();
+
+		if(rand.nextInt(100) >70){
+			Life lifeBonus = new Life(new Position(rand.nextInt(SpaceInvadersGame.WIDTH - 30), rand.nextInt(SpaceInvadersGame.HEIGHT - 30))
+			, new SpriteSheet(Bonus.LIFE_LOCATION, new Dimension(24,24), 1, 1));
+			bonus.add(lifeBonus);
+		}
+		else{
+			Protection protectionBonus = new Protection(new Position(rand.nextInt(SpaceInvadersGame.WIDTH - 30), rand.nextInt(SpaceInvadersGame.HEIGHT - 30))
+			, new SpriteSheet(Bonus.PROTECTION_LOCATION, new Dimension(24,24), 1, 1));
+			bonus.add(protectionBonus);
+		}
+	}
+
 	public void startBoss(){
 		atBoss = true;
 		if(level == 1){
 			boss = new Boss(new Position(10, 10), new SpriteSheet(Boss.BOSS1_LOCATION, 
-				new Dimension(224, 128), 1, 1));
+					new Dimension(224, 128), 1, 1));
 
 			boss.setLife(100);
 		}
 		else{
 			boss = new Boss(new Position(10, 10), new SpriteSheet(Boss.BOSS2_LOCATION, 
-				new Dimension(194, 103), 1, 1));
+					new Dimension(194, 103), 1, 1));
 			boss.setLife(1000);
 		}
 		boss.setPosition(new Position(SpaceInvadersGame.WIDTH/3, 10));

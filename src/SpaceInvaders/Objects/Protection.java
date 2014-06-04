@@ -25,5 +25,18 @@ public class Protection extends Bonus {
 	public Protection(Position position, SpriteSheet sprite, int duration) {
 		super(position, sprite, duration, Bonus.PROTECTION_BONUS);
 	}
+	
+	public void checkAvailable(){
+		if((int)System.currentTimeMillis() - initialTime >= 1000*PROTECTION_DURATION){
+			available=false;
+		}
+	}
+	
+	
+	public void performAction(SpaceShip ship){
+		ship.setProtection(true);
+		available=false;
+	}
+
 
 }

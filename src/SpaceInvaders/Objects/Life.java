@@ -8,6 +8,9 @@ import Sprite.SpriteSheet;
  * @author josemiguelmelo
  */
 public class Life extends Bonus{
+	
+	public int lifeBonus = 25;
+	
 	/**
 	 * Life constructor.
 	 * @param position Position on screen.
@@ -24,6 +27,18 @@ public class Life extends Bonus{
 	 */
 	public Life(Position position, SpriteSheet sprite) {
 		super(position, sprite, Bonus.LIFE_DURATION, Bonus.LIFE_BONUS);
+	}
+	
+	
+	public void checkAvailable(){
+		if((int)System.currentTimeMillis() - initialTime >= 1000*LIFE_DURATION){
+			available=false;
+		}
+	}
+
+	public void performAction(SpaceShip ship){
+		ship.setLife(ship.getLife() + lifeBonus);
+		available=false;
 	}
 
 }

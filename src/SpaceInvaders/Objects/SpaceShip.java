@@ -29,6 +29,11 @@ public class SpaceShip extends SpaceObject{
 	private int points;
 	/** Array list with all shots fired */
 	private ArrayList<Shot> shots;
+	
+	private boolean protection;
+	
+	public SpriteSheet protectionSprite;
+	private int protectionIniTime;
 
 	/**
 	 * SpaceShip class constructor. Space ship life and points set to its default values (INITIAL_LIFE and INITIAL_POINTS).
@@ -44,6 +49,22 @@ public class SpaceShip extends SpaceObject{
 		this.shots = new ArrayList<Shot>();
 		this.velocityX = 5;
 		this.velocityY = 5;
+		this.protection = false;
+		
+		this.protectionSprite = new SpriteSheet("/Sprites/protectionLayer.png", new Dimension(36,44), 1, 1);
+		protectionSprite.loadSprite();
+	}
+	
+	public boolean isProtected(){ return protection;}
+	public void setProtection(boolean protection){ 
+		this.protection = protection;
+		if(this.protection)
+			protectionIniTime = (int)System.currentTimeMillis();
+	}
+	
+	public void checkProtection(){
+		if((int)System.currentTimeMillis() - protectionIniTime >= Bonus.PROTECTION_DURATION*1000)
+			this.protection=false;
 	}
 	
 	/**
@@ -111,6 +132,8 @@ public class SpaceShip extends SpaceObject{
 	 */
 	@Override
 	public void draw(Graphics g) {
+		if(isProtected())
+			protectionSprite.getSpriteAt(0, 0).paint(g, position);
 		super.draw(g);
 		for(int i = 0; i< shots.size(); i++){
 			if(shots.get(i).getPosition().getY() < 0) {

@@ -17,10 +17,18 @@ public class Bonus extends SpaceObject {
 	/** Protection bonus type representation */
 	public static final int PROTECTION_BONUS = 2;
 	
+
+	public static final String LIFE_LOCATION = "/Sprites/lifeBonus.png";
+
+	public static final String PROTECTION_LOCATION = "/Sprites/protectionBonus.png";
+	
 	/** Bonus type */
 	protected int type;
 	/** Bonus duration in seconds */
 	protected int duration;
+	
+	protected boolean available;
+	protected int initialTime;
 	
 	/**
 	 * Bonus constructor
@@ -33,7 +41,10 @@ public class Bonus extends SpaceObject {
 		super(position, sprite);
 		this.duration=duration;
 		this.type=type;
+		this.available = true;
+		this.initialTime = (int)System.currentTimeMillis();
 	}
+	
 	/**
 	 * Bonus default constructor. Duration set to life default duration (LIFE_DURATION).
 	 * Type set to life bonus type (LIFE_BONUS).
@@ -63,4 +74,12 @@ public class Bonus extends SpaceObject {
 	 * @return Bonus type.
 	 */
 	public int getType(){return this.type;}
+	
+
+	public boolean isAvailable(){return this.available;}
+	
+	public void checkAvailable(){
+		
+	}
+	public void performAction(SpaceShip ship){}
 }

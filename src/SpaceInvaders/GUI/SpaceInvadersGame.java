@@ -111,7 +111,8 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 					if((int) System.currentTimeMillis() - lastTimeRock >=1000 ){
 						lastTimeRock = (int) System.currentTimeMillis();
 						if(!spaceInvadersPanel.isAtBoss());
-						spaceInvadersPanel.addRock();	
+						spaceInvadersPanel.addRock();
+						spaceInvadersPanel.addBonus();
 
 					}
 
