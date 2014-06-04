@@ -65,6 +65,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private int lastShotTime;
 	private int current;
 	private int lastCheckFire;
+	private int lastLazerFire;
 
 
 	private ArrayList<Position> starPosition = new ArrayList<Position>();
@@ -375,8 +376,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 						if(collision.detect()){
 							spaceShip.increasePoints(10);
 							rocks.get(j).setEnabled(false);
-							spaceShip.getShots().get(i).setEnable(false);
-
+							if(spaceShip.getShots().get(i).getType() != Shot.TYPE_LASER)
+								spaceShip.getShots().get(i).setEnable(false);
 
 							Explosion explosion = new Explosion(new Position(rocks.get(j).getPosition().getX(), rocks.get(j).getPosition().getY()), 
 									new SpriteSheet(Explosion.LOCATION,
@@ -398,7 +399,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 						if(collision.detect()){
 							spaceShip.increasePoints(10);
 							enemies.get(j).setDead(true);
-							spaceShip.getShots().get(i).setEnable(false);
+							if(spaceShip.getShots().get(i).getType() != Shot.TYPE_LASER)
+								spaceShip.getShots().get(i).setEnable(false);
 
 
 							Explosion explosion = new Explosion(new Position(enemies.get(j).getPosition().getX(), enemies.get(j).getPosition().getY()), 
@@ -445,8 +447,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 							if(spaceShip.getShots().get(i).getType() == Shot.TYPE_NORMAL)
 								boss.damageTaken(20);
-
-							spaceShip.getShots().get(i).setEnable(false);
+							
+							if(spaceShip.getShots().get(i).getType() != Shot.TYPE_LASER)
+								spaceShip.getShots().get(i).setEnable(false);
 
 
 							Explosion explosion = new Explosion(new Position(spaceShip.getShots().get(i).getPosition().getX(), spaceShip.getShots().get(i).getPosition().getY()), 
@@ -506,7 +509,9 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 					collision = new Collision(spaceShip.getShots().get(i), boss.getShots().get(x),Collision.RECTANGLE_DETECTION);
 					if(collision.detect() && ((int) System.currentTimeMillis()-lastCheckFire > 500)) {
 						boss.getShots().get(x).setEnable(false);
-						spaceShip.getShots().get(i).setEnable(false);
+						
+						if(spaceShip.getShots().get(i).getType() != Shot.TYPE_LASER)
+							spaceShip.getShots().get(i).setEnable(false);
 
 						Explosion explosion = new Explosion(new Position(spaceShip.getShots().get(i).getPosition().getX(), spaceShip.getShots().get(i).getPosition().getY()), 
 								new SpriteSheet(Explosion.LOCATION,
@@ -575,10 +580,12 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 				g.setFont(new Font("lifeFont", Font.BOLD, bossTextSize));
 				g.drawString(WIN_MESSAGE, SpaceInvadersGame.WIDTH/2 - 240, SpaceInvadersGame.HEIGHT/2);
 			}
-			boss.draw(g);
-			g.setColor(Color.RED);
-			g.setFont(new Font("lifeFont", Font.BOLD, lifeTextSize));
-			g.drawString("Boss Life: " + boss.getLife(), getWidth()-200, 120);
+			if(boss != null){
+				boss.draw(g);
+				g.setColor(Color.RED);
+				g.setFont(new Font("lifeFont", Font.BOLD, lifeTextSize));
+				g.drawString("Boss Life: " + boss.getLife(), getWidth()-200, 120);
+			}	
 		}
 
 		g.setColor(Color.WHITE);
@@ -621,15 +628,17 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			keysPressed.set(3, true);
 			break;
 		case KeyEvent.VK_SPACE:
-			if(((int) System.currentTimeMillis() - lastShotTime) > 200) {
+			if(((int) System.currentTimeMillis() - lastShotTime) >= 200) {
 				lastShotTime = (int) System.currentTimeMillis();
 				spaceShip.addShot(1);
 			}
+			break;
 		case KeyEvent.VK_Z:
-			if(((int) System.currentTimeMillis() - lastShotTime) > 2000) {
-				lastShotTime = (int) System.currentTimeMillis();
+			if(((int) System.currentTimeMillis() - lastLazerFire) >= 10000) {
+				lastLazerFire = (int) System.currentTimeMillis();
 				spaceShip.addShot(2);
 			}
+			break;
 		default:
 			break;
 		}
@@ -657,7 +666,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 
 	/**
-	 * As the name says updates the Position according to the key eventsz.
+	 * As the name says updates the Position according to the key events.
 	 * Allows the user to use one more key at a time.
 	 */
 	private void updatePositions() {

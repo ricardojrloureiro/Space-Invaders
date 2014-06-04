@@ -156,8 +156,8 @@ public class Shot extends SpaceObject{
                         if ((int) System.currentTimeMillis() - shotFired >= 3000){
                             this.enabled=false;
                         } else {
-                            this.getPosition().setX(spaceShip.getPosition().getX()+10);
-                            this.getPosition().setY(spaceShip.getPosition().getY()-40);
+                            this.getPosition().setX(spaceShip.getPosition().getX()+6);
+                            this.getPosition().setY(spaceShip.getPosition().getY()-100);
                         }
                     }
                         break;
