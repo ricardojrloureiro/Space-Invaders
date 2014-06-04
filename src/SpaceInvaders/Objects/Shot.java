@@ -15,7 +15,7 @@ public class Shot extends SpaceObject{
 	public static final int TYPE_NORMAL = 1;
 	/** Shot laser type */
 	public static final int TYPE_LASER = 2;
-	public static final int BOSS_SHOT_TIME = 2000;
+	public static final int BOSS_SHOT_TIME = 4000;
 
 	public static String LOCATION = "/Sprites/shot.png";
 

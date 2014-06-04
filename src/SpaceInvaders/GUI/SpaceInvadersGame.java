@@ -103,8 +103,6 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 				}
 			}
 
-
-
 			//Add rocks - working
 			if(spaceInvadersPanel.isVisible() && !spaceInvadersPanel.getSpaceShip().getDead()){
 				if(!spaceInvadersPanel.getSpaceShip().getDead()){

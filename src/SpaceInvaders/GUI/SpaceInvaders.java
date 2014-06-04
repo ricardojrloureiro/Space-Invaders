@@ -182,11 +182,11 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		
 		
 		Iterator<Bonus> iterBonus = bonus.iterator();
-		/* remove bonus */
+		for(int i =0; i< bonus.size(); i++){
+			bonus.get(i).checkAvailable();
+		}
 		while(iterBonus.hasNext()){
-			Bonus bonus = iterBonus.next();
-			bonus.checkAvailable();
-			if(!bonus.isAvailable())
+			if(!iterBonus.next().isAvailable())
 				iterBonus.remove();
 			if(iterBonus.hasNext())
 				iterBonus.next();
@@ -558,7 +558,8 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		}
 
 		for(int i = 0; i < bonus.size();i++){
-			bonus.get(i).draw(g);
+			if(bonus.get(i).isAvailable())
+				bonus.get(i).draw(g);
 		}
 
 		spaceShip.draw(g);
