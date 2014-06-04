@@ -122,9 +122,8 @@ public class SpaceShip extends SpaceObject{
         } else {
             shots.add(new Shot(new Position(position.getX(), position.getY()),
                     new SpriteSheet("/Sprites/leBigLazer.png", new Dimension(10,40),1,1),
-                    10,Shot.TYPE_LASER,false,"",1));
+                    10,Shot.TYPE_LASER,false,"/Sprites/leBigLazer.png",1));
         }
-
 	}
 
 	/**

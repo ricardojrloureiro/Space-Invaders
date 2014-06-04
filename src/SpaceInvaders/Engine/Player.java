@@ -35,15 +35,15 @@ public class Player extends Thread{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		try {
+		/*try {
 			Clip clip = AudioSystem.getClip();
-			clip.open(audioStream);
+   			clip.open(audioStream);
 			clip.start();
 
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

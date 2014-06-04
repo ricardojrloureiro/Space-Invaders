@@ -656,7 +656,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 
 
 	/**
-	 * As the name says updates the Position according to the key events.
+	 * As the name says updates the Position according to the key eventsz.
 	 * Allows the user to use one more key at a time.
 	 */
 	private void updatePositions() {
@@ -776,6 +776,4 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		spaceShip.setLife(SpaceShip.INITIAL_LIFE);
 		spaceShip.getShots().clear();
 	}
-
-
 }

@@ -150,7 +150,23 @@ public class Shot extends SpaceObject{
 					this.enabled = false;
 			}
 			else{
-				moveUp();
+                /* spaceship fires*/
+                switch (type){
+                    case TYPE_LASER: {
+                        if ((int) System.currentTimeMillis() - shotFired >= 3000){
+                            this.enabled=false;
+                        } else {
+                            this.getPosition().setX(spaceShip.getPosition().getX()+10);
+                            this.getPosition().setY(spaceShip.getPosition().getY()-40);
+                        }
+                    }
+                        break;
+                    case TYPE_NORMAL:
+                        moveUp();
+                        break;
+                    default:
+                        break;
+                 }
 			}
 		}
 	}
