@@ -17,15 +17,15 @@ public class Player extends Thread{
 
 	public Player(String location){
 		this.location = location;
-		
+
 	}
 	public void run(){
-		
+
 		//read audio data from whatever source (file/classloader/etc.)
 		InputStream audioSrc = getClass().getResourceAsStream(location);
 		//add buffer for mark/reset support
 		InputStream bufferedIn = new BufferedInputStream(audioSrc);
-		
+
 		try {
 
 			audioStream = AudioSystem.getAudioInputStream(bufferedIn);
@@ -35,15 +35,15 @@ public class Player extends Thread{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		/*try {
+		try {
 			Clip clip = AudioSystem.getClip();
-   			clip.open(audioStream);
+			clip.open(audioStream);
 			clip.start();
 
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 }
