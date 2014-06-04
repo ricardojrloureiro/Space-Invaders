@@ -34,6 +34,8 @@ public class Enemy extends SpaceObject {
     /** Enemy Shots */
     protected ArrayList<Shot> shots;
 
+    
+    
     /**
      * Enemy default constructor. Enemy type set to its default value -> NORMAL
      * @param position Enemy position on screen.
@@ -104,21 +106,7 @@ public class Enemy extends SpaceObject {
     }
 
     public void damageDone(SpaceShip spaceShip) {
-        switch(type) {
-            case DESTROYER:{
-                spaceShip.damageShip(100);
-            }
-            break;
-            case SUICIDAL:{
-                spaceShip.damageShip(100);
-            }
-            break;
-            case FIRESHOOTER:{
-                spaceShip.damageShip(10);
-            }
-            break;
-
-        }
+       
     }
 
     public void addShot(int type) {

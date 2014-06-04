@@ -23,6 +23,11 @@ public class Destroyer extends Enemy {
 	}
 	
 	@Override
+	public void damageDone(SpaceShip spaceShip) {
+		spaceShip.damageShip(16);
+	}
+	
+	@Override
 	public void move(SpaceShip spaceShip){
 		moveDown();
 	}

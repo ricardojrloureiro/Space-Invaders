@@ -25,6 +25,11 @@ public class Suicidal extends Enemy {
 	}
 	
 	@Override
+	public void damageDone(SpaceShip spaceShip) {
+        spaceShip.damageShip(20);
+	}
+	
+	@Override
 	public void move(SpaceShip spaceShip){
 		moveDown();
         if(getPosition().getY() < spaceShip.getPosition().getY()) {

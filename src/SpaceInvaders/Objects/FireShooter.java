@@ -23,6 +23,11 @@ public class FireShooter extends Enemy{
         this.velocityY = 1;
         
     }
+    
+    @Override
+	public void damageDone(SpaceShip spaceShip) {
+        spaceShip.damageShip(10);
+	}
 
     public void move(SpaceShip spaceShip){
     	  if((int)System.currentTimeMillis() - times.get(1) > 800){

@@ -17,7 +17,11 @@ public class SpaceObject implements Drawable, Movable {
 	/** Position in sprite to draw */
 	protected Position spritePosition;
 	
-	protected int velocityX, velocityY;
+	protected int velocityX = 1;
+	protected int velocityY = 1;
+	
+	protected boolean enabled;
+    
 	
 	/**
 	 * Object constructor.
@@ -46,6 +50,22 @@ public class SpaceObject implements Drawable, Movable {
 	 * @param sprite Object sprite representation.
 	 */
 	public void setSprite(SpriteSheet sprite){this.sprite = sprite;}
+	
+	public void setVelocity(int x , int y){
+		this.velocityX = x;
+		this.velocityY = y;
+	}
+	
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 	
 	/**
 	 * @param g Graphics to draw image

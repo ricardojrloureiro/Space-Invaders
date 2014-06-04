@@ -148,4 +148,14 @@ public class SpaceShip extends SpaceObject{
 	public void increasePoints(int points){
         this.points += points;
     }
+	
+	public void reset(){
+		this.life=INITIAL_LIFE;
+		this.dead = false;
+		this.points=INITIAL_POINTS;
+		this.spritePosition = new Position(1,0);
+		this.shots.clear();
+		this.velocityX = 5;
+		this.velocityY = 5;
+	}
 }

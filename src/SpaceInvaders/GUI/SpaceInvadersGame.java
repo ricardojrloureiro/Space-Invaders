@@ -18,7 +18,7 @@ import SpaceInvaders.Objects.Enemy;
 public class SpaceInvadersGame extends Thread implements Runnable{
 
 	/** Preferred Window Width */
-	public static final int WIDTH = 900;
+	public static final int WIDTH = 1000;
 	/** Preferred Window Height */
 	public static final int HEIGHT = 750;
 	/** Option menu integer representation */
@@ -58,6 +58,9 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 	private int lastTime;
 	private int lastTimeEnemy;
 	private int lastTimeRock;
+	private int initialTime;
+
+	private int timeToBoss;
 
 	/**
 	 * Run thread
@@ -66,25 +69,65 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		lastTimeEnemy = (int) System.currentTimeMillis();
 		lastTimeRock = (int) System.currentTimeMillis();
 		lastTime = (int) System.currentTimeMillis();
-		
+		initialTime = (int) System.currentTimeMillis();
+
 		while(running){
-            //Add rocks - working
-		   if((int) System.currentTimeMillis() - lastTimeRock >=1500 ){
-				lastTimeRock = (int) System.currentTimeMillis();
-				spaceInvadersPanel.addRock();	
+			if(spaceInvadersPanel.getLevel() == 1)
+				timeToBoss = 2000;
+			else
+				timeToBoss = 90000;
+
+			if((int) System.currentTimeMillis() - initialTime >= timeToBoss){
+				if(!spaceInvadersPanel.isAtBoss()){
+					spaceInvadersPanel.startBoss();
+					initialTime = (int) System.currentTimeMillis();
+				}
 			}
-		   
-			if((int) System.currentTimeMillis() - lastTimeEnemy >= 5000) {
-                Random rand = new Random();
-                lastTimeEnemy = (int) System.currentTimeMillis();
-                if(rand.nextInt(10) > 2)
-				   spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
-				if(rand.nextInt(10) > 2)
-                    spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
-                if(rand.nextInt(10) > 2)
-                    spaceInvadersPanel.addEnemy(Enemy.FIRESHOOTER);
+
+			if(spaceInvadersPanel.isAtBoss() && !spaceInvadersPanel.isShowingBossMessage() && !spaceInvadersPanel.isShowingWinMessage()){
+				initialTime = (int) System.currentTimeMillis() ;
 			}
-			
+			if(spaceInvadersPanel.isShowingBossMessage())
+				if((int) System.currentTimeMillis() - initialTime >= 1500)
+					spaceInvadersPanel.setShowingBossMessage(false);
+
+			if(spaceInvadersPanel.isShowingWinMessage()){
+				if((int) System.currentTimeMillis() - initialTime >= 2000){
+					spaceInvadersPanel.setShowingWinMessage(false);
+					spaceInvadersPanel.levelUp();
+
+					lastTimeEnemy = (int) System.currentTimeMillis();
+					lastTimeRock = (int) System.currentTimeMillis();
+					lastTime = (int) System.currentTimeMillis();
+					initialTime = (int) System.currentTimeMillis();
+				}
+			}
+
+
+
+			//Add rocks - working
+			if(spaceInvadersPanel.isVisible() && !spaceInvadersPanel.getSpaceShip().getDead()){
+				if(!spaceInvadersPanel.getSpaceShip().getDead()){
+					if((int) System.currentTimeMillis() - lastTimeRock >=1000 ){
+						lastTimeRock = (int) System.currentTimeMillis();
+						if(!spaceInvadersPanel.isAtBoss());
+						spaceInvadersPanel.addRock();	
+
+					}
+
+					if((int) System.currentTimeMillis() - lastTimeEnemy >= 1000) {
+						Random rand = new Random();
+						lastTimeEnemy = (int) System.currentTimeMillis();
+						if(rand.nextInt(100) <= 60)
+							spaceInvadersPanel.addEnemy(Enemy.DESTROYER);
+						if(rand.nextInt(100) > 60)
+							spaceInvadersPanel.addEnemy(Enemy.SUICIDAL);
+						if(rand.nextInt(100) < 30)
+							spaceInvadersPanel.addEnemy(Enemy.FIRESHOOTER);
+					}
+				}
+			}
+
 			if( ((int) System.currentTimeMillis() - lastTime) >= 1000/60) {
 
 				if(this.mainMenu.isVisible()){
@@ -93,10 +136,13 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 					this.optionMenu.repaint();
 				}else{
 					this.spaceInvadersPanel.repaint();
-					spaceInvadersPanel.moveObjects();
+					if(!spaceInvadersPanel.isLevelEnded())
+						if(!spaceInvadersPanel.getSpaceShip().getDead())
+							spaceInvadersPanel.moveObjects();
 				}
 				lastTime=(int) System.currentTimeMillis();
 			}
+
 		}
 		window.dispose();
 	}
@@ -140,7 +186,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		BufferedImage mainBackground = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
 		try{
-		mainBackground = ImageIO.read(getClass().getResourceAsStream(mainBackgroundLocation));
+			mainBackground = ImageIO.read(getClass().getResourceAsStream(mainBackgroundLocation));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -158,7 +204,7 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 
 		//window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		window.setSize(WIDTH, HEIGHT);
-		
+
 		window.setResizable(false);
 		window.setVisible(true);
 	}

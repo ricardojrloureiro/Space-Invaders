@@ -15,20 +15,23 @@ public class Shot extends SpaceObject{
 	public static final int TYPE_NORMAL = 1;
 	/** Shot laser type */
 	public static final int TYPE_LASER = 2;
+	public static final int BOSS_SHOT_TIME = 2000;
 
-	
 	public static String LOCATION = "/Sprites/shot.png";
 
 	public static int SPRITE_DIMENSION = 18;
 	public boolean enemyFire;
+	public boolean bossFire;
 	/** Life it takes from the object that collides with it */
 	private int lifeTake;
 	/** Shot type */
 	private int type;
 	private boolean enabled;
 	private int shotFired;
-	
+
 	private final int velocity = 5;
+	
+	private int initialTime;
 
 	/**
 	 * Shot class default constructor. Type set to its default value -> TYPE_NORMAL.
@@ -44,6 +47,8 @@ public class Shot extends SpaceObject{
 		this.enabled=true;
 		this.velocityX = velocity;
 		this.velocityY = velocity;
+		
+		this.initialTime = (int)System.currentTimeMillis();
 	}
 	/**
 	 * Shot class constructor.
@@ -60,6 +65,7 @@ public class Shot extends SpaceObject{
 		this.enabled=true;
 		this.velocityX = velocity;
 		this.velocityY = velocity;
+		this.initialTime = (int)System.currentTimeMillis();
 	}
 
 	/**
@@ -83,6 +89,7 @@ public class Shot extends SpaceObject{
 		this.shotFired = (int) System.currentTimeMillis();
 		this.velocityX = velocity;
 		this.velocityY = velocity;
+		this.initialTime = (int)System.currentTimeMillis();
 	}
 
 	/**
@@ -110,15 +117,41 @@ public class Shot extends SpaceObject{
 	 */
 	public int getType(){ return this.type;}
 
-	
-	public void move(){
-		if(enemyFire==true){
-			moveDown();
-			if(getPosition().getY() <= 0 || getPosition().getY() >= SpaceInvadersGame.HEIGHT)
-				this.enabled = false;
+
+	public void setBossFire(boolean bossFire){ this.bossFire = bossFire;}
+	public boolean isBossFire(){ return this.bossFire;}
+
+	public void move(SpaceShip spaceShip){
+
+		if(bossFire){
+			if((int)System.currentTimeMillis() - initialTime >= BOSS_SHOT_TIME)
+				this.enabled=false;
+			this.velocityX = 3;
+			this.velocityY = 3;
+			if(spaceShip.getPosition().getY() > getPosition().getY())
+				moveDown();
+
+			if(spaceShip.getPosition().getY() < getPosition().getY())
+				moveUp();
+			
+			if(spaceShip.getPosition().getX()  > getPosition().getX()){
+				moveRight();
+			}
+			
+			if(spaceShip.getPosition().getX()  < getPosition().getX()){
+				moveLeft();
+			}
+
 		}
 		else{
-			moveUp();
+			if(enemyFire==true){
+				moveDown();
+				if(getPosition().getY() <= 0 || getPosition().getY() >= SpaceInvadersGame.HEIGHT)
+					this.enabled = false;
+			}
+			else{
+				moveUp();
+			}
 		}
 	}
 	/**
