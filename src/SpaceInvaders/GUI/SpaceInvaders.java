@@ -636,13 +636,13 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		case KeyEvent.VK_SPACE:
 			if(((int) System.currentTimeMillis() - lastShotTime) >= 200) {
 				lastShotTime = (int) System.currentTimeMillis();
-				spaceShip.addShot(Shot.TYPE_NORMAL,spaceShip);
+				spaceShip.addShot(Shot.TYPE_NORMAL);
 			}
 			break;
 		case KeyEvent.VK_Z:
 			if(((int) System.currentTimeMillis() - lastLazerFire) >= 4000) {
 				lastLazerFire = (int) System.currentTimeMillis();
-				spaceShip.addShot(Shot.TYPE_LASER,spaceShip);
+				spaceShip.addShot(Shot.TYPE_LASER);
 			}
 			break;
 		default:

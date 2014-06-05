@@ -115,14 +115,14 @@ public class SpaceShip extends SpaceObject{
 	 */
 	public ArrayList<Shot> getShots(){ return this.shots; }
 
-	public void addShot(int type,SpaceShip spaceShip){
+	public void addShot(int type){
         if(type == 1){
             shots.add(new Shot(new Position(position.getX(), position.getY()),
                     new SpriteSheet( "/Sprites/shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1),
                     10));
         } else if(type==2){
-            if(spaceShip.getPosition().getY() < 600){
-                Ydimension =spaceShip.getPosition().getY();
+            if(getPosition().getY() < 600){
+                Ydimension =getPosition().getY();
             } else {
                 Ydimension=600;
             }
