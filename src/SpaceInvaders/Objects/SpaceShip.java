@@ -34,6 +34,7 @@ public class SpaceShip extends SpaceObject{
 	
 	public SpriteSheet protectionSprite;
 	private int protectionIniTime;
+    protected int Ydimension;
 
 	/**
 	 * SpaceShip class constructor. Space ship life and points set to its default values (INITIAL_LIFE and INITIAL_POINTS).
@@ -114,14 +115,20 @@ public class SpaceShip extends SpaceObject{
 	 */
 	public ArrayList<Shot> getShots(){ return this.shots; }
 
-	public void addShot(int type){
+	public void addShot(int type,SpaceShip spaceShip){
         if(type == 1){
             shots.add(new Shot(new Position(position.getX(), position.getY()),
                     new SpriteSheet( "/Sprites/shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1),
                     10));
         } else if(type==2){
-            shots.add(new Shot(new Position(position.getX(), position.getY()),
-                    new SpriteSheet("/Sprites/leLazerEsReal.png", new Dimension(20,100),1,1),
+            if(spaceShip.getPosition().getY() < 600){
+                Ydimension =spaceShip.getPosition().getY();
+            } else {
+                Ydimension=600;
+            }
+
+            shots.add(new Shot(new Position(position.getX(),position.getY()),
+                    new SpriteSheet("/Sprites/leUltimatumLazer.png", new Dimension(20,Ydimension),1,1),
                     10,Shot.TYPE_LASER,false,"",1));
         }
 	}

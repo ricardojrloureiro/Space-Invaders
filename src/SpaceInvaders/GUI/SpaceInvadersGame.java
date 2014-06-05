@@ -72,8 +72,8 @@ public class SpaceInvadersGame extends Thread implements Runnable{
 		initialTime = (int) System.currentTimeMillis();
 
 		while(running){
-			if(spaceInvadersPanel.getLevel() == 1)
-				timeToBoss = 2000;
+           	if(spaceInvadersPanel.getLevel() == 1)
+				timeToBoss = 20000;
 			else
 				timeToBoss = 90000;
 

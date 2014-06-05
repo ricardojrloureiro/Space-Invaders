@@ -13,10 +13,7 @@ public class Explosion implements Drawable{
 	public static final int SPRITE_WIDTH = 557;
 	public static final int SPRITE_HEIGTH = 69;
 	public static final int SPRITE_COLS = 6;
-	
-	
-	
-	
+
 	private SpriteSheet sprite;
 	private double duration;
 	private Position position;
@@ -42,9 +39,6 @@ public class Explosion implements Drawable{
 		sprite.loadSprite();
 		Player player = new Player("/Sounds/explosion.wav");
 		player.run();
-		
-		
-		
 	}
 	/**
 	 * @param position Explosion position in screen
@@ -123,6 +117,4 @@ public class Explosion implements Drawable{
 			disable();
 		}
 	}
-
-	
 }

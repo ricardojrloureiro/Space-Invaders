@@ -66,6 +66,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 	private int current;
 	private int lastCheckFire;
 	private int lastLazerFire;
+    private int lastLaserDamage;
 
 
 	private ArrayList<Position> starPosition = new ArrayList<Position>();
@@ -100,6 +101,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		lastTime=time;
 		current=time;
 		lastCheckFire=time;
+        lastLaserDamage=time;
 		keysPressed = new ArrayList<Boolean>();
 		for(int i=0;i<4;i++){
 			keysPressed.add(false);
@@ -442,8 +444,12 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 						collision = new Collision(spaceShip.getShots().get(i),boss,Collision.RECTANGLE_DETECTION);
 						if(collision.detect()){
 							spaceShip.increasePoints(20);
-							if(spaceShip.getShots().get(i).getType() == Shot.TYPE_LASER)
-								boss.damageTaken(60);
+							if(spaceShip.getShots().get(i).getType() == Shot.TYPE_LASER &&
+                                    (int) System.currentTimeMillis() - lastLaserDamage >= 100){
+                                lastLaserDamage = (int) System.currentTimeMillis();
+                                boss.damageTaken(60);
+                            }
+
 
 							if(spaceShip.getShots().get(i).getType() == Shot.TYPE_NORMAL)
 								boss.damageTaken(20);
@@ -630,13 +636,13 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 		case KeyEvent.VK_SPACE:
 			if(((int) System.currentTimeMillis() - lastShotTime) >= 200) {
 				lastShotTime = (int) System.currentTimeMillis();
-				spaceShip.addShot(1);
+				spaceShip.addShot(Shot.TYPE_NORMAL,spaceShip);
 			}
 			break;
 		case KeyEvent.VK_Z:
-			if(((int) System.currentTimeMillis() - lastLazerFire) >= 10000) {
+			if(((int) System.currentTimeMillis() - lastLazerFire) >= 4000) {
 				lastLazerFire = (int) System.currentTimeMillis();
-				spaceShip.addShot(2);
+				spaceShip.addShot(Shot.TYPE_LASER,spaceShip);
 			}
 			break;
 		default:
@@ -746,7 +752,7 @@ public class SpaceInvaders extends JPanel implements KeyListener{
 			boss = new Boss(new Position(10, 10), new SpriteSheet(Boss.BOSS1_LOCATION, 
 					new Dimension(224, 128), 1, 1));
 
-			boss.setLife(100);
+			boss.setLife(1000);
 		}
 		else{
 			boss = new Boss(new Position(10, 10), new SpriteSheet(Boss.BOSS2_LOCATION, 

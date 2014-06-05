@@ -44,8 +44,8 @@ public class SpaceShipTest {
 	public void checkShots() {
 		SpaceShip spaceShip = new SpaceShip(new Position(100,100),
 				new SpriteSheet(SpaceShip.LOCATION, new Dimension(96/3, 40),1,3));
-		spaceShip.addShot(1);
-		spaceShip.addShot(1);
+		spaceShip.addShot(1,spaceShip);
+		spaceShip.addShot(1,spaceShip);
 		assertEquals(2,spaceShip.getShots().size());
 	}
 	

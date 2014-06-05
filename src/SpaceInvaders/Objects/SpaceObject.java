@@ -1,6 +1,6 @@
 package SpaceInvaders.Objects;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 import Sprite.Position;
 import Sprite.SpriteSheet;
@@ -72,10 +72,9 @@ public class SpaceObject implements Drawable, Movable {
 	 */
 	@Override
 	public void draw(Graphics g) {
-		sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
+       	sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
 	}
-	
-	
+
 	@Override
 	public void moveLeft(){
 		this.position.setX(this.position.getX() - velocityX);
