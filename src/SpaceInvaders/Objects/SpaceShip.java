@@ -126,7 +126,6 @@ public class SpaceShip extends SpaceObject{
             } else {
                 Ydimension=600;
             }
-
             shots.add(new Shot(new Position(position.getX(),position.getY()),
                     new SpriteSheet("/Sprites/leUltimatumLazer.png", new Dimension(20,Ydimension),1,1),
                     10,Shot.TYPE_LASER,false,"",1));
