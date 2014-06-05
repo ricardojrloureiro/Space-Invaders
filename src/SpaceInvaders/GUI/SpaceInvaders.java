@@ -40,7 +40,7 @@ public class SpaceInvaders extends JPanel {
     public static final int lifeTextSize = 24;
     public static final int bossTextSize = 60;
 
-    static protected SpaceShip spaceShip;
+    private SpaceShip spaceShip;
     private ArrayList<Enemy> enemies;
     private Boss boss;
     private ArrayList<Rock> rocks;
@@ -57,15 +57,12 @@ public class SpaceInvaders extends JPanel {
     private static final int SPACESHIP_WIDTH = 96 / 3;
     private static final int SPACESHIP_HEIGHT = 40;
 
-    static protected int lastTime;
-    static protected int lastShotTime;
-    static protected int current;
-    static protected int lastCheckFire;
-    static protected int lastLaserFire;
-    static protected int lastLaserDamage;
-
-
-    private ArrayList<Position> starPosition = new ArrayList<Position>();
+    private int lastTime;
+    private int lastShotTime;
+    private int current;
+    private int lastCheckFire;
+    private int lastLaserFire;
+    private int lastLaserDamage;
 
     private Image mapImage;
     private String mapImageLocation = "/Sprites/background.jpg";
@@ -97,7 +94,7 @@ public class SpaceInvaders extends JPanel {
         this.explosions = new ArrayList<Explosion>();
 
         int time = (int) System.currentTimeMillis();
-        lastShotTime = time;
+        setLastShotTime(time);
         lastTime = time;
         current = time;
         lastCheckFire = time;
@@ -106,7 +103,7 @@ public class SpaceInvaders extends JPanel {
         for (int i = 0; i < 4; i++) {
             keysPressed.add(false);
         }
-        this.addKeyListener(new SpaceShipListener());
+        this.addKeyListener(new SpaceInvadersListener(this));
 
         try {
             mapImage = ImageIO.read(
@@ -148,6 +145,38 @@ public class SpaceInvaders extends JPanel {
     }
 
     /**
+	 * @return Last time shot was fired
+	 */
+	public int getLastShotTime() {
+		return lastShotTime;
+	}
+
+
+	/**
+	 * @param lastShotTime Last time shot was fired
+	 */
+	public void setLastShotTime(int lastShotTime) {
+		this.lastShotTime = lastShotTime;
+	}
+
+
+	/**
+	 * @return Last time laser was fired 
+	 */
+	public int getLastLaserFire() {
+		return lastLaserFire;
+	}
+
+
+	/**
+	 * @param lastLaserFire Last time laser was fired
+	 */
+	public void setLastLaserFire(int lastLaserFire) {
+		this.lastLaserFire = lastLaserFire;
+	}
+
+
+	/**
      * Set the panel as visible. Also request focus and set panel as focusable
      */
     public void setVisible() {
@@ -173,24 +202,6 @@ public class SpaceInvaders extends JPanel {
         return this.visible;
     }
 
-    private void drawStar(Graphics g) {
-        Random rand = new Random();
-        g.setColor(Color.WHITE);
-        if (current - lastTime >= 150) {
-            starPosition.clear();
-            for (int i = 0; i < (SpaceInvadersGame.WIDTH * SpaceInvadersGame.HEIGHT) / 5000; i++) {
-                int randomPositionX = rand.nextInt(SpaceInvadersGame.WIDTH * 2);
-                int randomPositionY = rand.nextInt(SpaceInvadersGame.HEIGHT * 2);
-                starPosition.add(new Position(randomPositionX, randomPositionY));
-                g.drawRoundRect(randomPositionX, randomPositionY, 3, 3, 3, 3);
-            }
-            lastTime = current;
-        } else {
-            for (int i = 0; i < starPosition.size(); i++) {
-                g.drawRoundRect(starPosition.get(i).getX(), starPosition.get(i).getY(), 3, 3, 3, 3);
-            }
-        }
-    }
 
     public boolean isAtBoss() {
         return this.atBoss;
@@ -566,10 +577,6 @@ public class SpaceInvaders extends JPanel {
         /* BACKGROUND DRAW */
         current = (int) System.currentTimeMillis();
 
-        //g.setColor(Color.BLACK);
-        //g.fillRect(0, 0, SpaceInvadersGame.WIDTH *2, SpaceInvadersGame.HEIGHT * 2);
-        //drawStar(g);
-
         g.drawImage(mapImage, 0, 0, SpaceInvadersGame.WIDTH, SpaceInvadersGame.HEIGHT, null);
 
         for (int i = 0; i < enemies.size(); i++) {
@@ -739,7 +746,7 @@ public class SpaceInvaders extends JPanel {
         boss = null;
         this.levelEnded = false;
         int time = (int) System.currentTimeMillis();
-        lastShotTime = time;
+        setLastShotTime(time);
         lastTime = time;
         current = time;
         lastCheckFire = time;

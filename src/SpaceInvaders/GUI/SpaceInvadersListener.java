@@ -1,15 +1,21 @@
 package SpaceInvaders.GUI;
 
-import SpaceInvaders.Objects.Shot;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import SpaceInvaders.Objects.Shot;
 
 /**
  * Created by ricardo on 05-06-2014.
  */
-public class SpaceShipListener implements KeyListener {
-
+public class SpaceInvadersListener implements KeyListener {
+	private SpaceInvaders spaceInvaders;
+	
+	
+	public SpaceInvadersListener(SpaceInvaders spaceInvaders){
+		this.spaceInvaders = spaceInvaders;
+	}
+	
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -30,16 +36,16 @@ public class SpaceShipListener implements KeyListener {
                 SpaceInvaders. keysPressed.set(3, true);
                 break;
             case KeyEvent.VK_SPACE: {
-                if (((int) System.currentTimeMillis() - SpaceInvaders.lastShotTime) >= 200) {
-                    SpaceInvaders.lastShotTime = (int) System.currentTimeMillis();
-                    SpaceInvaders.spaceShip.addShot(Shot.TYPE_NORMAL);
+                if (((int) System.currentTimeMillis() - spaceInvaders.getLastShotTime()) >= 200) {
+                    spaceInvaders.setLastShotTime((int) System.currentTimeMillis());
+                    spaceInvaders.getSpaceShip().addShot(Shot.TYPE_NORMAL);
                 }
             }
             break;
             case KeyEvent.VK_Z: {
-                if (((int) System.currentTimeMillis() - SpaceInvaders.lastLaserFire) >= 4000) {
-                    SpaceInvaders.lastLaserFire = (int) System.currentTimeMillis();
-                    SpaceInvaders.spaceShip.addShot(Shot.TYPE_LASER);
+                if (((int) System.currentTimeMillis() - spaceInvaders.getLastLaserFire()) >= 4000) {
+                    spaceInvaders.setLastLaserFire((int) System.currentTimeMillis());
+                    spaceInvaders.getSpaceShip().addShot(Shot.TYPE_LASER);
                 }
             }
             break;
