@@ -35,7 +35,7 @@ public class Player extends Thread{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		/*try {
+		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
@@ -44,6 +44,6 @@ public class Player extends Thread{
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 }
