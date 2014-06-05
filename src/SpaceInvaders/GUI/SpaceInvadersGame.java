@@ -87,7 +87,6 @@ public class SpaceInvadersGame extends Thread implements Runnable {
     private int lastTimeRock;
     private int initialTime;
     private int timeToBoss;
-    private boolean menuActive;
 
     /**
      * Run thread
@@ -184,8 +183,7 @@ public class SpaceInvadersGame extends Thread implements Runnable {
      * Creates window, main menu panel and option menu
      */
     public SpaceInvadersGame() {
-        this.menuActive = true;
-        this.running = false;
+        this.running = true;
 
         window = new Window("Space Invaders");
 
@@ -220,17 +218,16 @@ public class SpaceInvadersGame extends Thread implements Runnable {
         this.optionMenu = new OptionMenu(optionOptions, mainBackground, this);
         this.spaceInvadersPanel = new SpaceInvaders(this);
 
-        mainMenu.setVisible();
+       // mainMenu.setVisible();
 
-        window.getContentPane().add(mainMenu);
-        window.getContentPane().add(optionMenu);
+       // window.getContentPane().add(mainMenu);
+       // window.getContentPane().add(optionMenu);
         window.getContentPane().add(spaceInvadersPanel);
 
         spaceInvadersPanel.setVisible();
 
         //window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         window.setSize(WIDTH, HEIGHT);
-
         window.setResizable(false);
         window.setVisible(true);
     }

@@ -153,9 +153,8 @@ public class MainMenu extends JPanel implements KeyListener{
 		else if(e.getKeyCode() == KeyEvent.VK_ENTER){
 			switch(optionSelected){
 			case 0:
+                this.setInvisible();
 				break;
-				
-				
 			case SpaceInvadersGame.OPTION_MENU:
 				((SpaceInvadersGame)aboveThread).getOptionMenu().setVisible();
 				this.setInvisible();
