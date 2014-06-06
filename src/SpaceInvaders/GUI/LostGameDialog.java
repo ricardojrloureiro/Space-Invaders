@@ -56,18 +56,22 @@ public class LostGameDialog extends JPanel implements Drawable, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			visible = false;
 		
-		if(points > bestScore){
-			name = name + String.valueOf(e.getKeyChar());
-		}
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+			visible = false;
 		
+		if(points > bestScore){
+			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				name = name.substring(0, name.length()-1);
+			else
+				name = name + String.valueOf(e.getKeyChar());
+			
+		}
 	}
 
 }

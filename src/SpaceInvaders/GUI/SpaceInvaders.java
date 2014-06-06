@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ public class SpaceInvaders extends JPanel {
 	public static final int RIGHT = 3;
 
 	public static final int lifeTextSize = 24;
+	public static final int specialAttackTextSize = 18;
 	public static final int bossTextSize = 60;
 
 	private SpaceShip spaceShip;
@@ -563,7 +565,7 @@ public class SpaceInvaders extends JPanel {
 		}
 		updatePositions();
 		removeDeadObjects();
-
+		
 		if(spaceShip.getDead()){
 			lostGameDialog = new LostGameDialog(spaceShip.getPoints(), 0);
 			this.removeKeyListener(spaceInvaderListener);
@@ -628,6 +630,10 @@ public class SpaceInvaders extends JPanel {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("pointsFont", Font.BOLD, lifeTextSize));
 		g.drawString("Points: " + spaceShip.getPoints(), getWidth() - 200, 80);
+		
+		g.setColor(Color.ORANGE);
+		g.setFont(new Font("specialAttackFont", Font.BOLD, specialAttackTextSize));
+		g.drawString("Special Attack press " + KeyEvent.getKeyText(SpaceInvadersListener.LASER), 10, SpaceInvadersGame.HEIGHT-30);
 
 		spaceShip.draw(g);
 

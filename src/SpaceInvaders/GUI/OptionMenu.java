@@ -194,26 +194,26 @@ public class OptionMenu extends JPanel implements KeyListener{
 
 				if(options.get(optionSelected).equals("Move Up")){
 					lastKey=SpaceInvadersListener.UP;
-					SpaceInvadersListener.UP = KeyEvent.VK_UNDERSCORE;
+					SpaceInvadersListener.UP = KeyEvent.VK_INSERT;
 				}if(options.get(optionSelected).equals("Move Down")){
 					lastKey=SpaceInvadersListener.DOWN;
-					SpaceInvadersListener.DOWN = KeyEvent.VK_UNDERSCORE;
+					SpaceInvadersListener.DOWN = KeyEvent.VK_INSERT;
 				}
 				if(options.get(optionSelected).equals("Move Right")){
 					lastKey=SpaceInvadersListener.RIGHT;
-					SpaceInvadersListener.RIGHT = KeyEvent.VK_UNDERSCORE;
+					SpaceInvadersListener.RIGHT = KeyEvent.VK_INSERT;
 				}
 				if(options.get(optionSelected).equals("Move Left")){
 					lastKey=SpaceInvadersListener.LEFT;
-					SpaceInvadersListener.LEFT = KeyEvent.VK_UNDERSCORE;
+					SpaceInvadersListener.LEFT = KeyEvent.VK_INSERT;
 				}
 				if(options.get(optionSelected).equals("Fire")){
 					lastKey=SpaceInvadersListener.SHOT;
-					SpaceInvadersListener.SHOT = KeyEvent.VK_UNDERSCORE;
+					SpaceInvadersListener.SHOT = KeyEvent.VK_INSERT;
 				}
 				if(options.get(optionSelected).equals("Special Attack")){
 					lastKey=SpaceInvadersListener.LASER;
-					SpaceInvadersListener.LASER = KeyEvent.VK_UNDERSCORE;
+					SpaceInvadersListener.LASER = KeyEvent.VK_INSERT;
 				}
 			}
 		}
