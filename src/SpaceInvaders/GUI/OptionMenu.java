@@ -19,7 +19,7 @@ import Sprite.Position;
  */
 public class OptionMenu extends JPanel implements KeyListener{
 	private static final long serialVersionUID = -5021379969150900668L;
-	
+
 	/** ArrayList of strings containing all menu options */
 	private ArrayList<String> options;
 	/** Index, in the array list, of selected option */
@@ -31,20 +31,26 @@ public class OptionMenu extends JPanel implements KeyListener{
 	private int charSize = 32;
 	/** Main menu title character size */
 	private int titleCharSize = 56;
-	
+	/** Exit message character size */
+	private int exitSize = 20;
+
 	/** RGB code of selected option color */
 	private int selectedOptionColor = 6579455;
 	/** RGB code of not selected option color */
 	private int notSelectedOptionColor = 16777215;
 	/** RGB code of title color */
 	private int titleColor = 16041984;
-	
+
 	/** represents JPanel visibility */
 	private boolean visible;
 	/** Thread which created this object */
 	private Thread aboveThread;
-	
-	
+
+	private String selectedKey;
+	private boolean changeKey = false;
+	private int lastKey;
+
+
 	/** 
 	 * Set the panel as visible. Also request focus and set panel as focusable
 	 */
@@ -68,7 +74,7 @@ public class OptionMenu extends JPanel implements KeyListener{
 	public boolean isVisible(){
 		return this.visible;
 	}
-	
+
 	/**
 	 * @param options ArrayList of strings with all menu options.
 	 * @param backgroundImage Menu background image
@@ -79,10 +85,11 @@ public class OptionMenu extends JPanel implements KeyListener{
 		this.backgroundImage = backgroundImage;
 		this.optionSelected = 0;
 		this.setFocusable(false);
-		this.addKeyListener(this);
 		visible = false;
 		this.setVisible(visible);
 		this.aboveThread=aboveThread;
+		this.addKeyListener(this);
+		setInvisible();
 	}
 
 	/**
@@ -91,12 +98,12 @@ public class OptionMenu extends JPanel implements KeyListener{
 	 * @param pos Position in screen to render text
 	 * @param rgb Integer with rgb color code. Set text color.
 	 */
-	public void drawText(Graphics g, String text, Position pos, int rgb){
+	public void drawText(Graphics g, String text, Position pos, int rgb, int charSize){
 		g.setFont(new Font("mainFont", Font.BOLD, charSize));
 		g.setColor(new Color(rgb));
 		g.drawString(text, pos.getX(), pos.getY());
 	}
-	
+
 	/**
 	 * Paints the panel with all its component.
 	 * First the background image. Then the text in the ArrayList of strings with all options.
@@ -104,20 +111,38 @@ public class OptionMenu extends JPanel implements KeyListener{
 	 */
 	public void paintComponent(Graphics g){
 		g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
-		
+
 		g.setFont(new Font("optionFont", Font.BOLD, titleCharSize));
 		g.setColor(new Color(titleColor));
 		g.drawString("Game Options", this.getHeight()/8, this.getWidth()/8 );
-		
+
 		for(int i = 0 ; i < options.size(); i++){
+			if(options.get(i).equals("Move Up"))
+				selectedKey = KeyEvent.getKeyText(SpaceInvadersListener.UP);
+			if(options.get(i).equals("Move Down"))
+				selectedKey = KeyEvent.getKeyText(SpaceInvadersListener.DOWN);
+			if(options.get(i).equals("Move Right"))
+				selectedKey = KeyEvent.getKeyText(SpaceInvadersListener.RIGHT);
+			if(options.get(i).equals("Move Left"))
+				selectedKey = KeyEvent.getKeyText(SpaceInvadersListener.LEFT);
+			if(options.get(i).equals("Fire"))
+				selectedKey = KeyEvent.getKeyText(SpaceInvadersListener.SHOT);
+			if(options.get(i).equals("Special Attack"))
+				selectedKey = KeyEvent.getKeyText(SpaceInvadersListener.LASER);
+
 			if(optionSelected==i){
-				drawText(g, "> "+options.get(i), new Position(this.getHeight()/8, this.getWidth()/8 + (i+1)*(charSize+15)), selectedOptionColor);
+				drawText(g, "> "+options.get(i), new Position(this.getHeight()/8, this.getWidth()/8 + (i+1)*(charSize+15)), selectedOptionColor, charSize);
+				drawText(g, selectedKey, new Position(this.getHeight()/8 + 300, this.getWidth()/8 + (i+1)*(charSize+15)), selectedOptionColor, charSize);
 			}else{
-				drawText(g, options.get(i), new Position(this.getHeight()/8, this.getWidth()/8 + (i+1)*(charSize+15)), notSelectedOptionColor);
+				drawText(g, options.get(i), new Position(this.getHeight()/8, this.getWidth()/8 + (i+1)*(charSize+15)), notSelectedOptionColor, charSize);
+				drawText(g, selectedKey, new Position(this.getHeight()/8 + 300, this.getWidth()/8 + (i+1)*(charSize+15)), notSelectedOptionColor, charSize);
 			}
 		}
+		
+		drawText(g, "To exit press ESC...", new Position(this.getHeight()/8, SpaceInvadersGame.HEIGHT - 40), notSelectedOptionColor, exitSize);
+		
 	}
-	
+
 	/**
 	 * @return Integer with option selected by the user.
 	 */
@@ -130,8 +155,8 @@ public class OptionMenu extends JPanel implements KeyListener{
 	public void setCurrentOption(int optionSelected) {
 		this.optionSelected=optionSelected;
 	}
-	
-	
+
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
@@ -142,22 +167,101 @@ public class OptionMenu extends JPanel implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_DOWN){
-			optionSelected = (optionSelected+1) % options.size();
+		if(!changeKey){
+			if(e.getKeyCode() == KeyEvent.VK_DOWN){
+				optionSelected = (optionSelected+1) % options.size();
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_UP){
+				if(optionSelected==0)
+					optionSelected=options.size()-1;
+				else
+					optionSelected = (optionSelected-1) % options.size();
+			}
+
+			else if(e.getKeyCode()== KeyEvent.VK_ESCAPE){
+				this.setInvisible();
+				((SpaceInvadersGame)aboveThread).getMainMenu().setVisible();
+			}
+
+			// start changing key
+			else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				if(changeKey){
+					changeKey=false;
+					return;
+				}
+				else
+					changeKey=true;
+
+				if(options.get(optionSelected).equals("Move Up")){
+					lastKey=SpaceInvadersListener.UP;
+					SpaceInvadersListener.UP = KeyEvent.VK_UNDERSCORE;
+				}if(options.get(optionSelected).equals("Move Down")){
+					lastKey=SpaceInvadersListener.DOWN;
+					SpaceInvadersListener.DOWN = KeyEvent.VK_UNDERSCORE;
+				}
+				if(options.get(optionSelected).equals("Move Right")){
+					lastKey=SpaceInvadersListener.RIGHT;
+					SpaceInvadersListener.RIGHT = KeyEvent.VK_UNDERSCORE;
+				}
+				if(options.get(optionSelected).equals("Move Left")){
+					lastKey=SpaceInvadersListener.LEFT;
+					SpaceInvadersListener.LEFT = KeyEvent.VK_UNDERSCORE;
+				}
+				if(options.get(optionSelected).equals("Fire")){
+					lastKey=SpaceInvadersListener.SHOT;
+					SpaceInvadersListener.SHOT = KeyEvent.VK_UNDERSCORE;
+				}
+				if(options.get(optionSelected).equals("Special Attack")){
+					lastKey=SpaceInvadersListener.LASER;
+					SpaceInvadersListener.LASER = KeyEvent.VK_UNDERSCORE;
+				}
+			}
 		}
-		else if(e.getKeyCode() == KeyEvent.VK_UP){
-			if(optionSelected==0)
-				optionSelected=options.size()-1;
-			else
-				optionSelected = (optionSelected-1) % options.size();
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-			
-		}
-		else if(e.getKeyCode()== KeyEvent.VK_ESCAPE){
-			this.setInvisible();
-			((SpaceInvadersGame)aboveThread).getMainMenu().setVisible();
+		else{
+
+			// cancel changing key
+			if(e.getKeyCode()== KeyEvent.VK_ESCAPE){
+				if(options.get(optionSelected).equals("Move Up")){
+					SpaceInvadersListener.UP = lastKey;
+				}if(options.get(optionSelected).equals("Move Down")){
+					SpaceInvadersListener.DOWN = lastKey;
+				}
+				if(options.get(optionSelected).equals("Move Right")){
+					SpaceInvadersListener.RIGHT = lastKey;
+				}
+				if(options.get(optionSelected).equals("Move Left")){
+					SpaceInvadersListener.LEFT = lastKey;
+				}
+				if(options.get(optionSelected).equals("Fire")){
+					SpaceInvadersListener.SHOT = lastKey;
+				}
+				if(options.get(optionSelected).equals("Special Attack")){
+					SpaceInvadersListener.LASER = lastKey;
+				}
+			}
+
+			// Change key
+			else{
+				if(options.get(optionSelected).equals("Move Up")){
+					SpaceInvadersListener.UP = e.getKeyCode();
+				}if(options.get(optionSelected).equals("Move Down")){
+					SpaceInvadersListener.DOWN =  e.getKeyCode();
+				}
+				if(options.get(optionSelected).equals("Move Right")){
+					SpaceInvadersListener.RIGHT =  e.getKeyCode();
+				}
+				if(options.get(optionSelected).equals("Move Left")){
+					SpaceInvadersListener.LEFT =  e.getKeyCode();
+				}
+				if(options.get(optionSelected).equals("Fire")){
+					SpaceInvadersListener.SHOT =  e.getKeyCode();
+				}
+				if(options.get(optionSelected).equals("Special Attack")){
+					SpaceInvadersListener.LASER =  e.getKeyCode();
+				}
+				changeKey=false;
+			}
 		}
 	}
-	
+
 }

@@ -33,7 +33,7 @@ public class MainMenu extends JPanel implements KeyListener{
 	private int charSize = 48;
 	/** Main menu title character size */
 	private int titleCharSize = 56;
-	
+
 	/** RGB code of selected option color */
 	private int selectedOptionColor = 6579455;
 	/** RGB code of not selected option color */
@@ -45,9 +45,9 @@ public class MainMenu extends JPanel implements KeyListener{
 	private boolean visible;
 	/** Thread which created this object */
 	private Thread aboveThread;
-	
-	
-	
+
+
+
 	/** 
 	 * Set the panel as visible. Also request focus and set panel as focusable
 	 */
@@ -71,7 +71,7 @@ public class MainMenu extends JPanel implements KeyListener{
 	public boolean isVisible(){
 		return this.visible;
 	}
-	
+
 	/**
 	 * @param options ArrayList of strings with all menu options.
 	 * @param backgroundImage Menu background image
@@ -107,12 +107,12 @@ public class MainMenu extends JPanel implements KeyListener{
 	 */
 	public void paintComponent(Graphics g){
 		g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
-		
+
 		g.setFont(new Font("optionFont", Font.BOLD, titleCharSize));
 		g.setColor(new Color(titleColor));
 		g.drawString("Space Invaders", this.getHeight()/8, this.getWidth()/8 );
-		
-		
+
+
 		for(int i = 0 ; i < options.size(); i++){
 			if(optionSelected==i){
 				drawText(g, "> "+options.get(i), new Position(this.getHeight()/8, this.getWidth()/8 + (i+1)*(charSize+10)), selectedOptionColor);
@@ -121,7 +121,7 @@ public class MainMenu extends JPanel implements KeyListener{
 			}
 		}
 	}
-	
+
 	/**
 	 * @return Integer with option selected by the user.
 	 */
@@ -138,9 +138,13 @@ public class MainMenu extends JPanel implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
-	
+
 	@Override
 	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_DOWN){
 			optionSelected = (optionSelected+1) % options.size();
 		}
@@ -153,13 +157,16 @@ public class MainMenu extends JPanel implements KeyListener{
 		else if(e.getKeyCode() == KeyEvent.VK_ENTER){
 			switch(optionSelected){
 			case 0:
-                this.setInvisible();
-                ((SpaceInvadersGame)aboveThread).getSpaceInvadersPanel().reset();
+				this.setInvisible();
+				((SpaceInvadersGame)aboveThread).getSpaceInvadersPanel().reset();
 				((SpaceInvadersGame)aboveThread).getSpaceInvadersPanel().setVisible();
 				break;
 			case SpaceInvadersGame.OPTION_MENU:
 				((SpaceInvadersGame)aboveThread).getOptionMenu().setVisible();
 				this.setInvisible();
+				break;
+			case SpaceInvadersGame.LEADERBOARD_MENU:
+				// ---- leaderboard menu open goes here
 				break;
 			case SpaceInvadersGame.EXIT_MENU:
 				Game.spaceInvaders.stopThread();
@@ -169,11 +176,4 @@ public class MainMenu extends JPanel implements KeyListener{
 			}
 		}
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
-
-	
-	
-
 }

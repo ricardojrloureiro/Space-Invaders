@@ -333,6 +333,7 @@ public class SpaceInvaders extends JPanel {
 				boss.getShots().get(j).move(spaceShip);
 			}
 		}
+		
 		/** **/
 
 		/*** COLLISION DETECTION **/

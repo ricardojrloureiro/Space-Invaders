@@ -31,9 +31,13 @@ public class SpaceInvadersGame extends Thread implements Runnable {
 	 */
 	public static final int OPTION_MENU = 1;
 	/**
+	 * Leaderboard menu integer representation
+	 */
+	public static final int LEADERBOARD_MENU = 2;
+	/**
 	 * Exit menu integer representation
 	 */
-	public static final int EXIT_MENU = 2;
+	public static final int EXIT_MENU = 3;
 	/**
 	 * Represents running state
 	 */
@@ -204,7 +208,7 @@ public class SpaceInvadersGame extends Thread implements Runnable {
 		optionOptions.add("Move Right");
 		optionOptions.add("Move Left");
 		optionOptions.add("Fire");
-		optionOptions.add("Special Atack");
+		optionOptions.add("Special Attack");
 
 
 		ArrayList<String> menuOptions = new ArrayList<String>();
