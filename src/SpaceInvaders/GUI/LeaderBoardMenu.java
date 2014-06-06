@@ -134,6 +134,4 @@ public class LeaderBoardMenu extends JPanel implements KeyListener {
             ((SpaceInvadersGame) aboveThread).getMainMenu().setVisible();
         }
     }
-
-
 }

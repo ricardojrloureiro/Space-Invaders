@@ -104,18 +104,12 @@ public class SpaceShip extends SpaceObject{
 	 * @return Space ship status (dead or alive).
 	 */
 	public boolean getDead(){return this.dead;}
-	/**
-	 * @param points Space ship points.
-	 */
-	public void setPoints(int points){this.points=points;}
+
 	/**
 	 * @return Space ship points.
 	 */
 	public int getPoints(){return this.points;}
-	/**
-	 * @param shots Array List with all shots
-	 */
-	public void setShots(ArrayList<Shot> shots){ this.shots = shots; }
+
 	/**
 	 * @return Array list with all shots fired
 	 */
@@ -155,7 +149,7 @@ public class SpaceShip extends SpaceObject{
 	}
 
 	/**
-	 * @parameter integer DIRECTION that is the direction to take.
+	 * @param  DIRECTION that is the direction to take.
 	 * Spaceship's move function that allows the user to navigate throughout the map.
 	 */
 	public void move(int DIRECTION) {
@@ -176,7 +170,7 @@ public class SpaceShip extends SpaceObject{
 	}
 	
 	/**
-	 * @parameter INTEGER type of enemy destroyed
+	 * @param points type of enemy destroyed
 	 * increases the points of the current space ship.
 	 */
 	public void increasePoints(int points){
@@ -193,7 +187,4 @@ public class SpaceShip extends SpaceObject{
 		this.velocityY = 5;
 	}
 
-    public boolean getVictory() {
-        return victory;
-    }
 }

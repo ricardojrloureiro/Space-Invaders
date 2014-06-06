@@ -79,7 +79,6 @@ public class SpaceInvaders extends JPanel {
      */
     private Thread aboveThread;
 
-    private final String BOSS_MESSAGE = "BOSS FIGHT !";
     private final String WIN_MESSAGE = "LEVEL UP !";
     private boolean showBossMessage = false;
     private boolean showingWinMessage = false;
@@ -191,7 +190,7 @@ public class SpaceInvaders extends JPanel {
      */
     public void setVisible() {
         visible = true;
-        this.setVisible(visible);
+        this.setVisible(true);
         this.setFocusable(true);
         this.requestFocusInWindow();
     }
@@ -202,7 +201,7 @@ public class SpaceInvaders extends JPanel {
     public void setInvisible() {
         this.setFocusable(false);
         this.visible = false;
-        this.setVisible(visible);
+        this.setVisible(false);
     }
 
     /**
@@ -215,10 +214,6 @@ public class SpaceInvaders extends JPanel {
 
     public boolean isAtBoss() {
         return this.atBoss;
-    }
-
-    public void setAtBoss(boolean atBoss) {
-        this.atBoss = atBoss;
     }
 
     public void removeDeadObjects() {
@@ -618,6 +613,7 @@ public class SpaceInvaders extends JPanel {
             if (showBossMessage) {
                 g.setColor(Color.RED);
                 g.setFont(new Font("lifeFont", Font.BOLD, bossTextSize));
+                String BOSS_MESSAGE = "BOSS FIGHT !";
                 g.drawString(BOSS_MESSAGE, SpaceInvadersGame.WIDTH / 2 - 240, SpaceInvadersGame.HEIGHT / 2);
             }
             if (showingWinMessage) {

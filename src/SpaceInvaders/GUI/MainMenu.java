@@ -170,7 +170,6 @@ public class MainMenu extends JPanel implements KeyListener{
                 this.setInvisible();
 				break;
 			case SpaceInvadersGame.EXIT_MENU:
-                SpaceInvadersGame.file.saveLeaderBoard();
 				Game.spaceInvaders.stopThread();
 				break;
 			default:

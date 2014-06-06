@@ -67,18 +67,6 @@ public class SpaceInvadersGame extends Thread implements Runnable {
     private SpaceInvaders spaceInvadersPanel;
 
     /**
-     * Menu background location
-     */
-    private String mainBackgroundLocation = "/Sprites/menuBackground.jpg";
-
-    /**
-     * @return Window Frame
-     */
-    public Window getWindow() {
-        return window;
-    }
-
-    /**
      * @return Main Menu Panel
      */
     public MainMenu getMainMenu() {
@@ -100,11 +88,6 @@ public class SpaceInvadersGame extends Thread implements Runnable {
         return spaceInvadersPanel;
     }
 
-    private int lastTime;
-    private int lastTimeEnemy;
-    private int lastTimeRock;
-    private int initialTime;
-    private int timeToBoss;
     static protected boolean finish;
     static protected Files file;
 
@@ -112,12 +95,13 @@ public class SpaceInvadersGame extends Thread implements Runnable {
      * Run thread
      */
     public void run() {
-        lastTimeEnemy = (int) System.currentTimeMillis();
-        lastTimeRock = (int) System.currentTimeMillis();
-        lastTime = (int) System.currentTimeMillis();
-        initialTime = (int) System.currentTimeMillis();
+        int lastTimeEnemy = (int) System.currentTimeMillis();
+        int lastTimeRock = (int) System.currentTimeMillis();
+        int lastTime = (int) System.currentTimeMillis();
+        int initialTime = (int) System.currentTimeMillis();
 
         while (running) {
+            int timeToBoss;
             if (spaceInvadersPanel.getLevel() == 1)
                 timeToBoss = 1000;
             else
@@ -153,7 +137,6 @@ public class SpaceInvadersGame extends Thread implements Runnable {
                     if (!spaceInvadersPanel.getSpaceShip().getDead()) {
                         if ((int) System.currentTimeMillis() - lastTimeRock >= 1000) {
                             lastTimeRock = (int) System.currentTimeMillis();
-                            if (!spaceInvadersPanel.isAtBoss()) ;
                             spaceInvadersPanel.addRock();
                             spaceInvadersPanel.addBonus();
 
@@ -177,13 +160,15 @@ public class SpaceInvadersGame extends Thread implements Runnable {
 
                 if (this.mainMenu.isVisible()) {
                     this.mainMenu.repaint();
-                } else if (this.optionMenu.isVisible()) {
-                    this.optionMenu.repaint();
                 } else {
-                    this.spaceInvadersPanel.repaint();
-                    if (!spaceInvadersPanel.isLevelEnded()) {
-                        if (!spaceInvadersPanel.getSpaceShip().getDead())
-                            spaceInvadersPanel.moveObjects();
+                    if (this.optionMenu.isVisible()) {
+                        this.optionMenu.repaint();
+                    } else {
+                        this.spaceInvadersPanel.repaint();
+                        if (!spaceInvadersPanel.isLevelEnded()) {
+                            if (!spaceInvadersPanel.getSpaceShip().getDead())
+                                spaceInvadersPanel.moveObjects();
+                        }
                     }
                 }
                 lastTime = (int) System.currentTimeMillis();
@@ -205,7 +190,7 @@ public class SpaceInvadersGame extends Thread implements Runnable {
      */
     public SpaceInvadersGame() throws FileNotFoundException {
         this.running = true;
-        this.finish = false;
+        finish = false;
 
         window = new Window("Space Invaders");
 
@@ -236,6 +221,10 @@ public class SpaceInvadersGame extends Thread implements Runnable {
         BufferedImage mainBackground = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         try {
+            /*
+      Menu background location
+     */
+            String mainBackgroundLocation = "/Sprites/menuBackground.jpg";
             mainBackground = ImageIO.read(getClass().getResourceAsStream(mainBackgroundLocation));
         } catch (IOException e) {
             e.printStackTrace();

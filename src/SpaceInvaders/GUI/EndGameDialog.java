@@ -18,9 +18,7 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
      */
     private static final long serialVersionUID = -5557147814372408993L;
     private int points;
-    private int bestScore;
     private boolean visible;
-    private final int textSize = 40;
     private String MESSAGE;
     private String name = "";
 
@@ -45,12 +43,13 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.RED);
+        int textSize = 40;
         g.setFont(new Font("lifeFont", Font.BOLD, textSize));
         g.drawString(MESSAGE + points, SpaceInvadersGame.WIDTH / 2 - 240, SpaceInvadersGame.HEIGHT / 2);
-        if (points > bestScore) {
-            g.setFont(new Font("lifeFont", Font.BOLD, 20));
-            g.drawString("Record Name: " + name, SpaceInvadersGame.WIDTH / 2 - 240, SpaceInvadersGame.HEIGHT / 2 + 30);
-        }
+
+        g.setFont(new Font("lifeFont", Font.BOLD, 20));
+        g.drawString("Record Name: " + name, SpaceInvadersGame.WIDTH / 2 - 240, SpaceInvadersGame.HEIGHT / 2 + 30);
+
     }
 
     @Override
@@ -67,6 +66,7 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             visible = false;
             SpaceInvadersGame.file.setUser(new User(points, name));
+            SpaceInvadersGame.file.saveLeaderBoard();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
