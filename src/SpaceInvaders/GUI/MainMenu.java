@@ -146,7 +146,7 @@ public class MainMenu extends JPanel implements KeyListener{
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_UP){
 			if(optionSelected==0)
-				optionSelected=2;
+				optionSelected=options.size()-1;
 			else
 				optionSelected = (optionSelected-1) % options.size();
 		}
@@ -154,6 +154,8 @@ public class MainMenu extends JPanel implements KeyListener{
 			switch(optionSelected){
 			case 0:
                 this.setInvisible();
+                ((SpaceInvadersGame)aboveThread).getSpaceInvadersPanel().reset();
+				((SpaceInvadersGame)aboveThread).getSpaceInvadersPanel().setVisible();
 				break;
 			case SpaceInvadersGame.OPTION_MENU:
 				((SpaceInvadersGame)aboveThread).getOptionMenu().setVisible();
