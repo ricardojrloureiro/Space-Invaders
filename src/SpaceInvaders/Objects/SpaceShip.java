@@ -36,6 +36,11 @@ public class SpaceShip extends SpaceObject{
 	private int protectionIniTime;
     protected int Ydimension;
 
+    public void setVictory(boolean victory) {
+        this.victory = victory;
+    }
+
+    protected boolean victory;
 	/**
 	 * SpaceShip class constructor. Space ship life and points set to its default values (INITIAL_LIFE and INITIAL_POINTS).
 	 * @param position Position on screen.
@@ -51,6 +56,7 @@ public class SpaceShip extends SpaceObject{
 		this.velocityX = 5;
 		this.velocityY = 5;
 		this.protection = false;
+        this.victory = false;
 		
 		this.protectionSprite = new SpriteSheet("/Sprites/protectionLayer.png", new Dimension(36,44), 1, 1);
 		protectionSprite.loadSprite();
@@ -186,4 +192,8 @@ public class SpaceShip extends SpaceObject{
 		this.velocityX = 5;
 		this.velocityY = 5;
 	}
+
+    public boolean getVictory() {
+        return victory;
+    }
 }

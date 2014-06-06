@@ -146,8 +146,8 @@ public class MainMenu extends JPanel implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_DOWN){
-			optionSelected = (optionSelected+1) % options.size();
-		}
+            optionSelected = (optionSelected+1) % options.size();
+        }
 		else if(e.getKeyCode() == KeyEvent.VK_UP){
 			if(optionSelected==0)
 				optionSelected=options.size()-1;
@@ -166,9 +166,11 @@ public class MainMenu extends JPanel implements KeyListener{
 				this.setInvisible();
 				break;
 			case SpaceInvadersGame.LEADERBOARD_MENU:
-				// ---- leaderboard menu open goes here
+                ((SpaceInvadersGame)aboveThread).getLeaderBoardMenu().setVisible();
+                this.setInvisible();
 				break;
 			case SpaceInvadersGame.EXIT_MENU:
+                SpaceInvadersGame.file.saveLeaderBoard();
 				Game.spaceInvaders.stopThread();
 				break;
 			default:
