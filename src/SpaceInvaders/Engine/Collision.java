@@ -60,6 +60,8 @@ public class Collision {
 	 */
 	
 	private boolean rectangleDetection(){
+        if(firstObject ==null || secondObject == null)
+            return false;
 		Rectangle first = new Rectangle(firstObject.getPosition().getX(),firstObject.getPosition().getY()
 				,(int)firstObject.getSprite().getDimension().getWidth(),
 				(int) firstObject.getSprite().getDimension().getHeight());
