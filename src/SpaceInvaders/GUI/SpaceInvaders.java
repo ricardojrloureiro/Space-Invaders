@@ -85,6 +85,11 @@ public class SpaceInvaders extends JPanel {
 
     private EndGameDialog endGameDialog;
     private SpaceInvadersListener spaceInvaderListener;
+
+    public int getLevelsEnded() {
+        return levelsEnded;
+    }
+
     private int levelsEnded;
 
 
@@ -296,6 +301,7 @@ public class SpaceInvaders extends JPanel {
     }
 
     public void moveObjects() {
+        System.out.println(levelsEnded);
         if (levelsEnded == 2)
             return;
         current = (int) System.currentTimeMillis();
@@ -741,11 +747,11 @@ public class SpaceInvaders extends JPanel {
             boss = new Boss(new Position(10, 10), new SpriteSheet(Boss.BOSS1_LOCATION,
                     new Dimension(224, 128), 1, 1));
 
-            boss.setLife(100);
+            boss.setLife(1000);
         } else {
             boss = new Boss(new Position(10, 10), new SpriteSheet(Boss.BOSS2_LOCATION,
                     new Dimension(194, 103), 1, 1));
-            boss.setLife(1000);
+            boss.setLife(2000);
         }
         boss.setPosition(new Position(SpaceInvadersGame.WIDTH / 3, 10));
         showBossMessage = true;

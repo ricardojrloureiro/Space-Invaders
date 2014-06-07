@@ -67,6 +67,7 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
             visible = false;
             SpaceInvadersGame.file.setUser(new User(points, name));
             SpaceInvadersGame.file.saveLeaderBoard();
+            
         }
 
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
