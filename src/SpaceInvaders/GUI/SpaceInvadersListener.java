@@ -48,6 +48,7 @@ public class SpaceInvadersListener implements KeyListener {
 		if(e.getKeyCode() == LASER){
 			if (((int) System.currentTimeMillis() - spaceInvaders.getLastLaserFire()) >= 4000) {
 				spaceInvaders.setLastLaserFire((int) System.currentTimeMillis());
+                spaceInvaders.setLastShotTime((int) System.currentTimeMillis());
 				spaceInvaders.getSpaceShip().addShot(Shot.TYPE_LASER);
 			}
 		}

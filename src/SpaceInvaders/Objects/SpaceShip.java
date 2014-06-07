@@ -20,8 +20,9 @@ public class SpaceShip extends SpaceObject{
 
 	public static final String LOCATION = "/Sprites/spaceShip.png";
 	public static final int SPRITE_DIMENSION = 18;
+    private final SpriteSheet normalShotSprite;
 
-	/** Space ship current life */
+    /** Space ship current life */
 	private int life;
 	/** Space ship current status (dead or alive) */
 	private boolean dead;
@@ -57,7 +58,7 @@ public class SpaceShip extends SpaceObject{
 		this.velocityY = 5;
 		this.protection = false;
         this.victory = false;
-		
+		this.normalShotSprite =  new SpriteSheet( "/Sprites/shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1);
 		this.protectionSprite = new SpriteSheet("/Sprites/protectionLayer.png", new Dimension(36,44), 1, 1);
 		protectionSprite.loadSprite();
 	}
@@ -118,7 +119,7 @@ public class SpaceShip extends SpaceObject{
 	public void addShot(int type){
         if(type == 1){
             shots.add(new Shot(new Position(position.getX(), position.getY()),
-                    new SpriteSheet( "/Sprites/shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION),1,1),
+                    normalShotSprite,
                     10));
         } else if(type==2){
             if(getPosition().getY() < 600){

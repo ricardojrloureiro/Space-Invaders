@@ -36,7 +36,7 @@ public class Files implements Serializable {
         // if cant add in the current check if there is spot for more users in the list
         if (users.size() < maxLeaderBoardSize && join == false) {
             users.add(user);
-        } else if (users.size() >= maxLeaderBoardSize) {
+        } else if (users.size() == maxLeaderBoardSize+1) {
             users.remove(maxLeaderBoardSize);
         }
         if (join == true)
