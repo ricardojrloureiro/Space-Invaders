@@ -37,7 +37,7 @@ public class Files implements Serializable {
         if (users.size() < maxLeaderBoardSize && join == false) {
             users.add(user);
         } else if (users.size() >= maxLeaderBoardSize) {
-            users.remove(maxLeaderBoardSize-1);
+            users.remove(maxLeaderBoardSize);
         }
         if (join == true)
             return true;
