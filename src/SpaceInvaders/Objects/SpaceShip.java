@@ -178,13 +178,19 @@ public class SpaceShip extends SpaceObject{
     }
 	
 	public void reset(){
-		this.life=INITIAL_LIFE;
-		this.dead = false;
-		this.points=INITIAL_POINTS;
-		this.spritePosition = new Position(1,0);
-		this.shots.clear();
-		this.velocityX = 5;
-		this.velocityY = 5;
+        this.life=INITIAL_LIFE;
+        this.dead = false;
+        this.points=INITIAL_POINTS;
+        this.spritePosition = new Position(1,0);
+        this.shots = new ArrayList<Shot>();
+        this.velocityX = 5;
+        this.velocityY = 5;
+        this.protection = false;
+        this.victory = false;
+        this.position.setX(50);
+        this.position.setY(50);
+        this.protectionSprite = new SpriteSheet("/Sprites/protectionLayer.png", new Dimension(36,44), 1, 1);
+        protectionSprite.loadSprite();
 	}
 
 }
