@@ -785,6 +785,7 @@ public class SpaceInvaders extends JPanel {
     }
 
     public void reset() {
+        this.levelsEnded=0;
         this.enemies.clear();
         this.rocks.clear();
         this.bonus.clear();

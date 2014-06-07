@@ -105,7 +105,7 @@ public class SpaceInvadersGame extends Thread implements Runnable {
             if (spaceInvadersPanel.getLevel() == 1)
                 timeToBoss = 0;
             else
-                timeToBoss = 50000;
+                timeToBoss = 20000;
 
             if ((int) System.currentTimeMillis() - initialTime >= timeToBoss) {
                 if (!spaceInvadersPanel.isAtBoss()) {
@@ -157,7 +157,7 @@ public class SpaceInvadersGame extends Thread implements Runnable {
             }
             // Paint
             if (((int) System.currentTimeMillis() - lastTime) >= 1000 / 60) {
-
+                System.out.println(this.mainMenu.isVisible());
                 if (this.mainMenu.isVisible()) {
                     this.mainMenu.repaint();
                 } else {
@@ -166,8 +166,9 @@ public class SpaceInvadersGame extends Thread implements Runnable {
                     } else {
                         this.spaceInvadersPanel.repaint();
                         if (!spaceInvadersPanel.isLevelEnded()) {
-                            if (!spaceInvadersPanel.getSpaceShip().getDead())
+                            if (!spaceInvadersPanel.getSpaceShip().getDead()) {
                                 spaceInvadersPanel.moveObjects();
+                            }
                         }
                     }
                 }
