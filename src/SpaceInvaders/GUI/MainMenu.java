@@ -135,11 +135,11 @@ public class MainMenu extends JPanel implements KeyListener{
 		this.optionSelected=optionSelected;
 	}
 
-	@Override
+
 	public void keyTyped(KeyEvent e) {}
 
 
-	@Override
+
 	public void keyPressed(KeyEvent e) {
 	}
 
@@ -147,7 +147,7 @@ public class MainMenu extends JPanel implements KeyListener{
      * allows the user to change between Play game, Options, leaderboards or exit
      * @param e
      */
-	@Override
+
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_DOWN){
             optionSelected = (optionSelected+1) % options.size();

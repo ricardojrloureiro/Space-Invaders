@@ -66,8 +66,6 @@ public class Files implements Serializable {
         ObjectInputStream is = null;
         try {
             is = new ObjectInputStream(new FileInputStream(getClass().getResource("/LeaderBoard/LeaderBoard.dat").getPath()));
-            if(is==null)
-                return;
         } catch (FileNotFoundException e) {
             saveLeaderBoard();
         } catch (IOException e) {
@@ -95,7 +93,7 @@ public class Files implements Serializable {
      * saves the current leader board into the LeaderBoard.dat files
      */
     public void saveLeaderBoard() {
-        File saves = new File(getClass().getResource("/LeaderBoard/LeaderBoard.dat").getPath());
+        File saves = new File(getClass().getResource("/LeaderBoard/").getPath());
         if (!saves.exists()) {
             saves.mkdir();
         }
@@ -106,6 +104,8 @@ public class Files implements Serializable {
                     new FileOutputStream(getClass().getResource("/LeaderBoard/LeaderBoard.dat").getPath()));
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+
         }
         if (os != null) {
             try {

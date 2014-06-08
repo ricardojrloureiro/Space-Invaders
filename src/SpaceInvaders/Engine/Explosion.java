@@ -117,7 +117,6 @@ public class Explosion implements Drawable{
      * draws the explosion
      * @param g Graphics to draw image
      */
-	@Override
 	public void draw(Graphics g) {
 		if(spritesheetPosition < sprite.getSprite()[0].length){
 			sprite.getSpriteAt(spritesheetPosition, 0).paint(g, position);

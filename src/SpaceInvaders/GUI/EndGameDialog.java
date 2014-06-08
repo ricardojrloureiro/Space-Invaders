@@ -57,7 +57,6 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
      * draws the current JPanel into the frame
      * @param g Graphics to draw image
      */
-    @Override
     public void draw(Graphics g) {
         g.setColor(Color.RED);
         int textSize = 40;
@@ -69,11 +68,9 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
 
     }
 
-    @Override
     public void keyTyped(KeyEvent e) {
     }
 
-    @Override
     public void keyPressed(KeyEvent e) {
 
     }
@@ -82,7 +79,6 @@ public class EndGameDialog extends JPanel implements Drawable, KeyListener {
      * Allows the user to insert his name after the game is over
      * @param e keyevent
      */
-    @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             visible = false;

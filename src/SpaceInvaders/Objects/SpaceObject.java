@@ -76,7 +76,7 @@ public class SpaceObject implements Drawable, Movable {
 	/**
 	 * @param g Graphics to draw image
 	 */
-	@Override
+
 	public void draw(Graphics g) {
        	sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
 	}
@@ -84,7 +84,7 @@ public class SpaceObject implements Drawable, Movable {
     /**
      * moves left depending of the current object velocity
      */
-	@Override
+
 	public void moveLeft(){
 		this.position.setX(this.position.getX() - velocityX);
 	}
@@ -92,7 +92,7 @@ public class SpaceObject implements Drawable, Movable {
     /**
      * moves right depending of the current object velocity
      */
-	@Override
+
 	public void moveRight() {
 		this.position.setX(this.position.getX() + velocityX);
 	}
@@ -100,7 +100,7 @@ public class SpaceObject implements Drawable, Movable {
     /**
      * moves up depending of the current object velocity
      */
-	@Override
+
 	public void moveUp() {
 		this.position.setY(this.position.getY() - velocityY);
 	}
@@ -108,7 +108,7 @@ public class SpaceObject implements Drawable, Movable {
     /**
      * moves down depending of the current object velocity
      */
-	@Override
+
 	public void moveDown() {
 		this.position.setY(this.position.getY() + velocityY);
 	}

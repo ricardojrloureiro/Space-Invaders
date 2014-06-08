@@ -28,7 +28,7 @@ public class SpaceInvadersListener implements KeyListener {
 		this.spaceInvaders = spaceInvaders;
 	}
 
-	@Override
+
 	public void keyTyped(KeyEvent e) {
 	}
 
@@ -37,7 +37,7 @@ public class SpaceInvadersListener implements KeyListener {
      * also allows the user to fire shots or lasers depending of each key.
      * @param e key pressed event
      */
-	@Override
+
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == LEFT)
 			SpaceInvaders.keysPressed.set(0, true);
@@ -67,7 +67,6 @@ public class SpaceInvadersListener implements KeyListener {
      * after the key is released the boolean is set to false
      * @param e key released event
      */
-	@Override
 	public void keyReleased(KeyEvent e) {
 
 		if(e.getKeyCode() == LEFT)
