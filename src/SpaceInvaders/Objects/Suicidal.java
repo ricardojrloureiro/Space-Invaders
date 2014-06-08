@@ -5,7 +5,7 @@ import Sprite.SpriteSheet;
 
 /**
  * Suicidal extends Enemy class. Represents suicidal type of enemies.
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Suicidal extends Enemy {
 
@@ -23,12 +23,20 @@ public class Suicidal extends Enemy {
 		this.velocityX = 2;
 		this.velocityY = 2;
 	}
-	
+
+    /**
+     * damaged done to the spaceship each times the suicidal colides with her.
+     * @param spaceShip currently in the map
+     */
 	@Override
 	public void damageDone(SpaceShip spaceShip) {
         spaceShip.damageShip(20);
 	}
-	
+
+    /**
+     * Depending where the spaceship is the suicidal moves towards her trying to collide.
+     * @param spaceShip player space ship
+     */
 	@Override
 	public void move(SpaceShip spaceShip){
 		moveDown();

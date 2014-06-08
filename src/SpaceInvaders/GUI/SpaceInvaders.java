@@ -29,6 +29,10 @@ import SpaceInvaders.Objects.Suicidal;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
+/**
+ * SpaceInvaders class that extends form JPanel
+ * @author Jose Miguel Melo & Ricardo Loureiro
+ */
 public class SpaceInvaders extends JPanel {
 
     private static final long serialVersionUID = -5625571319865323101L;
@@ -92,7 +96,10 @@ public class SpaceInvaders extends JPanel {
 
     private int levelsEnded;
 
-
+    /**
+     * constructor
+     * @param aboveThread
+     */
     public SpaceInvaders(Thread aboveThread) {
         this.levelsEnded = 0;
         this.aboveThread = aboveThread;
@@ -133,27 +140,50 @@ public class SpaceInvaders extends JPanel {
         endGameDialog = null;
     }
 
-
+    /**
+     * returns the boolean showBossMessage
+     * @return
+     */
     public boolean isShowingBossMessage() {
         return this.showBossMessage;
     }
 
+    /**
+     * sets the showBossMessage depending of the parameter
+     * @param showBossMessage
+     */
     public void setShowingBossMessage(boolean showBossMessage) {
         this.showBossMessage = showBossMessage;
     }
 
+    /**
+     * return if is showing win message to the user or not
+     * @return
+     */
     public boolean isShowingWinMessage() {
         return this.showingWinMessage;
     }
 
+    /**
+     * Sets the showingWinMessage depending of the parameter
+     * @param showingWinMessage
+     */
     public void setShowingWinMessage(boolean showingWinMessage) {
         this.showingWinMessage = showingWinMessage;
     }
 
+    /**
+     * Returns true if the level is over or false if it isn't
+     * @return
+     */
     public boolean isLevelEnded() {
         return this.levelEnded;
     }
 
+    /**
+     * returns the current spaceShip from game
+     * @return
+     */
     public SpaceShip getSpaceShip() {
         return this.spaceShip;
     }
@@ -216,11 +246,17 @@ public class SpaceInvaders extends JPanel {
         return this.visible;
     }
 
-
+    /**
+     * returns true if it is during a boss fight or false if it isn't
+     * @return
+     */
     public boolean isAtBoss() {
         return this.atBoss;
     }
 
+    /**
+     * removes all the disabled objects
+     */
     public void removeDeadObjects() {
         //checks if protection is still available
         spaceShip.checkProtection();
@@ -300,8 +336,10 @@ public class SpaceInvaders extends JPanel {
 
     }
 
+    /**
+     * Moves all the current objects in the board, allowing to be displayed in different positions allong the time
+     */
     public void moveObjects() {
-        System.out.println(levelsEnded);
         if (levelsEnded == 2)
             return;
         current = (int) System.currentTimeMillis();
@@ -727,6 +765,9 @@ public class SpaceInvaders extends JPanel {
         }
     }
 
+    /**
+     * Adds a bonus to the game
+     */
     public void addBonus() {
         Random rand = new Random();
 
@@ -741,6 +782,9 @@ public class SpaceInvaders extends JPanel {
         }
     }
 
+    /**
+     * starts a boss fight
+     */
     public void startBoss() {
         atBoss = true;
         if (level == 1) {
@@ -758,14 +802,25 @@ public class SpaceInvaders extends JPanel {
 
     }
 
+    /**
+     * returns the current level of the game
+     * @return level
+     */
     public int getLevel() {
         return this.level;
     }
 
+    /**
+     * sets the level to a specific point
+     * @param level
+     */
     public void setLevel(int level) {
         this.level = level;
     }
 
+    /**
+     * after the boss is dead the game gets a level up that increases the difficulty
+     */
     public void levelUp() {
         this.level++;
         this.enemies.clear();
@@ -790,6 +845,9 @@ public class SpaceInvaders extends JPanel {
         spaceShip.getShots().clear();
     }
 
+    /**
+     * resets all the things in the game
+     */
     public void reset() {
         this.levelsEnded=0;
         this.enemies.clear();

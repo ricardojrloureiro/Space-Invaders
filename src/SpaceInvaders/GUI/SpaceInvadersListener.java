@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 import SpaceInvaders.Objects.Shot;
 
 /**
- * Created by ricardo on 05-06-2014.
+ * SpaceInvadersListener class implements KeyListener
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class SpaceInvadersListener implements KeyListener {
 	private SpaceInvaders spaceInvaders;
@@ -19,7 +20,10 @@ public class SpaceInvadersListener implements KeyListener {
 	public static int SHOT = KeyEvent.VK_SPACE;
 	public static int LASER = KeyEvent.VK_X;
 
-
+    /**
+     * Constructor
+     * @param spaceInvaders
+     */
 	public SpaceInvadersListener(SpaceInvaders spaceInvaders){
 		this.spaceInvaders = spaceInvaders;
 	}
@@ -28,6 +32,11 @@ public class SpaceInvadersListener implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 	}
 
+    /**
+     * allows the user to navegate in diagonals across the map by activating each time a key is pressed.
+     * also allows the user to fire shots or lasers depending of each key.
+     * @param e key pressed event
+     */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == LEFT)
@@ -54,6 +63,10 @@ public class SpaceInvadersListener implements KeyListener {
 		}
 	}
 
+    /**
+     * after the key is released the boolean is set to false
+     * @param e key released event
+     */
 	@Override
 	public void keyReleased(KeyEvent e) {
 

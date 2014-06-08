@@ -3,32 +3,28 @@ package SpaceInvaders.FilesIO;
 import java.io.Serializable;
 
 /**
- * Created by Loureiro on 06/06/2014.
+ *@author Jose Miguel Melo & Ricardo Loureiro
  */
 public class User implements Serializable {
     private int points;
     private String name;
 
-    public User(int points,String name) {
+    public User(int points, String name) {
         this.points = points;
         this.name = name;
     }
 
+    /**
+     * @return the user points
+     */
     public int getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
+    /**
+     * @return returns the user name
+     */
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 }

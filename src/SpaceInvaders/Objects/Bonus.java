@@ -5,7 +5,7 @@ import Sprite.SpriteSheet;
 
 /**
  * Bonus extends Object class.
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Bonus extends SpaceObject {
 	/** Life bonus standard duration in seconds */
@@ -74,12 +74,23 @@ public class Bonus extends SpaceObject {
 	 * @return Bonus type.
 	 */
 	public int getType(){return this.type;}
-	
 
+    /**
+     *
+     * @return boolean available
+     */
 	public boolean isAvailable(){return this.available;}
-	
+
+    /**
+     * Abstract function that is implemented by the classes that implement Bonus class
+     */
 	public void checkAvailable(){
-		
+
 	}
+
+    /**
+     * performs an action depending of the bonus
+     * @param ship
+     */
 	public void performAction(SpaceShip ship){}
 }

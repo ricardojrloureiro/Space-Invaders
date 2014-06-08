@@ -8,8 +8,7 @@ import Sprite.SpriteSheet;
 
 /**
  * Boss extends Enemy class.
- *
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Boss extends Enemy {
     public static final String BOSS1_LOCATION = "/BossImages/boss1.png";

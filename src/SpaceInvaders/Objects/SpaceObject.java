@@ -7,7 +7,7 @@ import Sprite.SpriteSheet;
 
 /**
  * Object class represents all objects in game.
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class SpaceObject implements Drawable, Movable {
 	/** Object position on screen. */
@@ -55,13 +55,19 @@ public class SpaceObject implements Drawable, Movable {
 		this.velocityX = x;
 		this.velocityY = y;
 	}
-	
 
+    /**
+     * Sets enable the boolean enabled depending of the parameter.
+     * @param enabled
+     */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
 
+    /**
+     * returns true if the boolean enable is true and false if not.
+     * @return boolean
+     */
     public boolean isEnabled() {
         return enabled;
     }
@@ -75,18 +81,33 @@ public class SpaceObject implements Drawable, Movable {
        	sprite.getSpriteAt(spritePosition.getX(), spritePosition.getY()).paint(g, position);
 	}
 
+    /**
+     * moves left depending of the current object velocity
+     */
 	@Override
 	public void moveLeft(){
 		this.position.setX(this.position.getX() - velocityX);
 	}
+
+    /**
+     * moves right depending of the current object velocity
+     */
 	@Override
 	public void moveRight() {
 		this.position.setX(this.position.getX() + velocityX);
 	}
+
+    /**
+     * moves up depending of the current object velocity
+     */
 	@Override
 	public void moveUp() {
 		this.position.setY(this.position.getY() - velocityY);
 	}
+
+    /**
+     * moves down depending of the current object velocity
+     */
 	@Override
 	public void moveDown() {
 		this.position.setY(this.position.getY() + velocityY);

@@ -4,6 +4,10 @@ import java.awt.Rectangle;
 
 import SpaceInvaders.Objects.SpaceObject;
 
+/**
+ * Class Collision
+ * @author Jose Miguel Melo & Ricardo Loureiro
+ */
 public class Collision {
 
 	public static final int RECTANGLE_DETECTION = 1;

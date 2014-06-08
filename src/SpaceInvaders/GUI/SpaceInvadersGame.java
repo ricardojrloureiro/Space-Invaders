@@ -16,7 +16,7 @@ import SpaceInvaders.Objects.Enemy;
 /**
  * Space Invaders game thread. Implements Runnable interface.
  *
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class SpaceInvadersGame extends Thread implements Runnable {
 
@@ -157,7 +157,6 @@ public class SpaceInvadersGame extends Thread implements Runnable {
             }
             // Paint
             if (((int) System.currentTimeMillis() - lastTime) >= 1000 / 60) {
-                System.out.println(this.mainMenu.isVisible());
                 if (this.mainMenu.isVisible()) {
                     this.mainMenu.repaint();
                 } else {

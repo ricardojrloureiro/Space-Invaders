@@ -6,6 +6,10 @@ import SpaceInvaders.Objects.Drawable;
 import Sprite.Position;
 import Sprite.SpriteSheet;
 
+/**
+ * Class Explosion that implements Drawable
+ * @author Jose Miguel Melo & Ricardo Loureiro
+ */
 
 public class Explosion implements Drawable{
 	public static final double DEFAULT_DURATION = 0.5;
@@ -93,18 +97,26 @@ public class Explosion implements Drawable{
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-	
+
+    /**
+     * returns true if is enabled or false it it isn't
+     * @return enabled
+     */
 	public boolean isEnabled(){
 		return this.enabled;
 	}
-	
-	public void enable(){
-		this.enabled = true;
-	}
-	public void disable(){
+
+    /**
+     * sets the current explosion to disabled
+     */
+    public void disable(){
 		this.enabled = false;
 	}
-	
+
+    /**
+     * draws the explosion
+     * @param g Graphics to draw image
+     */
 	@Override
 	public void draw(Graphics g) {
 		if(spritesheetPosition < sprite.getSprite()[0].length){

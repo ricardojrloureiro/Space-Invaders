@@ -6,16 +6,24 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- * Created by Loureiro on 06/06/2014.
+ * Class Files that implements Serializable
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Files implements Serializable {
     private ArrayList<User> users;
     private int maxLeaderBoardSize = 8;
 
+    /**
+     * Default Constructor
+     */
     public Files() {
         this.users = new ArrayList<User>();
     }
 
+    /**
+     * returns the array list of the current users in the leaderboard
+     * @return
+     */
     public ArrayList<User> getUsers() {
         return users;
     }
@@ -24,6 +32,11 @@ public class Files implements Serializable {
         this.users = users;
     }
 
+    /**
+     * sets a specific into the leader board if the requirements are filled
+     * @param user that just finished the game, containing points and his name
+     * @return true if was successfully added or false if it wasn't
+     */
     public boolean setUser(User user) {
         boolean join = false;
         for (int i = 0; i < users.size(); i++) {
@@ -45,6 +58,10 @@ public class Files implements Serializable {
             return false;
     }
 
+    /**
+     * Loads LeaderBoard from the File LeaderBoard.dat
+     * setting the users to the ones who were saved in that file
+     */
     public void loadLeaderBoard() {
         ObjectInputStream is = null;
         try {
@@ -74,6 +91,9 @@ public class Files implements Serializable {
         }
     }
 
+    /**
+     * saves the current leader board into the LeaderBoard.dat files
+     */
     public void saveLeaderBoard() {
         File saves = new File(getClass().getResource("/LeaderBoard/LeaderBoard.dat").getPath());
         if (!saves.exists()) {

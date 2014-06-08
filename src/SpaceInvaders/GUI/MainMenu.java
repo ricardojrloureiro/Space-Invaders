@@ -16,7 +16,7 @@ import Sprite.Position;
  * MainMenu extends JPanel. Also Implements KeyListener.
  * Used to display the main menu to screen.
  * 
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class MainMenu extends JPanel implements KeyListener{
 
@@ -143,6 +143,10 @@ public class MainMenu extends JPanel implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 	}
 
+    /**
+     * allows the user to change between Play game, Options, leaderboards or exit
+     * @param e
+     */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_DOWN){

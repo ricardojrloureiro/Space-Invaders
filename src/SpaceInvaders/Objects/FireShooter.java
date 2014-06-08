@@ -4,7 +4,7 @@ import Sprite.Position;
 import Sprite.SpriteSheet;
 
 /**
- * Created by ricardo on 27-05-2014.
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class FireShooter extends Enemy{
 
@@ -23,12 +23,20 @@ public class FireShooter extends Enemy{
         this.velocityY = 1;
         
     }
-    
+
+    /**
+     * Damage done to spaceShip from the Fire shooter.
+     * @param spaceShip
+     */
     @Override
 	public void damageDone(SpaceShip spaceShip) {
         spaceShip.damageShip(10);
 	}
 
+    /**
+     * Movement by the fire shooter, stars slowly going down while chasing the spaceship and firing at her.
+     * @param spaceShip player space ship
+     */
     public void move(SpaceShip spaceShip){
     	  if((int)System.currentTimeMillis() - times.get(1) > 800){
               if(!isDead()){

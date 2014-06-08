@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 /**
  * Game main programme class
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Game {
 	public static SpaceInvadersGame spaceInvaders;

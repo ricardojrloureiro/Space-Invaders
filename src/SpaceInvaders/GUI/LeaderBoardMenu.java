@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by Loureiro on 06/06/2014.
+ * LeaderBoardMenu class that extends JPanel and implements KeyListener
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class LeaderBoardMenu extends JPanel implements KeyListener {
 

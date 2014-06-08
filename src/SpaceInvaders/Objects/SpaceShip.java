@@ -10,7 +10,7 @@ import Sprite.SpriteSheet;
 
 /**
  * SpaceShip extends Object class. Represents the space ship, controlled by the user.
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class SpaceShip extends SpaceObject{
 	/** Initial default life */
@@ -62,14 +62,26 @@ public class SpaceShip extends SpaceObject{
 		this.protectionSprite = new SpriteSheet("/Sprites/protectionLayer.png", new Dimension(36,44), 1, 1);
 		protectionSprite.loadSprite();
 	}
-	
+
+    /**
+     * Returns true if the spaceship is under current protection or false if it isn't
+     * @return protection boolean
+     */
 	public boolean isProtected(){ return protection;}
+
+    /**
+     * sets the protection of the spaceship and actualizes the time of the last protection
+     * @param protection
+     */
 	public void setProtection(boolean protection){ 
 		this.protection = protection;
 		if(this.protection)
 			protectionIniTime = (int)System.currentTimeMillis();
 	}
-	
+
+    /**
+     * Checks protection, if the time is above the protection max time, the protection will be disabled
+     */
 	public void checkProtection(){
 		if((int)System.currentTimeMillis() - protectionIniTime >= Bonus.PROTECTION_DURATION*1000)
 			this.protection=false;
@@ -116,6 +128,10 @@ public class SpaceShip extends SpaceObject{
 	 */
 	public ArrayList<Shot> getShots(){ return this.shots; }
 
+    /**
+     * adds a specific shot to the spaceship depending of the parameter.
+     * @param type if the type is 1 is a normal fire shot if the type is 2 is a laser.
+     */
 	public void addShot(int type){
         if(type == 1){
             shots.add(new Shot(new Position(position.getX(), position.getY()),

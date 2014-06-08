@@ -15,7 +15,7 @@ import Sprite.Position;
 /**
  * OptionMenu extends JPanel. Also implements KeyListener.
  * Used to display the option menu to screen.
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class OptionMenu extends JPanel implements KeyListener{
 	private static final long serialVersionUID = -5021379969150900668L;
@@ -165,6 +165,10 @@ public class OptionMenu extends JPanel implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 	}
 
+    /**
+     * Allows the user to change his key bindings in a better way for him
+     * @param e keyreleased event
+     */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(!changeKey){

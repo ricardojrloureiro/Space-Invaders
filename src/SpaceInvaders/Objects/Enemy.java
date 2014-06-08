@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Enemy extends Object class.
  *
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Enemy extends SpaceObject {
 
@@ -143,16 +143,28 @@ public class Enemy extends SpaceObject {
         }
     }
 
+    /**
+     * depending of the enemy the spaceship gets damaged, to be implemented by the classes that extend Enemy
+     * @param spaceShip
+     */
     public void damageDone(SpaceShip spaceShip) {
 
     }
 
+    /**
+     * adds a shot to the enemy
+     * @param type varies the type of shot fired by the enemy.
+     */
     public void addShot(int type) {
         shots.add(new Shot(new Position(position.getX(), position.getY()),
                 new SpriteSheet("/Sprites/inverted_shot.png", new Dimension(Shot.SPRITE_DIMENSION, Shot.SPRITE_DIMENSION), 1, 1),
                 10, type, true, "/Sprites/inverted_shot.png", 18));
     }
 
+    /**
+     * gets the arraylist of shots from the current enemy.
+     * @return shots
+     */
     public ArrayList<Shot> getShots() {
         return this.shots;
     }
@@ -165,6 +177,10 @@ public class Enemy extends SpaceObject {
     public void move(SpaceShip spaceShip) {
     }
 
+    /**
+     * Draws the current enemy depending of which type it is
+     * @param g Graphics to draw image
+     */
     @Override
     public void draw(Graphics g) {
         if (!isDead())

@@ -9,7 +9,7 @@ import Sprite.SpriteSheet;
 /**
  * Shot extends Object class.
  *
- * @author josemiguelmelo
+ * @author Jose Miguel Melo & Ricardo Loureiro
  */
 public class Shot extends SpaceObject {
     /**
@@ -149,15 +149,26 @@ public class Shot extends SpaceObject {
         return this.type;
     }
 
-
+    /**
+     * sets the boolean bossFire to whoever the parameter is.
+     * @param bossFire
+     */
     public void setBossFire(boolean bossFire) {
         this.bossFire = bossFire;
     }
 
+    /**
+     * Returns true if the fire is from boss or false if it isn't
+     * @return
+     */
     public boolean isBossFire() {
         return this.bossFire;
     }
 
+    /**
+     * Depending of the spaceship the shots will get their own path.
+     * @param spaceShip that is currently in-game
+     */
     public void move(SpaceShip spaceShip) {
 
         if (bossFire) {

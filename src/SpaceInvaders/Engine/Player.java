@@ -10,15 +10,26 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Class Player that extends Thread
+ */
 public class Player extends Thread{
 
 	private AudioInputStream audioStream;
 	private String location;
 
+    /**
+     * Constructor
+     * @param location
+     */
 	public Player(String location){
 		this.location = location;
 
 	}
+
+    /**
+     * Sound that is played during an explosion
+     */
 	public void run(){
 
 		//read audio data from whatever source (file/classloader/etc.)
