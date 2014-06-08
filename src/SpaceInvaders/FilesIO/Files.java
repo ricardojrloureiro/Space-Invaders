@@ -65,51 +65,42 @@ public class Files implements Serializable {
     public void loadLeaderBoard() {
         ObjectInputStream is = null;
         try {
-            is = new ObjectInputStream(new FileInputStream(getClass().getResource("/LeaderBoard/LeaderBoard.dat").getPath()));
+            is = new ObjectInputStream(this.getClass().getResourceAsStream("/LeaderBoard/LeaderBoard.dat"));
+            users = (ArrayList<User>) is.readObject();
         } catch (FileNotFoundException e) {
             saveLeaderBoard();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            users = (ArrayList<User>) is.readObject();
-        } catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
+        } catch(NullPointerException e){
+        	saveLeaderBoard();
+        }   
         catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        try {
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
      * saves the current leader board into the LeaderBoard.dat files
      */
     public void saveLeaderBoard() {
-        File saves = new File(getClass().getResource("/LeaderBoard/").getPath());
+        File saves = new File(this.getClass().getResource("/LeaderBoard/").getPath());
         if (!saves.exists()) {
             saves.mkdir();
         }
         ObjectOutputStream os = null;
 
         try {
-            os = new ObjectOutputStream(
-                    new FileOutputStream(getClass().getResource("/LeaderBoard/LeaderBoard.dat").getPath()));
+            os = new ObjectOutputStream(new FileOutputStream(this.getClass().getResource("/LeaderBoard/LeaderBoard.dat").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
 
         }
-        if (os != null) {
+        if(os!=null){
             try {
-                os.writeObject(users);
+            	os.writeObject(users);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
