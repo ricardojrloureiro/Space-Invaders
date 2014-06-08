@@ -11,7 +11,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * Class Player that extends Thread
+ * Class Player that extends Thread. It plays sound.
  */
 public class Player extends Thread{
 
@@ -42,19 +42,18 @@ public class Player extends Thread{
 			audioStream = AudioSystem.getAudioInputStream(bufferedIn);
 			//this.audioStream = new AudioInputStream(in, AudioSystem.getAudioFileFormat(in).getFormat(), 100000);
 		} catch (UnsupportedAudioFileException e1) {
-			e1.printStackTrace();
+			System.err.println("Audio File Format unsupported.");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		/*try {
+		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 }
