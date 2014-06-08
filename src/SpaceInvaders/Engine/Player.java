@@ -51,9 +51,11 @@ public class Player extends Thread{
 			clip.open(audioStream);
 			clip.start();
 		} catch (LineUnavailableException e) {
-			e.printStackTrace();
+			System.out.println("Line unavailable");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("IOException");
+		} catch(Exception e){
+			System.err.println("Other exception found in sound");
 		}
 	}
 }

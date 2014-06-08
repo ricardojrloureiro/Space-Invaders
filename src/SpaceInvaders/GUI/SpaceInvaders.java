@@ -344,7 +344,7 @@ public class SpaceInvaders extends JPanel {
             return;
         current = (int) System.currentTimeMillis();
 
-        try{
+      
 
         /** MOVE COMPONENTS **/
         for (int i = 0; i < enemies.size(); i++) {
@@ -370,6 +370,8 @@ public class SpaceInvaders extends JPanel {
             }
         }
         /** BOSS **/
+        
+        try{
         if (boss != null) {
             boss.move(spaceShip);
             if (boss.getShots() != null)
@@ -377,6 +379,8 @@ public class SpaceInvaders extends JPanel {
                     boss.getShots().get(j).move(spaceShip);
                 }
         }
+        
+        }catch(Exception e){}
 
         /** **/
 
@@ -611,9 +615,7 @@ public class SpaceInvaders extends JPanel {
         removeDeadObjects();
 
     
-        }catch(Exception e){
-        	
-        }
+        
         
         if (spaceShip.getDead()) {
             endGameDialog = new EndGameDialog(spaceShip.getPoints(), "You lost, points: ");
